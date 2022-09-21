@@ -5,12 +5,10 @@ import { isFetchMocked } from 'config/app';
 
 import App from './App';
 
-import 'theme/global.scss';
-
 if (isFetchMocked) {
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const { worker } = require('mocks/browser');
-	worker.start();
+	// const { worker } = require('mocks/browser');
+	// worker.start();
 }
 
 const rootElement = document.getElementById('root');
