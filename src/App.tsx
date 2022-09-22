@@ -31,9 +31,9 @@ function App() {
 			isDarkMode,
 			setIsDarkMode,
 		}}>
-			<div className={styles.app}>
-				<header className={styles.appHeader}>
-					<img src={logo} className={styles.appLogo} alt="logo" />
+			<div className={styles['app']}>
+				<header className={styles['app-header']}>
+					<img src={logo} className={styles['app-logo']} alt="logo" />
 					<p>
 						Edit <code>src/App.tsx</code> and save to reload.
 					</p>
