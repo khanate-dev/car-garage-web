@@ -1,10 +1,10 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { ReactNode } from 'react';
 
 export interface DarkModeContext {
 	isDarkMode: boolean,
-	setIsDarkMode: Dispatch<SetStateAction<boolean>>,
+	toggleDarkMode: (value?: boolean) => void,
 }
 
-export interface DarkModeProviderProps extends DarkModeContext {
+export interface DarkModeProviderProps {
 	children: ReactNode,
 }
