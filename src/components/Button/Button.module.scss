@@ -1,0 +1,58 @@
+button {
+	--fore: var(--background);
+	--back: var(--foreground);
+
+	all: unset;
+	cursor: pointer;
+	background-color: var(--back);
+	color: var(--fore);
+	padding: var(--padding-1) var(--padding-2);
+	font-size: 1rem;
+	font-weight: 900;
+	border-radius: var(--border-radius);
+	transition:
+		background-color var(--transition),
+		color var(--transition),
+		opacity var(--transition),
+		outline var(--transition),
+		outline-offset var(--transition);
+	outline-style: solid;
+	outline-color: var(--back);
+	outline-width: 0;
+	outline-offset: 0;
+}
+
+button:not(.default) {
+	--fore: var(--white);
+}
+
+button.primary {
+	--back: var(--primary);
+}
+
+button.secondary {
+	--back: var(--secondary);
+}
+
+button.danger {
+	--back: var(--danger);
+}
+
+button.success {
+	--back: var(--success);
+}
+
+button.info {
+	--back: var(--info);
+}
+
+button.warning {
+	--back: var(--warning);
+}
+
+button:hover,
+button:focus {
+	opacity: 0.7;
+	outline-width: 2px;
+	outline-offset: 3px;
+}
