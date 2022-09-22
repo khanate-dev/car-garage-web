@@ -8,8 +8,6 @@ import Providers from 'components/app/Providers';
 
 const renderWithProviders = (component: JSX.Element) => render(
 	createElement(Providers, {
-		isDarkMode: false,
-		setIsDarkMode: () => false,
 		children: createElement(Router, {
 			children: component,
 		}),

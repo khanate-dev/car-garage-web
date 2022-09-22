@@ -4,13 +4,8 @@ import { ProvidersProps } from './Providers.types';
 
 const Providers = ({
 	children,
-	isDarkMode,
-	setIsDarkMode,
 }: ProvidersProps) => (
-	<DarkModeProvider {...{
-		isDarkMode,
-		setIsDarkMode,
-	}}>
+	<DarkModeProvider>
 		{children}
 	</DarkModeProvider>
 );
