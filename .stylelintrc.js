@@ -10,6 +10,7 @@ const config = {
 		'indentation': 'tab',
 		'no-missing-end-of-source-newline': null,
 		'string-quotes': 'single',
+		'declaration-block-no-redundant-longhand-properties': null,
 	},
 };
 
