@@ -34,7 +34,11 @@ const useToggleDarkMode = () => {
 	};
 };
 
-const query = window.matchMedia?.('prefers-color-scheme: dark') ?? { matches: false };
+const query = window.matchMedia?.('prefers-color-scheme: dark') ?? {
+	matches: false,
+	addEventListener: () => false,
+	removeEventListener: () => false,
+};
 const darkModePreference = getSetting('isDarkMode');
 if (darkModePreference) document.body.classList.add('dark');
 
