@@ -1,25 +1,31 @@
-@use './variables.styles.scss' as *;
-
 @import-normalize;
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@200;500;800&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Maven+Pro:wght@200;500;800&display=swap';
 
-#root {
-	--background: $background-light;
-	--foreground: $foreground-light;
+:root {
+	--white: #efefef;
+	--black: #333;
+	--transition: 0.2s linear;
+}
+
+body {
+	--background: var(--white);
+	--foreground: var(--black);
 
 	background-color: var(--background);
 	margin: 0;
-	font-family: 'Manrope', sans-serif;
+	font-family: Manrope, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	transition: background-color var(--transition);
 }
 
-#root.dark {
-	--background: $background-dark;
-	--foreground: $foreground-dark;
+body.dark {
+	--background: var(--black);
+	--foreground: var(--white);
 }
 
 * {
 	box-sizing: border-box;
 	color: var(--foreground);
+	transition: color var(--transition);
 }
