@@ -4,7 +4,18 @@
 :root {
 	--white: #efefef;
 	--black: #333;
+	--primary: #99f;
+	--secondary: #ff9;
+	--danger: #f88;
+	--success: #8f8;
+	--info: #8bf;
+	--warning: #fc6;
 	--transition: 0.2s linear;
+	--padding-base: 10px;
+	--padding-1: calc(var(--padding-base) * 1);
+	--padding-2: calc(var(--padding-base) * 2);
+	--padding-3: calc(var(--padding-base) * 3);
+	--border-radius: 5px;
 }
 
 body {
