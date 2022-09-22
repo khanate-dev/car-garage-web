@@ -4,8 +4,8 @@ import usePrefersDarkMode from 'hooks/prefers-dark-mode';
 
 import Providers from 'components/app/Providers';
 
-import styles from './App.module.scss';
 import 'theme/theme.scss';
+import styles from './App.module.scss';
 
 import logo from './logo.svg';
 
@@ -17,12 +17,11 @@ function App() {
 
 	useEffect(() => {
 		setIsDarkMode(prefersDarkMode);
-		const rootElement = document.getElementById('root');
 		if (prefersDarkMode) {
-			rootElement?.classList.add('dark');
+			document.body.classList.add('dark');
 		}
 		else {
-			rootElement?.classList.remove('dark');
+			document.body.classList.remove('dark');
 		}
 	}, [prefersDarkMode]);
 

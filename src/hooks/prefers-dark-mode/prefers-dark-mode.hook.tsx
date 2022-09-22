@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 
 const usePrefersDarkMode = () => {
 
-	const query = window.matchMedia('prefers-color-schema: dark');
+	const query = window.matchMedia('(prefers-color-scheme: dark)');
+
 	const [prefersDarkMode, setPrefersDarkMode] = useState(query.matches);
 
 	useEffect(() => {
