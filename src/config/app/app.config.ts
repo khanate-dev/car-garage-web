@@ -18,7 +18,7 @@ const isValidEnvironment = (
 	&& environments.includes(environment as any)
 );
 
-const environment: Environment = (
+const appEnvironment: Environment = (
 	isValidEnvironment(NODE_ENV)
 		? NODE_ENV
 		: 'development'
@@ -42,7 +42,7 @@ const isFetchMockedConfig: Record<Environment, boolean> = {
 	production: false,
 };
 /** should the app use dummy data? used for demos of the frontend */
-const isFetchMocked: boolean = isFetchMockedConfig[environment];
+const isFetchMocked: boolean = isFetchMockedConfig[appEnvironment];
 
 /** should notifications be turned off? */
 const disableNotifications = true;
@@ -53,9 +53,10 @@ const disableAuthConfig: Record<Environment, boolean> = {
 	production: true,
 };
 /** should fetch authentication be disabled? */
-const disableAuth = disableAuthConfig[environment];
+const disableAuth = disableAuthConfig[appEnvironment];
 
 export {
+	appEnvironment,
 	backendApiEndpoint,
 	natsServer,
 	isFetchMocked,
