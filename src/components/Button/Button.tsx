@@ -5,17 +5,24 @@ import styles from './Button.module.scss';
 
 const Button = ({
 	text,
-	color = 'default',
+	color = 'primary',
+	size = 'medium',
+	icon: Icon,
+	variant = 'outline',
+	children,
 	...buttonProps
 }: ButtonProps) => (
 	<button
 		{...buttonProps}
 		className={cx(
 			buttonProps.className,
-			styles[color]
+			styles[color],
+			styles[size],
+			styles[variant]
 		)}
 	>
-		{text}
+		{Icon && <Icon />}
+		{text ?? children}
 	</button>
 );
 

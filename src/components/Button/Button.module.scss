@@ -1,13 +1,13 @@
 button {
-	--fore: var(--background);
-	--back: var(--foreground);
+	--contrast: var(--background);
+	--accent: var(--foreground);
+	--icon-fill: var(--contrast);
+	--font: 1rem;
 
 	all: unset;
 	cursor: pointer;
-	background-color: var(--back);
-	color: var(--fore);
 	padding: var(--padding-1) var(--padding-2);
-	font-size: 1rem;
+	font-size: var(--font);
 	font-weight: 900;
 	border-radius: var(--border-radius);
 	transition:
@@ -17,42 +17,106 @@ button {
 		outline var(--transition),
 		outline-offset var(--transition);
 	outline-style: solid;
-	outline-color: var(--back);
 	outline-width: 0;
 	outline-offset: 0;
-}
+	outline-color: var(--accent);
+	display: flex;
+	align-items: center;
+	gap: var(--padding-1);
 
-button:not(.default) {
-	--fore: var(--white);
-}
+	&:hover,
+	&:focus {
+		opacity: 0.7;
+		outline-width: 2px;
+		outline-offset: 3px;
+	}
 
-button.primary {
-	--back: var(--primary);
-}
+	& > svg {
+		width: 1.5em;
 
-button.secondary {
-	--back: var(--secondary);
-}
+		& > * {
+			fill: var(--icon-fill);
+		}
+	}
 
-button.danger {
-	--back: var(--danger);
-}
+	&.fill {
+		--icon-fill: var(--contrast);
 
-button.success {
-	--back: var(--success);
-}
+		background-color: var(--accent);
+		color: var(--contrast);
+	}
 
-button.info {
-	--back: var(--info);
-}
+	&:not(.default) {
+		--contrast: var(--white);
+	}
 
-button.warning {
-	--back: var(--warning);
-}
+	&:not(.fill) {
+		--icon-fill: var(--accent);
 
-button:hover,
-button:focus {
-	opacity: 0.7;
-	outline-width: 2px;
-	outline-offset: 3px;
+		background-color: transparent;
+		color: var(--accent);
+
+		&:hover,
+		&:focus {
+			background-color: var(--accent);
+			color: var(--contrast);
+		}
+	}
+
+	&.ghost {
+		--icon-fill: var(--accent);
+	}
+
+	&.outline {
+		--icon-fill: var(--accent);
+
+		border-style: solid;
+		border-width: 2px;
+		border-color: var(--accent);
+		padding: calc(var(--padding-1) - 2px) calc(var(--padding-2) - 2px);
+	}
+
+	&.primary {
+		--accent: var(--primary);
+	}
+
+	&.secondary {
+		--accent: var(--secondary);
+	}
+
+	&.danger {
+		--accent: var(--danger);
+	}
+
+	&.success {
+		--accent: var(--success);
+	}
+
+	&.info {
+		--accent: var(--info);
+	}
+
+	&.warning {
+		--accent: var(--warning);
+	}
+
+	&.tiny {
+		--font: 0.6rem;
+	}
+
+	&.small {
+		--font: 0.8rem;
+	}
+
+	&.medium {
+		--font: 1rem;
+	}
+
+	&.large {
+		--font: 1.2rem;
+	}
+
+	&.huge {
+		--font: 1.4rem;
+	}
 }
