@@ -1,15 +1,15 @@
 @import-normalize;
-@import 'https://fonts.googleapis.com/css2?family=Maven+Pro:wght@200;500;800&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;700&display=swap';
 
 :root {
-	--white: #efefef;
+	--white: #fcfcfc;
 	--black: #333;
-	--primary: #99f;
-	--secondary: #ff9;
-	--danger: #f88;
-	--success: #8f8;
-	--info: #8bf;
-	--warning: #fc6;
+	--primary: hsl(280deg 100% 75%);
+	--secondary: hsl(60deg 100% 35%);
+	--danger: hsl(0deg 100% 70%);
+	--success: hsl(100deg 100% 40%);
+	--info: hsl(200deg 100% 60%);
+	--warning: hsl(30deg 100% 60%);
 	--transition: 0.2s linear;
 	--padding-base: 10px;
 	--padding-1: calc(var(--padding-base) * 1);
@@ -24,7 +24,7 @@ body {
 
 	background-color: var(--background);
 	margin: 0;
-	font-family: Manrope, sans-serif;
+	font-family: 'Maven Pro', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	transition: background-color var(--transition);
