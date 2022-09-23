@@ -1,4 +1,9 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 
 import { getSetting, setSetting } from 'helpers/settings';
 
@@ -12,33 +17,18 @@ const DarkModeContext = createContext<DarkModeContextType>({
 	toggleDarkMode: () => false,
 });
 
-const useIsDarkMode = () => {
+const useDarkMode = () => {
 	const context = useContext(DarkModeContext);
 	if (context === undefined) {
 		throw new Error(
-			'useDarkMode must be used within an AppStateProvider'
+			'useDarkMode must be used within a DarkModeProvider'
 		);
 	}
-	return context.isDarkMode;
+	return context;
 };
 
-const useToggleDarkMode = () => {
-	const context = useContext(DarkModeContext);
-	if (context === undefined) {
-		throw new Error(
-			'useToggleDarkMode must be used within a DarkModeProvider'
-		);
-	}
-	return () => {
-		context.toggleDarkMode();
-	};
-};
+const query = window.matchMedia('(prefers-color-scheme: dark)');
 
-const query = window.matchMedia?.('prefers-color-scheme: dark') ?? {
-	matches: false,
-	addEventListener: () => false,
-	removeEventListener: () => false,
-};
 const darkModePreference = getSetting('isDarkMode');
 if (darkModePreference) document.body.classList.add('dark');
 
@@ -91,6 +81,5 @@ const DarkModeProvider = ({
 
 export {
 	DarkModeProvider,
-	useIsDarkMode,
-	useToggleDarkMode,
+	useDarkMode,
 };

@@ -1,5 +1,5 @@
 import Button from 'components/Button';
-import { useIsDarkMode, useToggleDarkMode } from 'contexts/dark-mode';
+import { useDarkMode } from 'contexts/dark-mode';
 
 import { ReactComponent as Logo } from 'logo.svg';
 
@@ -7,8 +7,7 @@ import styles from './Dashboard.module.scss';
 
 const Dashboard = () => {
 
-	const isDarkMode = useIsDarkMode();
-	const toggleDarkMode = useToggleDarkMode();
+	const { isDarkMode, toggleDarkMode } = useDarkMode();
 
 	return (
 		<main>
