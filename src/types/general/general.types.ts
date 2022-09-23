@@ -1,3 +1,15 @@
+export const themeColors = [
+	'default',
+	'primary',
+	'secondary',
+	'danger',
+	'success',
+	'info',
+	'warning',
+] as const;
+
+export type ThemeColor = typeof themeColors[number];
+
 export type ReadableTypeOf = (
 	| 'undefined'
 	| 'boolean'
