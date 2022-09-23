@@ -2,7 +2,8 @@ import { ReactNode } from 'react';
 
 export interface DarkModeContext {
 	isDarkMode: boolean,
-	toggleDarkMode: (value?: boolean) => void,
+	toggleDarkMode: () => void,
+	updateDarkMode: (value: boolean) => void,
 }
 
 export interface DarkModeProviderProps {

@@ -32,7 +32,7 @@ const Dashboard = () => {
 					toggleDarkMode();
 					event.currentTarget.blur();
 				}}
-				text={`Switch To: ${isDarkMode ? 'Dark' : 'Light'}`}
+				text={`Switch To: ${isDarkMode ? 'Light' : 'Dark'}`}
 				color='primary'
 			/>
 

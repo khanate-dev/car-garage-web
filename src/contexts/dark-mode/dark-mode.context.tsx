@@ -1,8 +1,9 @@
 import {
 	createContext,
+	useCallback,
 	useContext,
 	useEffect,
-	useState,
+	useReducer,
 } from 'react';
 
 import { getSetting, setSetting } from 'helpers/settings';
@@ -15,6 +16,7 @@ import {
 const DarkModeContext = createContext<DarkModeContextType>({
 	isDarkMode: false,
 	toggleDarkMode: () => false,
+	updateDarkMode: () => false,
 });
 
 const useDarkMode = () => {
@@ -29,37 +31,61 @@ const useDarkMode = () => {
 
 const query = window.matchMedia('(prefers-color-scheme: dark)');
 
-const darkModePreference = getSetting('isDarkMode');
+const darkModePreference = getSetting('isDarkMode') ?? query.matches;
 if (darkModePreference) document.body.classList.add('dark');
+
+type Action = (
+	| { type: 'toggle', }
+	| { type: 'update', value: boolean, }
+);
+
+const toggleReducer = (
+	prev: boolean,
+	action: Action
+): boolean => {
+
+	const newIsDarkMode = (
+		action.type === 'update'
+			? action.value
+			: !prev
+	);
+
+	setSetting('isDarkMode', newIsDarkMode);
+
+	if (newIsDarkMode) {
+		document.body.classList.add('dark');
+	}
+	else {
+		document.body.classList.remove('dark');
+	}
+
+	return newIsDarkMode;
+
+};
 
 const DarkModeProvider = ({
 	children,
 }: DarkModeProviderProps) => {
 
-	const [isDarkMode, setIsDarkMode] = useState<boolean>(
-		darkModePreference
-		?? query.matches
+	const [isDarkMode, dispatch] = useReducer(
+		toggleReducer,
+		darkModePreference ?? query.matches
 	);
 
-	const toggleDarkMode = (override?: boolean) => {
 
-		const newIsDarkMode = override ?? !isDarkMode;
+	const toggleDarkMode = useCallback(
+		() => dispatch({ type: 'toggle' })
+		, []
+	);
 
-		setIsDarkMode(newIsDarkMode);
-		setSetting('isDarkMode', newIsDarkMode);
-
-		if (newIsDarkMode) {
-			document.body.classList.add('dark');
-		}
-		else {
-			document.body.classList.remove('dark');
-		}
-
-	};
+	const updateDarkMode = useCallback(
+		(value: boolean) => dispatch({ type: 'update', value })
+		, []
+	);
 
 	useEffect(() => {
 		const callback = (event: MediaQueryListEvent) => {
-			toggleDarkMode(event.matches);
+			updateDarkMode(event.matches);
 		};
 		query.addEventListener('change', callback);
 		return () => {
@@ -72,6 +98,7 @@ const DarkModeProvider = ({
 			value={{
 				isDarkMode,
 				toggleDarkMode,
+				updateDarkMode,
 			}}
 		>
 			{children}
