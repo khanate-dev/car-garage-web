@@ -8,7 +8,8 @@ button {
 	cursor: pointer;
 	padding: var(--padding-1) var(--padding-2);
 	font-size: var(--font);
-	font-weight: 900;
+	font-weight: bold;
+	text-transform: uppercase;
 	border-radius: var(--border-radius);
 	transition:
 		background-color var(--transition),
@@ -26,7 +27,6 @@ button {
 
 	&:hover,
 	&:focus {
-		opacity: 0.7;
 		outline-width: 2px;
 		outline-offset: 3px;
 	}
@@ -35,6 +35,7 @@ button {
 		width: 1.5em;
 
 		& > * {
+			transition: fill var(--transition);
 			fill: var(--icon-fill);
 		}
 	}
@@ -44,6 +45,11 @@ button {
 
 		background-color: var(--accent);
 		color: var(--contrast);
+
+		&:hover,
+		&:focus {
+			opacity: 0.7;
+		}
 	}
 
 	&:not(.default) {
@@ -58,6 +64,8 @@ button {
 
 		&:hover,
 		&:focus {
+			--icon-fill: var(--contrast);
+
 			background-color: var(--accent);
 			color: var(--contrast);
 		}
