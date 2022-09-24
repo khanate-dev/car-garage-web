@@ -1,3 +1,5 @@
+import { UserSansPassword } from 'schemas';
+
 export const themeColors = [
 	'default',
 	'primary',
@@ -50,34 +52,17 @@ export interface Sorting {
 	direction: 'ascending' | 'descending',
 }
 
-export const userTypes = [
-	'Administrator',
-	'Supervisor',
-	'Worker',
+export const userRoles = [
+	'user',
+	'admin',
+	'guest',
 ] as const;
 
-export type UserType = typeof userTypes[number];
-
-export interface User {
-	UserID: number,
-	UserName: string,
-	UserType: UserType,
-	LineID?: number,
-	SectionID?: number,
-	UserImageUrl?: string,
-	UserThumbnailUrl?: string,
-	CreatedAt?: string,
-	UpdatedAt?: string,
-	token: string,
-}
-
-export interface UserWithPassword extends User {
-	Password: string,
-}
-
 export interface Settings {
-	user: User,
+	user: UserSansPassword,
 	isDarkMode: boolean,
+	accessToken: string,
+	refreshToken: string,
 }
 
 export type AssertFunction<Type> = (

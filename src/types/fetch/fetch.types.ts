@@ -43,7 +43,26 @@ export type FetchOptions = (
 	| FetchBodyOptions
 );
 
-export type GenericFetchResponse = (
-	| GenericObject
-	| GenericObject[]
+export interface ErrorResponse {
+	ok: false,
+	response: {
+		type: string,
+		message: string,
+		[x: string]: any,
+	},
+}
+
+export type ApiResponse = (
+	| Record<string, any>
+	| Record<string, any>[]
+);
+
+export interface SuccessResponse<Response extends ApiResponse> {
+	ok: true,
+	response: Response,
+}
+
+export type FetchResponse<Response extends ApiResponse> = (
+	| ErrorResponse
+	| SuccessResponse<Response>
 );
