@@ -1,7 +1,8 @@
+import { UserSansPassword, userSansPasswordModelSchema } from 'schemas';
+
 import {
 	GenericObject,
 	ReadableTypeOf,
-	User,
 	AssertFunction,
 	AssertArrayFunction,
 } from 'types/general';
@@ -215,25 +216,18 @@ const assertModelObjectArray: AssertModelObjectArray = (
 	));
 };
 
-const userRequiredFields = ['UserID', 'UserName', 'UserType', 'token'] as const;
-const isValidUser = (value: any): value is User => {
-	if (readableTypeOf(value) !== 'object') return false;
-	return userRequiredFields.every(field =>
-		Object.prototype.hasOwnProperty.call(value, field)
-	);
+const isValidUser = (value: any): value is UserSansPassword => {
+	try {
+		userSansPasswordModelSchema.parse(value);
+		return true;
+	}
+	catch {
+		return false;
+	}
 };
 
-const assertValidUser: AssertFunction<User> = (value) => {
-	const type = readableTypeOf(value);
-	if (type !== 'object') {
-		throw new TypeError(`Invalid User! Expected object, received ${type}`);
-	}
-	const missingFields = userRequiredFields.filter(field =>
-		!Object.prototype.hasOwnProperty.call(value, field)
-	);
-	if (missingFields.length > 0) {
-		throw new TypeError(`Invalid User! Missing: ${missingFields.join(', ')}`);
-	}
+const assertValidUser: AssertFunction<UserSansPassword> = (value) => {
+	userSansPasswordModelSchema.parse(value);
 };
 
 export {

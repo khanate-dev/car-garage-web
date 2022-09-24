@@ -14,6 +14,7 @@ const getSetting = <Key extends keyof Settings>(
 		const isInvalid = (
 			(key === 'isDarkMode' && typeof parsed !== 'boolean')
 			|| (key === 'user' && !isValidUser(parsed))
+			|| (['accessToken', 'refreshToken'].includes(key) && typeof parsed !== 'string')
 		);
 		if (isInvalid) {
 			removeSetting(key);
