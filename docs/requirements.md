@@ -18,11 +18,6 @@ AutoDeals.pk is a Pakistan primarily based car platform. That affords the offeri
 
 ---
 
-## DB Model
-![database model](./database-model.png)
-
----
-
 ## Functional Requirements
 
 **Register**
@@ -84,8 +79,77 @@ AutoDeals.pk is a Pakistan primarily based car platform. That affords the offeri
 - reviews contain a star rating out of five and description
 - user can view list of reviews
 
-**Reviews**
->`requires login as user`
-- users can review vehicles
-- reviews contain a star rating out of five and description
-- user can view, add, remove, and update list of reviews
+
+
+## Models
+
+### users
+```ts
+interface {
+	name: string,
+	phoneNumber: string,
+	email: string,
+	password: string,
+	role: 'admin' | 'user' | 'guest',
+}
+```
+
+### products
+```ts
+interface {
+	title: string,
+	category: 'car' | 'bike' | 'auto-parts',
+	description?: string,
+	price: number,
+	image: string,
+	isFeatured?: boolean = false,
+	buyerId?: ObjectID,
+	sellerId: ObjectID,
+	makeTypeId: ObjectID,
+	modelId?: ObjectID,
+	bodyTypeId?: ObjectID,
+	role: 'admin' | 'user' | 'guest',
+}
+```
+
+### makeTypes
+```ts
+interface {
+	name: string,
+}
+```
+
+### models
+```ts
+interface {
+	name: string,
+	year: number,
+	makeTypeId: ObjectID,
+}
+```
+
+### bodyTypes
+```ts
+interface {
+	name: string,
+	modelId: ObjectID,
+}
+```
+
+### favorites
+```ts
+interface {
+	bodyTypeId: ObjectID,
+	userId: ObjectID,
+}
+```
+
+### reviews
+```ts
+interface {
+	userId: ObjectID,
+	bodyTypeId: ObjectID,
+	rating: 1 | 2 | 3 | 4 | 5,
+	description?: string,
+}
+```
