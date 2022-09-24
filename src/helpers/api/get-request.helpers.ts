@@ -1,8 +1,8 @@
-import { FetchBaseOptions, GenericFetchResponse } from 'types/fetch';
+import { ApiResponse, FetchBaseOptions } from 'types/fetch';
 
 import fetchRequest from './fetch-request.helpers';
 
-const getRequest = <Response = GenericFetchResponse>(
+const getRequest = <Response extends ApiResponse>(
 	apiPath: string,
 	noAuth?: FetchBaseOptions['noAuth']
 ) => fetchRequest<Response>(apiPath, {

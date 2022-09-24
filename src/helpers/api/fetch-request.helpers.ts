@@ -1,15 +1,15 @@
 import {
 	backendApiEndpoint,
 	disableAuth,
-	isFetchMocked,
-} from 'config/app';
+} from 'config';
 import { ApiError } from 'errors/api';
+
 import { invalidateUser } from 'helpers/events';
-import { getSetting } from 'helpers/settings';
+import { getSetting, setSetting } from 'helpers/settings';
 
-import { FetchOptions, GenericFetchResponse } from 'types/fetch';
+import { ApiResponse, FetchOptions, FetchResponse } from 'types/fetch';
 
-const fetchRequest = async <Response = GenericFetchResponse>(
+const fetchRequest = async <Response extends ApiResponse>(
 	apiPath: string,
 	options: FetchOptions = {}
 ): Promise<Response> => {
@@ -17,20 +17,19 @@ const fetchRequest = async <Response = GenericFetchResponse>(
 
 		const { noAuth, body, ...otherOptions } = options;
 
-		if (!isFetchMocked) {
-			if (!navigator.onLine) {
-				throw new ApiError(
-					'Not Connected To The Internet!',
-					'InternetConnectionError'
-				);
-			}
+		if (!navigator.onLine) {
+			throw new ApiError(
+				'Not Connected To The Internet!',
+				'InternetConnectionError'
+			);
 		}
 
 		const requestOptions: RequestInit = otherOptions as RequestInit;
 
 		if (!noAuth && !disableAuth) {
-			const user = getSetting('user');
-			if (!user) {
+			const accessToken = getSetting('accessToken');
+			const refreshToken = getSetting('refreshToken');
+			if (!accessToken || !refreshToken) {
 				throw new ApiError(
 					'User Auth Token Not Found!',
 					'ApiAuthError'
@@ -38,7 +37,8 @@ const fetchRequest = async <Response = GenericFetchResponse>(
 			}
 			requestOptions.headers = {
 				...requestOptions.headers,
-				Authorization: `Bearer ${user.token}`,
+				Authorization: `Bearer ${accessToken}`,
+				'x-refresh': refreshToken,
 			};
 		}
 
@@ -72,29 +72,26 @@ const fetchRequest = async <Response = GenericFetchResponse>(
 			);
 		}
 
-		const json = await response.json();
-
-		const isError = (
-			!response.ok
-			|| json.statusCode !== 200
-			|| (json.error?.errorCode && parseInt(json?.error?.errorCode) !== 0)
-		);
-
-		if (isError) {
-			return Promise.reject(new ApiError(
-				json?.message
-				?? json?.error?.errorDescription
-				?? json?.error?.errorMessage
-				?? (
-					typeof json?.error === 'string'
-						? json?.error
-						: 'There Was A Problem With The Request!'
-				),
-				'ApiError'
-			));
+		const newAccessToken = response.headers.get('x-access-token');
+		if (newAccessToken) {
+			setSetting('accessToken', newAccessToken);
 		}
 
-		return json.data;
+		const json = await response.json();
+
+		const { ok, response: parsedResponse }: FetchResponse<Response> = {
+			ok: response.ok,
+			response: json,
+		};
+
+		if (!ok) {
+			throw new ApiError(
+				parsedResponse.message,
+				'ApiError'
+			);
+		}
+
+		return parsedResponse;
 
 	}
 	catch (error: any) {
@@ -104,11 +101,9 @@ const fetchRequest = async <Response = GenericFetchResponse>(
 			}
 			return Promise.reject(error);
 		}
-		return Promise.reject(
-			new ApiError(
-				`Error Fetching From API: ${error.message ?? error}`,
-				'ApiConnectionError'
-			)
+		throw new ApiError(
+			`Error Fetching From API: ${error.message ?? error}`,
+			'ApiConnectionError'
 		);
 	}
 };

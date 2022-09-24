@@ -1,8 +1,8 @@
 import fetchRequest from './fetch-request.helpers';
 
-import { FetchBaseOptions, FetchBodyOptions, GenericFetchResponse } from 'types/fetch';
+import { FetchBaseOptions, FetchBodyOptions } from 'types/fetch';
 
-const putRequest = <Response = GenericFetchResponse>(
+const putRequest = <Response extends Record<string, any>>(
 	apiPath: string,
 	body: FetchBodyOptions['body'],
 	noAuth?: FetchBaseOptions['noAuth']

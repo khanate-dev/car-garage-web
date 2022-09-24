@@ -1,8 +1,8 @@
 import fetchRequest from './fetch-request.helpers';
 
-import { FetchBaseOptions, GenericFetchResponse } from 'types/fetch';
+import { FetchBaseOptions } from 'types/fetch';
 
-const deleteRequest = <Response = GenericFetchResponse>(
+const deleteRequest = <Response extends Record<string, any>>(
 	apiPath: string,
 	noAuth?: FetchBaseOptions['noAuth']
 ) => fetchRequest<Response>(apiPath, {
