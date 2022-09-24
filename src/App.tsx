@@ -1,7 +1,7 @@
 import Providers from 'components/app/Providers';
 
-import Dashboard from 'pages/Dashboard';
-import Error from 'pages/Error';
+import Dashboard from 'routes/dashboard';
+import Error from 'routes/error';
 import {
 	createBrowserRouter,
 	RouterProvider,
