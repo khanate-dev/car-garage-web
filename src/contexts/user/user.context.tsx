@@ -1,17 +1,12 @@
 import { createContext, useContext } from 'react';
 
-import { User } from 'types/general';
+import { defaultUser, UserSansPassword } from 'schemas/user';
 
 import { UserProviderProps } from './user.context.types';
 
-const UserContext = createContext<User>({
-	UserID: 1,
-	UserName: 'john.doe',
-	UserType: 'Administrator',
-	token: 'thisIsNotARealToken',
-});
+const UserContext = createContext<UserSansPassword>(defaultUser);
 
-const useUser = (): User => {
+const useUser = (): UserSansPassword => {
 	const user = useContext(UserContext);
 	if (user === undefined) {
 		throw new Error('useUser must be used within a UserProvider');

@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
-import { User } from 'types/general';
+import { UserSansPassword } from 'schemas';
 
 export interface UserProviderProps {
-	user: User,
+	user: UserSansPassword,
 	children: ReactNode,
 }
