@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import { backendApiEndpoint } from 'config/app';
+import { backendApiEndpoint } from 'config';
 
 import { GenericObject } from 'types/general';
 
