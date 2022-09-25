@@ -8,7 +8,7 @@ const Button = ({
 	color = 'primary',
 	size = 'medium',
 	icon: Icon,
-	variant = 'outline',
+	variant = 'fill',
 	children,
 	...buttonProps
 }: ButtonProps) => (
@@ -16,6 +16,7 @@ const Button = ({
 		{...buttonProps}
 		className={cx(
 			buttonProps.className,
+			styles['button'],
 			styles[color],
 			styles[size],
 			styles[variant]

@@ -1,4 +1,4 @@
-button {
+.button {
 	--contrast: var(--background);
 	--accent: var(--foreground);
 	--icon-fill: var(--contrast);
@@ -6,7 +6,7 @@ button {
 
 	all: unset;
 	cursor: pointer;
-	padding: var(--padding-1) var(--padding-2);
+	padding: var(--spacing-1) var(--spacing-2);
 	font-size: var(--font);
 	font-weight: bold;
 	text-transform: uppercase;
@@ -22,8 +22,9 @@ button {
 	outline-offset: 0;
 	outline-color: var(--accent);
 	display: flex;
+	justify-content: center;
 	align-items: center;
-	gap: var(--padding-1);
+	gap: var(--spacing-1);
 
 	&:hover,
 	&:focus {
@@ -81,7 +82,7 @@ button {
 		border-style: solid;
 		border-width: 2px;
 		border-color: var(--accent);
-		padding: calc(var(--padding-1) - 2px) calc(var(--padding-2) - 2px);
+		padding: calc(var(--spacing-1) - 2px) calc(var(--spacing-2) - 2px);
 	}
 
 	&.primary {
