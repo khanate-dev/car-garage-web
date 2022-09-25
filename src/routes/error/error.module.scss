@@ -7,7 +7,7 @@
 	flex-direction: column;
 	margin-block: auto;
 	font-size: 2em;
-	gap: var(--padding-3);
+	gap: var(--spacing-3);
 }
 
 .heading {
@@ -19,6 +19,6 @@
 	background-color: var(--danger);
 	color: var(--white);
 	opacity: 0.5;
-	padding: var(--padding-1);
+	padding: var(--spacing-1);
 	border-radius: var(--border-radius);
 }

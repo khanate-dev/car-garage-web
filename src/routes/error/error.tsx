@@ -2,7 +2,7 @@ import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
 import styles from './error.module.scss';
 
-const Error = () => {
+export const Error = () => {
 
 	const error = useRouteError();
 
@@ -31,5 +31,3 @@ const Error = () => {
 	);
 
 };
-
-export default Error;
