@@ -1,14 +1,45 @@
-import Button, { buttonSizes, buttonVariants } from 'components/Button';
+import { useEffect } from 'react';
+import { LoaderFunction, redirect, useNavigate } from 'react-router-dom';
+
 import { useDarkMode } from 'contexts/dark-mode';
 
+import { getSetting, removeSetting } from 'helpers/settings';
+import { deleteRequest } from 'helpers/api';
+
+import Button from 'components/Button';
+
 import { ReactComponent as Logo } from 'logo.svg';
-import { themeColors } from 'types/general';
 
 import styles from './dashboard.module.scss';
 
-const Dashboard = () => {
+export const dashboardLoader: LoaderFunction = async () => {
+	const user = getSetting('user');
+	if (!user) {
+		return redirect('/login');
+	}
+	return;
+};
+
+export const Dashboard = () => {
+
+	const navigate = useNavigate();
 
 	const { isDarkMode, toggleDarkMode } = useDarkMode();
+
+	const logout = async () => {
+		await deleteRequest('session');
+		removeSetting('user');
+		removeSetting('accessToken');
+		removeSetting('refreshToken');
+		navigate('/login');
+	};
+
+	useEffect(() => {
+		window.addEventListener('invalidate-user', logout);
+		return () => {
+			window.removeEventListener('invalidate-user', logout);
+		};
+	}, []);
 
 	return (
 		<main>
@@ -35,36 +66,12 @@ const Dashboard = () => {
 			<input type='range' />
 			<progress></progress>
 
-			<div className={styles['flex']}>
-				{buttonSizes.map(size =>
-					<Button
-						key={size}
-						color='primary'
-						variant='fill'
-						size={size}
-						text='Click Me!'
-						icon={Logo}
-					/>
-				)}
-			</div>
-
-			<div className={styles['button-showcase']}>
-				{buttonVariants.map(variant =>
-					themeColors.map(color =>
-						<Button
-							key={`${variant}-${color}`}
-							color={color}
-							variant={variant}
-							text='Click Me!'
-							icon={Logo}
-						/>
-					)
-				)}
-			</div>
+			<Button
+				text='Logout'
+				onClick={logout}
+			/>
 
 		</main>
 	);
 
 };
-
-export default Dashboard;
