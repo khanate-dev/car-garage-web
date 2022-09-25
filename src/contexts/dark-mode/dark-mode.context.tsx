@@ -72,7 +72,6 @@ const DarkModeProvider = ({
 		darkModePreference ?? query.matches
 	);
 
-
 	const toggleDarkMode = useCallback(
 		() => dispatch({ type: 'toggle' })
 		, []
