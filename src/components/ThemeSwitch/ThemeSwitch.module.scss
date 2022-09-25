@@ -1,0 +1,68 @@
+.switch {
+	--size: 45px;
+
+	all: unset;
+	border-radius: 50%;
+	width: var(--size);
+	height: var(--size);
+	background-color: var(--background);
+	border-style: var(--border-style);
+	border-width: var(--border-width);
+	border-color: var(--primary);
+	aspect-ratio: 1;
+	overflow: hidden;
+	cursor: pointer;
+	outline-style: var(--border-style);
+	outline-width: 0;
+	outline-offset: 0;
+	outline-color: var(--foreground);
+	transition: background-color var(--transition), outline var(--transition);
+	position: relative;
+
+	&:hover,
+	&:focus {
+		background-color: var(--background-dark);
+		outline-width: var(--border-width);
+		outline-offset: 3px;
+	}
+
+	& > svg {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: var(--size);
+		height: var(--size);
+		padding: var(--spacing-0);
+		aspect-ratio: 1;
+		transform-origin: 50% 100%;
+		transition: transform var(--transition);
+		fill: transparent;
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		& > path:not([fill='transparent']) {
+			fill: var(--primary);
+		}
+	}
+
+	&.light {
+		& > .light-icon {
+			transform: rotate(0deg);
+		}
+
+		& > .dark-icon {
+			transform: rotate(180deg);
+		}
+	}
+
+	&.dark {
+		& > .light-icon {
+			transform: rotate(-180deg);
+		}
+
+		& > .dark-icon {
+			transform: rotate(0deg);
+		}
+	}
+}
