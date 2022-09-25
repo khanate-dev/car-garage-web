@@ -4,27 +4,32 @@
 :root {
 	--white: #fcfcfc;
 	--black: #333;
-	--primary: hsl(280deg 100% 75%);
+	--white-dark: #eee;
+	--black-dark: #555;
+	--primary: hsl(280deg 100% 60%);
 	--secondary: hsl(60deg 100% 35%);
 	--danger: hsl(0deg 100% 70%);
 	--success: hsl(100deg 100% 40%);
 	--info: hsl(200deg 100% 60%);
 	--warning: hsl(30deg 100% 60%);
 	--transition: 0.2s linear;
-	--padding-base: 10px;
-	--padding-1: calc(var(--padding-base) * 1);
-	--padding-2: calc(var(--padding-base) * 2);
-	--padding-3: calc(var(--padding-base) * 3);
+	--spacing-0: 5px;
+	--spacing-1: 10px;
+	--spacing-2: calc(var(--spacing-1) * 2);
+	--spacing-3: calc(var(--spacing-1) * 3);
 	--border-radius: 5px;
-}
+	--border-width: 2px;
+	--border-style: solid;
+	--border-color: var(--background-dark);
 
-::selection {
-	background-color: var(--primary);
+	font-size: 16px;
 }
 
 body {
 	--background: var(--white);
+	--background-dark: var(--white-dark);
 	--foreground: var(--black);
+	--foreground-dark: var(--black-dark);
 
 	background-color: var(--background);
 	margin: 0;
@@ -46,8 +51,16 @@ body {
 }
 
 body.dark {
+	--primary: hsl(280deg 100% 75%);
+	--secondary: hsl(60deg 100% 35%);
+	--danger: hsl(0deg 100% 70%);
+	--success: hsl(100deg 100% 40%);
+	--info: hsl(200deg 100% 60%);
+	--warning: hsl(30deg 100% 60%);
 	--background: var(--black);
+	--background-dark: var(--black-dark);
 	--foreground: var(--white);
+	--foreground-dark: var(--white-dark);
 }
 
 * {
