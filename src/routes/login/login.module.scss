@@ -1,0 +1,39 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.theme-switch {
+	position: fixed;
+	top: var(--spacing-2);
+	right: var(--spacing-2);
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	max-width: min(100%, 350px);
+	gap: var(--spacing-1);
+	padding: var(--spacing-3);
+	border-radius: var(--border-radius);
+	background-color: var(--background-dark);
+	border-style: var(--border-style);
+	border-width: var(--border-width);
+	border-color: var(--primary);
+}
+
+.form-error {
+	border-style: var(--border-style);
+	border-width: var(--border-width);
+	border-color: var(--danger);
+	color: var(--danger);
+	font-size: 0.6em;
+	line-height: 1.5;
+	font-weight: 500;
+	padding: var(--spacing-0);
+	border-radius: var(--border-radius);
+}
