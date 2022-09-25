@@ -1,5 +1,6 @@
 export type CxInput = (
 	| string
+	| 0
 	| undefined
 	| false
 	| null

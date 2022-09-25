@@ -6,6 +6,7 @@ import { ApiError } from 'errors/api';
 
 import { invalidateUser } from 'helpers/events';
 import { getSetting, setSetting } from 'helpers/settings';
+import { jwtSchema } from 'schemas/session';
 
 import { ApiResponse, FetchOptions, FetchResponse } from 'types/fetch';
 
@@ -63,6 +64,7 @@ const fetchRequest = async <Response extends ApiResponse>(
 
 		const requestPath = `${backendApiEndpoint}/${apiPath}`;
 
+		console.log(requestOptions.headers);
 		const response = await fetch(requestPath, requestOptions);
 
 		if (response.status === 401) {
@@ -74,7 +76,10 @@ const fetchRequest = async <Response extends ApiResponse>(
 
 		const newAccessToken = response.headers.get('x-access-token');
 		if (newAccessToken) {
-			setSetting('accessToken', newAccessToken);
+			try {
+				const setting = jwtSchema.parse(newAccessToken);
+				setSetting('accessToken', setting);
+			} catch { } // eslint-disable-line no-empty
 		}
 
 		const json = await response.json();

@@ -1,4 +1,4 @@
-import { UserSansPassword, userSansPasswordModelSchema } from 'schemas';
+import { UserSansPassword, userSansPasswordModelSchema } from 'schemas/user';
 
 import {
 	GenericObject,

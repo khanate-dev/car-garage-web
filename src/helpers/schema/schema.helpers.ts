@@ -3,8 +3,8 @@ import z from 'zod';
 import { mongoIdSchema } from 'schemas/mongo';
 
 export const timestampSchema = z.strictObject({
-	createdAt: z.date(),
-	updatedAt: z.date(),
+	createdAt: z.string(),
+	updatedAt: z.string(),
 });
 
 export const mongoMetaSchema = z.strictObject({

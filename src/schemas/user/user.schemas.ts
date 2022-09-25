@@ -39,7 +39,7 @@ export const defaultUser: User = {
 	role: 'admin',
 	phoneNumber: '1234',
 	password: 'password',
-	createdAt: new Date(),
-	updatedAt: new Date(),
+	createdAt: new Date().toISOString(),
+	updatedAt: new Date().toISOString(),
 	__v: 1,
 };
