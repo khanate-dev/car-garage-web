@@ -1,12 +1,14 @@
 import z from 'zod';
 
+import { mongoIdSchema } from 'schemas/mongo';
+
 export const timestampSchema = z.strictObject({
 	createdAt: z.date(),
 	updatedAt: z.date(),
 });
 
 export const mongoMetaSchema = z.strictObject({
-	_id: z.string(),
+	_id: mongoIdSchema,
 	__v: z.number().min(0),
 });
 

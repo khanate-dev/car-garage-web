@@ -1,6 +1,6 @@
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
-import styles from './Error.module.scss';
+import styles from './error.module.scss';
 
 const Error = () => {
 

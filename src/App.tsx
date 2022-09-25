@@ -5,8 +5,6 @@ import Error from 'routes/error';
 import {
 	createBrowserRouter,
 	RouterProvider,
-	Route,
-	json,
 } from 'react-router-dom';
 
 import 'theme/theme.scss';

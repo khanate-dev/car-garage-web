@@ -4,7 +4,7 @@ import { useDarkMode } from 'contexts/dark-mode';
 import { ReactComponent as Logo } from 'logo.svg';
 import { themeColors } from 'types/general';
 
-import styles from './Dashboard.module.scss';
+import styles from './dashboard.module.scss';
 
 const Dashboard = () => {
 
