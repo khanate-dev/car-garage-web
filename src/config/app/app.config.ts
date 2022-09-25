@@ -30,9 +30,9 @@ const backendApiEndpoint: string = (
 );
 
 const disableAuthConfig: Record<Environment, boolean> = {
-	development: true,
-	test: true,
-	production: true,
+	development: false,
+	test: false,
+	production: false,
 };
 /** should fetch authentication be disabled? */
 const disableAuth = disableAuthConfig[appEnvironment];
