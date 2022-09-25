@@ -1,4 +1,4 @@
-import { UserSansPassword } from 'schemas';
+import { UserSansPassword } from 'schemas/user';
 
 export const themeColors = [
 	'default',
@@ -51,12 +51,6 @@ export interface Sorting {
 	column: string | null,
 	direction: 'ascending' | 'descending',
 }
-
-export const userRoles = [
-	'user',
-	'admin',
-	'guest',
-] as const;
 
 export interface Settings {
 	user: UserSansPassword,

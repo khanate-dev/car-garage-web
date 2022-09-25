@@ -15,7 +15,7 @@ export interface FetchBaseOptions extends Omit<RequestInit, 'body'> {
 	noAuth?: boolean,
 
 	/** the body to send with the request */
-	body?: GenericObject | GenericObject[] | FormData,
+	body?: Record<string, any> | Record<string, any>[] | FormData,
 
 }
 

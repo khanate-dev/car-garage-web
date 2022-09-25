@@ -1,18 +1,27 @@
-import Providers from 'components/app/Providers';
-
-import Dashboard from 'routes/dashboard';
-import Error from 'routes/error';
 import {
 	createBrowserRouter,
 	RouterProvider,
 } from 'react-router-dom';
 
-import 'theme/theme.scss';
+import { Dashboard, dashboardLoader } from 'routes/dashboard';
+import { Login, loginLoader } from 'routes/login';
+import { Error } from 'routes/error';
+
+import Providers from 'components/Providers';
+
+import 'theme';
 
 const router = createBrowserRouter([
 	{
-		path: '/',
+		index: true,
 		element: <Dashboard />,
+		loader: dashboardLoader,
+		errorElement: <Error />,
+	},
+	{
+		path: '/login',
+		element: <Login />,
+		loader: loginLoader,
 		errorElement: <Error />,
 	},
 ]);
