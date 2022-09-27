@@ -31,21 +31,27 @@ body {
 	--primary: hsl(280deg 100% 60%);
 	--primary-dark: hsl(280deg 100% 40%);
 	--primary-light: hsl(280deg 100% 80%);
+	--primary-contrast: var(--white);
 	--secondary: hsl(60deg 100% 35%);
 	--secondary-dark: hsl(60deg 100% 15%);
 	--secondary-light: hsl(60deg 100% 55%);
+	--secondary-contrast: var(--white);
 	--danger: hsl(0deg 100% 70%);
 	--danger-dark: hsl(0deg 100% 50%);
 	--danger-light: hsl(0deg 100% 90%);
+	--danger-contrast: var(--white);
 	--success: hsl(100deg 100% 40%);
 	--success-dark: hsl(100deg 100% 20%);
 	--success-light: hsl(100deg 100% 60%);
+	--success-contrast: var(--white);
 	--info: hsl(200deg 100% 60%);
 	--info-dark: hsl(200deg 100% 40%);
 	--info-light: hsl(200deg 100% 80%);
+	--info-contrast: var(--white);
 	--warning: hsl(30deg 100% 60%);
 	--warning-dark: hsl(30deg 100% 40%);
 	--warning-light: hsl(30deg 100% 80%);
+	--warning-contrast: var(--white);
 
 	background-color: var(--background);
 	margin: 0;
@@ -75,23 +81,29 @@ body.dark {
 	--foreground-dark: var(--white-dark);
 	--foreground-darker: var(--white-darker);
 	--primary: hsl(280deg 100% 75%);
-	--primary-dark: hsl(280deg 100% 85%);
-	--primary-light: hsl(280deg 100% 65%);
+	--primary-dark: hsl(280deg 100% 65%);
+	--primary-light: hsl(280deg 100% 85%);
+	--primary-contrast: var(--white);
 	--secondary: hsl(60deg 100% 45%);
-	--secondary-dark: hsl(60deg 100% 75%);
-	--secondary-light: hsl(60deg 100% 35%);
+	--secondary-dark: hsl(60deg 100% 35%);
+	--secondary-light: hsl(60deg 100% 75%);
+	--secondary-contrast: var(--white);
 	--danger: hsl(0deg 100% 70%);
-	--danger-dark: hsl(0deg 100% 80%);
-	--danger-light: hsl(0deg 100% 55%);
+	--danger-dark: hsl(0deg 100% 55%);
+	--danger-light: hsl(0deg 100% 80%);
+	--danger-contrast: var(--white);
 	--success: hsl(100deg 100% 40%);
-	--success-dark: hsl(100deg 100% 70%);
-	--success-light: hsl(100deg 100% 30%);
+	--success-dark: hsl(100deg 100% 30%);
+	--success-light: hsl(100deg 100% 70%);
+	--success-contrast: var(--white);
 	--info: hsl(200deg 100% 60%);
-	--info-dark: hsl(200deg 100% 80%);
-	--info-light: hsl(200deg 100% 45%);
+	--info-dark: hsl(200deg 100% 45%);
+	--info-light: hsl(200deg 100% 80%);
+	--info-contrast: var(--white);
 	--warning: hsl(30deg 100% 60%);
-	--warning-dark: hsl(30deg 100% 80%);
-	--warning-light: hsl(30deg 100% 45%);
+	--warning-dark: hsl(30deg 100% 45%);
+	--warning-light: hsl(30deg 100% 80%);
+	--warning-contrast: var(--white);
 }
 
 * {
@@ -125,4 +137,66 @@ a {
 		font-weight: 500;
 		text-decoration-thickness: 2px;
 	}
+}
+
+.tiny {
+	--font: 0.6rem;
+}
+
+.small {
+	--font: 0.8rem;
+}
+
+.medium {
+	--font: 1rem;
+}
+
+.large {
+	--font: 1.2rem;
+}
+
+.huge {
+	--font: 1.4rem;
+}
+
+.primary {
+	--accent: var(--primary);
+	--accent-light: var(--primary-light);
+	--accent-dark: var(--primary-dark);
+	--accent-contrast: var(--primary-contrast);
+}
+
+.secondary {
+	--accent: var(--secondary);
+	--accent-light: var(--secondary-light);
+	--accent-dark: var(--secondary-dark);
+	--accent-contrast: var(--secondary-contrast);
+}
+
+.danger {
+	--accent: var(--danger);
+	--accent-light: var(--danger-light);
+	--accent-dark: var(--danger-dark);
+	--accent-contrast: var(--danger-contrast);
+}
+
+.success {
+	--accent: var(--success);
+	--accent-light: var(--success-light);
+	--accent-dark: var(--success-dark);
+	--accent-contrast: var(--success-contrast);
+}
+
+.info {
+	--accent: var(--info);
+	--accent-light: var(--info-light);
+	--accent-dark: var(--info-dark);
+	--accent-contrast: var(--info-contrast);
+}
+
+.warning {
+	--accent: var(--warning);
+	--accent-light: var(--warning-light);
+	--accent-dark: var(--warning-dark);
+	--accent-contrast: var(--warning-contrast);
 }
