@@ -44,20 +44,16 @@
 	}
 
 	&.fill {
-		--icon-fill: var(--contrast);
+		--icon-fill: var(--accent-contrast);
 
 		background-color: var(--accent);
 		border-color: var(--accent);
-		color: var(--contrast);
+		color: var(--accent-contrast);
 
 		&:hover,
 		&:focus {
 			background-color: var(--accent-light);
 		}
-	}
-
-	&:not(.default) {
-		--contrast: var(--white);
 	}
 
 	&:not(.fill) {
@@ -68,10 +64,10 @@
 
 		&:hover,
 		&:focus {
-			--icon-fill: var(--contrast);
+			--icon-fill: var(--accent-contrast);
 
 			background-color: var(--accent);
-			color: var(--contrast);
+			color: var(--accent-contrast);
 		}
 	}
 

@@ -165,6 +165,13 @@ input[type='radio'] {
 	--font: 1.4rem;
 }
 
+.default {
+	--accent: var(--foreground);
+	--accent-light: var(--foreground-darker);
+	--accent-dark: var(--foreground-dark);
+	--accent-contrast: var(--background);
+}
+
 .primary {
 	--accent: var(--primary);
 	--accent-light: var(--primary-light);
