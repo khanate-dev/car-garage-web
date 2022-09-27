@@ -1,34 +1,28 @@
 import { FormEventHandler } from 'react';
-import { LoaderFunction, redirect, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
 import {
-	loginRequestSchema,
-	loginResponseSchema,
-} from 'schemas/session';
-import { userRoles, UserSansMeta } from 'schemas/user';
+	RegisterRequest,
+	registerRequestSchema,
+	registerResponseSchema,
+} from 'schemas/auth';
+import { userRoles } from 'schemas/user';
 import FormError from 'errors/form';
 
 import { postRequest } from 'helpers/api';
-import { getSetting, setSetting } from 'helpers/settings';
 
 import ThemeSwitch from 'components/ThemeSwitch';
 import Button from 'components/Button';
 import FormField from 'components/FormField';
+import Alert from 'components/Alert';
 
 import { FormField as FormFieldType } from 'types/general';
 
 import styles from './register.module.scss';
-import { Link } from 'react-router-dom';
 
-export const registerLoader: LoaderFunction = async () => {
-	const user = getSetting('user');
-	if (user) return redirect('/');
-	return;
-};
-
-const fields: FormFieldType<UserSansMeta>[] = [
+const fields: FormFieldType<RegisterRequest>[] = [
 	{
 		fieldType: 'input',
 		name: 'name',
@@ -60,33 +54,35 @@ const fields: FormFieldType<UserSansMeta>[] = [
 		description: 'Must be at least 6 characters',
 		required: true,
 	},
+	{
+		fieldType: 'input',
+		name: 'passwordConfirmation',
+		type: 'password',
+		required: true,
+	},
 ];
 
 export const Register = () => {
 
 	const navigate = useNavigate();
 
-	const [error, dispatchError] = useFormError<UserSansMeta>();
+	const [error, dispatchError] = useFormError<RegisterRequest>();
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		try {
-
 			event.preventDefault();
 
 			const formData = new FormData(event.currentTarget);
-			const json = loginRequestSchema.parse(Object.fromEntries(formData));
+			const json = registerRequestSchema.parse(Object.fromEntries(formData));
 
-			const response = await postRequest('session', json, true);
+			const response = await postRequest('user', json, true);
+			registerResponseSchema.parse(response);
 
-			const { user, accessToken, refreshToken } = loginResponseSchema.parse(response);
-			setSetting('user', user);
-			setSetting('accessToken', accessToken);
-			setSetting('refreshToken', refreshToken);
-
-			navigate('/');
+			navigate('/login');
 
 		}
 		catch (error: any) {
+			console.error(error);
 			dispatchError({
 				type: 'update',
 				value: new FormError(error),
@@ -129,11 +125,11 @@ export const Register = () => {
 				</div>
 
 				{error?.isGeneral &&
-					<div
-						className={styles['form-error']}
-					>
-						{error.generalError}
-					</div>
+					<Alert
+						message={error.generalError}
+						size='small'
+						color='danger'
+					/>
 				}
 
 				<Button
