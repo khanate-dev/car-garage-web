@@ -16,7 +16,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
-	max-width: min(100%, 350px);
+	max-width: min(100%, 700px);
 	gap: var(--spacing-1);
 	padding: var(--spacing-3);
 	border-radius: var(--border-radius);
@@ -24,6 +24,12 @@
 	border-style: var(--border-style);
 	border-width: var(--border-width);
 	border-color: var(--primary);
+}
+
+.fields {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-1);
 }
 
 .form-error {
