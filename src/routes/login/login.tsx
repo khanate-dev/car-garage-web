@@ -1,5 +1,7 @@
-import { FormEventHandler, useReducer } from 'react';
+import { FormEventHandler } from 'react';
 import { LoaderFunction, redirect, useNavigate } from 'react-router-dom';
+
+import useFormError from 'hooks/form-error';
 
 import {
 	LoginRequest,
@@ -12,10 +14,13 @@ import { postRequest } from 'helpers/api';
 import { getSetting, setSetting } from 'helpers/settings';
 
 import ThemeSwitch from 'components/ThemeSwitch';
-import Input from 'components/Input';
+import FormField from 'components/FormField';
 import Button from 'components/Button';
 
+import { FormField as FormFieldType } from 'types/general';
+
 import styles from './login.module.scss';
+import { Link } from 'react-router-dom';
 
 export const loginLoader: LoaderFunction = async () => {
 	const user = getSetting('user');
@@ -23,43 +28,27 @@ export const loginLoader: LoaderFunction = async () => {
 	return;
 };
 
-type ErrorReducerAction = (
-	| { type: 'reset', }
-	| { type: 'remove-field', value: (keyof LoginRequest) | (keyof LoginRequest)[], }
-	| { type: 'update', value: FormError<LoginRequest>, }
-);
-
-const errorReducer = (
-	prev: null | FormError<LoginRequest>,
-	action: ErrorReducerAction
-): null | FormError<LoginRequest> => {
-	switch (action.type) {
-		case 'remove-field': {
-			if (!prev) return null;
-			const fieldsToRemove = (
-				Array.isArray(action.value)
-					? action.value
-					: [action.value]
-			);
-			fieldsToRemove.forEach(field =>
-				delete prev.fieldErrors[field]
-			);
-			return new FormError(prev.fieldErrors);
-		}
-		case 'update':
-			return action.value;
-		case 'reset':
-			return null;
-		default:
-			throw new Error('Invalid action type');
-	}
-};
+const fields: FormFieldType<LoginRequest>[] = [
+	{
+		fieldType: 'input',
+		name: 'email',
+		type: 'email',
+		required: true,
+	},
+	{
+		fieldType: 'input',
+		name: 'password',
+		type: 'password',
+		description: 'Must be at least 6 characters',
+		required: true,
+	},
+];
 
 export const Login = () => {
 
 	const navigate = useNavigate();
 
-	const [error, dispatchError] = useReducer(errorReducer, null);
+	const [error, dispatchError] = useFormError<LoginRequest>();
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		try {
@@ -91,9 +80,11 @@ export const Login = () => {
 		<main
 			className={styles['container']}
 		>
+
 			<ThemeSwitch
 				className={styles['theme-switch']}
 			/>
+
 			<form
 				className={styles['form']}
 				onSubmit={handleSubmit}
@@ -102,30 +93,18 @@ export const Login = () => {
 				<h1>Car Garage</h1>
 				<p>Welcome! Login below</p>
 
-				<Input
-					name='email'
-					type='email'
-					error={error?.fieldErrors.email}
-					onErrorReset={() => {
-						dispatchError({
-							type: 'remove-field', value: 'email',
-						});
-					}}
-					required
-				/>
-
-				<Input
-					name='password'
-					type='password'
-					error={error?.fieldErrors.password}
-					onErrorReset={() => {
-						dispatchError({
-							type: 'remove-field', value: 'password',
-						});
-					}}
-					description='Must be at least 6 characters'
-					required
-				/>
+				{fields.map(field =>
+					<FormField
+						key={field.name}
+						field={field}
+						error={error?.fieldErrors[field.name]}
+						onErrorReset={() => {
+							dispatchError({
+								type: 'remove-field', value: field.name,
+							});
+						}}
+					/>
+				)}
 
 				{error?.isGeneral &&
 					<div
@@ -140,7 +119,14 @@ export const Login = () => {
 					type='submit'
 				/>
 
+				<Link
+					to='/register'
+				>
+					{'New Here? Register'}
+				</Link>
+
 			</form>
+
 		</main>
 	);
 
