@@ -18,7 +18,7 @@ export const {
 	name: z.string(),
 	email: z.string().email(),
 	phoneNumber: z.string().regex(PHONE_REGEX),
-	password: z.string(),
+	password: z.string().min(6),
 	role: z.enum(userRoles),
 });
 
