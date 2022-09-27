@@ -1,22 +1,17 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useDarkMode } from 'contexts/dark-mode';
-
 import { removeSetting } from 'helpers/settings';
 import { deleteRequest } from 'helpers/api';
 
-import Button from 'components/Button';
-
-import { ReactComponent as Logo } from 'logo.svg';
+import ThemeSwitch from 'components/ThemeSwitch';
 
 import styles from './dashboard.module.scss';
+import Button from 'components/Button';
 
 export const Dashboard = () => {
 
 	const navigate = useNavigate();
-
-	const { isDarkMode, toggleDarkMode } = useDarkMode();
 
 	const logout = async () => {
 		await deleteRequest('session');
@@ -42,27 +37,11 @@ export const Dashboard = () => {
 				Car Garage Web App
 			</h1>
 
-			<Button
-				onClick={(event) => {
-					toggleDarkMode();
-					event.currentTarget.blur();
-				}}
-				text={`Switch To: ${isDarkMode ? 'Light' : 'Dark'}`}
-				color='primary'
-				icon={Logo}
-			/>
-
-			<input type='checkbox' />
-			<div className={styles['flex']}>
-				<input name='radio' type='radio' />
-				<input name='radio' type='radio' />
-			</div>
-			<input type='range' />
-			<progress></progress>
+			<ThemeSwitch />
 
 			<Button
-				text='Logout'
 				onClick={logout}
+				text='Logout'
 			/>
 
 		</main>
