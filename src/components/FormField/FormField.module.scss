@@ -1,0 +1,90 @@
+.error {
+	& > label {
+		color: var(--danger);
+	}
+
+	& > input {
+		border-color: var(--danger);
+	}
+}
+
+.field {
+	--font: 1rem;
+	--accent: var(--foreground);
+	--focus-accent: var(--primary);
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-0);
+	font-size: var(--font);
+
+	& > input,
+	& > select {
+		all: unset;
+		color: var(--accent);
+		padding: var(--spacing-1);
+		border-width: 2px;
+		border-style: solid;
+		border-color: var(--background-darker);
+		background-color: var(--background);
+		border-radius: var(--border-radius);
+		text-align: start;
+	}
+
+	&:focus-within {
+		--accent: var(--primary-dark);
+
+		& > input {
+			border-color: var(--primary-light);
+		}
+
+		&.error > input {
+			border-color: var(--danger);
+		}
+	}
+
+	& > * {
+		text-align: start;
+	}
+
+	& > label {
+		color: var(--accent);
+		text-transform: capitalize;
+		transition: color var(--transition);
+
+		& > .required {
+			margin-left: var(--spacing-0);
+			color: var(--danger);
+		}
+	}
+
+	&.tiny {
+		--font: 0.6rem;
+	}
+
+	&.small {
+		--font: 0.8rem;
+	}
+
+	&.medium {
+		--font: 1rem;
+	}
+
+	&.large {
+		--font: 1.2rem;
+	}
+
+	&.huge {
+		--font: 1.4rem;
+	}
+}
+
+.description-text {
+	font-size: 0.8em;
+	color: var(--foreground);
+}
+
+.error-text {
+	font-size: 0.8em;
+	color: var(--danger);
+}
