@@ -42,7 +42,9 @@ export const Dashboard = () => {
 	}, []);
 
 	return (
-		<main>
+		<main
+			className={styles['main']}
+		>
 
 			<h1>
 				Car Garage Web App

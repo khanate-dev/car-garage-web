@@ -2,8 +2,6 @@ import { ChangeEvent } from 'react';
 
 import { backendApiEndpoint } from 'config';
 
-import { GenericObject } from 'types/general';
-
 const isValidImage = (file: any): file is File => {
 	if (!(file instanceof File)) return false;
 	const validImage = /[/.](jpg|jpeg|png)$/i;
@@ -12,7 +10,7 @@ const isValidImage = (file: any): file is File => {
 
 const getImageUrl = (
 	schema: any,
-	object: null | GenericObject
+	object: null | Record<string, any>
 ): string => {
 
 	if (!object) return '';

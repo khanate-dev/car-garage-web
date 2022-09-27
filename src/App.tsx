@@ -9,7 +9,8 @@ import { Error } from 'routes/error';
 
 import Providers from 'components/Providers';
 
-import 'theme';
+import 'theme/theme.scss';
+import { Register, registerLoader } from 'routes/register';
 
 const router = createBrowserRouter([
 	{
@@ -22,6 +23,12 @@ const router = createBrowserRouter([
 		path: '/login',
 		element: <Login />,
 		loader: loginLoader,
+		errorElement: <Error />,
+	},
+	{
+		path: '/register',
+		element: <Register />,
+		loader: registerLoader,
 		errorElement: <Error />,
 	},
 ]);

@@ -15,9 +15,9 @@ export const {
 	sansMetaModelSchema: userSansMetaModelSchema,
 	modelSchema: userModelSchema,
 } = getModelSchema({
+	name: z.string(),
 	email: z.string().email(),
 	phoneNumber: z.string().regex(PHONE_REGEX),
-	name: z.string(),
 	password: z.string(),
 	role: z.enum(userRoles),
 });

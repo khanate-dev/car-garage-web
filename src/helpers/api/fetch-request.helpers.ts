@@ -64,7 +64,6 @@ const fetchRequest = async <Response extends ApiResponse>(
 
 		const requestPath = `${backendApiEndpoint}/${apiPath}`;
 
-		console.log(requestOptions.headers);
 		const response = await fetch(requestPath, requestOptions);
 
 		if (response.status === 401) {

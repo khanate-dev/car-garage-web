@@ -1,5 +1,3 @@
-import { GenericObject } from 'types/general';
-
 export interface FetchBaseOptions extends Omit<RequestInit, 'body'> {
 
 	/** the HTTP method of the request */

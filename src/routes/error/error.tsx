@@ -1,3 +1,4 @@
+import ThemeSwitch from 'components/ThemeSwitch';
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
 import styles from './error.module.scss';
@@ -8,6 +9,11 @@ export const Error = () => {
 
 	return (
 		<div className={styles['container']}>
+
+			<ThemeSwitch
+				className={styles['theme-switch']}
+			/>
+
 			<h1
 				className={styles['heading']}
 			>

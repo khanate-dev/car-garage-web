@@ -22,3 +22,9 @@
 	padding: var(--spacing-1);
 	border-radius: var(--border-radius);
 }
+
+.theme-switch {
+	position: fixed;
+	top: var(--spacing-2);
+	right: var(--spacing-2);
+}

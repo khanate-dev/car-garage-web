@@ -1,3 +1,8 @@
+import {
+	InputHTMLAttributes,
+	ReactNode,
+	SelectHTMLAttributes,
+} from 'react';
 import { UserSansPassword } from 'schemas/user';
 
 export const themeColors = [
@@ -32,26 +37,6 @@ export interface RepeatedTuple<L extends number, T extends any> extends Array<T>
 
 export type DistributedArray<T> = T extends infer I ? I[] : never;
 
-export type GenericObject<Key extends string = string> = {
-	[x in Key]: (
-		string
-		| number
-		| boolean
-		| Date
-		| null
-		| undefined
-		| string[]
-		| number[]
-		| GenericObject[]
-		| GenericObject
-	);
-};
-
-export interface Sorting {
-	column: string | null,
-	direction: 'ascending' | 'descending',
-}
-
 export interface Settings {
 	user: UserSansPassword,
 	isDarkMode: boolean,
@@ -67,3 +52,56 @@ export type AssertArrayFunction<Type> = (
 	value: any,
 	onlyCheckFirst?: boolean
 ) => asserts value is Type;
+
+export interface BaseFormField<Form extends Record<string, any>> {
+
+	/** the name of the field */
+	name: keyof Form,
+
+	/** the type of the form element to use */
+	fieldType?: 'input' | 'select',
+
+	/** the label to show on the field */
+	label?: ReactNode,
+
+	/** additional information about the field */
+	description?: ReactNode,
+
+}
+
+export type InputProps = InputHTMLAttributes<HTMLInputElement>;
+
+export interface InputFormField<
+	Form extends Record<string, any>
+> extends
+	BaseFormField<Form>,
+	Omit<InputProps, 'name'> {
+
+	/** the type of the form element to use */
+	fieldType: 'input',
+
+}
+
+export type SelectProps = SelectHTMLAttributes<HTMLSelectElement>;
+
+export interface SelectFormField<
+	Form extends Record<string, any>
+> extends
+	BaseFormField<Form>,
+	Omit<SelectProps, 'name'> {
+
+	/** the type of the form element to use */
+	fieldType: 'select',
+
+	/** the select fields allowed options */
+	options: string[] | {
+		value: number | string,
+		label: ReactNode,
+	}[],
+
+}
+
+export type FormField<Form extends Record<string, any>> = (
+	| InputFormField<Form>
+	| SelectFormField<Form>
+);

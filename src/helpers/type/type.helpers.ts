@@ -1,7 +1,6 @@
 import { UserSansPassword, userSansPasswordModelSchema } from 'schemas/user';
 
 import {
-	GenericObject,
 	ReadableTypeOf,
 	AssertFunction,
 	AssertArrayFunction,
@@ -21,11 +20,11 @@ const readableTypeOf = (
 
 const isObject = (
 	value: any
-): value is GenericObject => (
+): value is Record<string, any> => (
 	readableTypeOf(value) === 'object'
 );
 
-const assertObject: AssertFunction<GenericObject> = (value) => {
+const assertObject: AssertFunction<Record<string, any>> = (value) => {
 	const type = readableTypeOf(value);
 	if (type !== 'object') {
 		throw new TypeError(`Expected object, received ${type}`);
@@ -90,11 +89,11 @@ const assertArrayByChecker: AssertArrayByChecker = (
 const isObjectArray = (
 	value: any,
 	onlyCheckFirst?: boolean
-): value is GenericObject[] => (
+): value is Record<string, any>[] => (
 	isArrayByChecker(value, isObject, onlyCheckFirst)
 );
 
-const assertObjectArray: AssertArrayFunction<GenericObject[]> = (
+const assertObjectArray: AssertArrayFunction<Record<string, any>[]> = (
 	value,
 	onlyCheckFirst?
 ) => (
@@ -118,11 +117,11 @@ const assertStringArray: AssertArrayFunction<string[]> = (
 const areObjectArrays = (
 	value: any,
 	onlyCheckFirst?: boolean
-): value is GenericObject[][] => (
+): value is Record<string, any>[][] => (
 	isArrayByChecker(value, isObjectArray, onlyCheckFirst)
 );
 
-const assertObjectArrays: AssertArrayFunction<GenericObject[][]> = (
+const assertObjectArrays: AssertArrayFunction<Record<string, any>[][]> = (
 	value,
 	onlyCheckFirst
 ) => (

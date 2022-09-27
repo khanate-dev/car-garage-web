@@ -1,10 +1,8 @@
 import usePrevious from 'hooks/previous';
 
-import { GenericObject } from 'types/general';
-
 /** shallow compare an object for changed keys */
 const useObjectCompare = <Key extends string>(
-	object: GenericObject<Key>
+	object: Record<Key, any>
 ): Key[] => {
 
 	const previousObject = usePrevious(object);
