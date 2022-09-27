@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { LoaderFunction, redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useDarkMode } from 'contexts/dark-mode';
 
-import { getSetting, removeSetting } from 'helpers/settings';
+import { removeSetting } from 'helpers/settings';
 import { deleteRequest } from 'helpers/api';
 
 import Button from 'components/Button';
@@ -11,14 +11,6 @@ import Button from 'components/Button';
 import { ReactComponent as Logo } from 'logo.svg';
 
 import styles from './dashboard.module.scss';
-
-export const dashboardLoader: LoaderFunction = async () => {
-	const user = getSetting('user');
-	if (!user) {
-		return redirect('/login');
-	}
-	return;
-};
 
 export const Dashboard = () => {
 

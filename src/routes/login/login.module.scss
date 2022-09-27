@@ -25,15 +25,3 @@
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
 }
-
-.form-error {
-	border-style: var(--border-style);
-	border-width: var(--border-width);
-	border-color: var(--danger);
-	color: var(--danger);
-	font-size: 0.6em;
-	line-height: 1.5;
-	font-weight: 500;
-	padding: var(--spacing-0);
-	border-radius: var(--border-radius);
-}

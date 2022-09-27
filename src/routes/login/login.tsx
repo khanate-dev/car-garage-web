@@ -1,5 +1,5 @@
 import { FormEventHandler } from 'react';
-import { LoaderFunction, redirect, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
@@ -7,26 +7,20 @@ import {
 	LoginRequest,
 	loginRequestSchema,
 	loginResponseSchema,
-} from 'schemas/session';
+} from 'schemas/auth';
 import FormError from 'errors/form';
 
 import { postRequest } from 'helpers/api';
-import { getSetting, setSetting } from 'helpers/settings';
+import { setSetting } from 'helpers/settings';
 
 import ThemeSwitch from 'components/ThemeSwitch';
 import FormField from 'components/FormField';
 import Button from 'components/Button';
+import Alert from 'components/Alert';
 
 import { FormField as FormFieldType } from 'types/general';
 
 import styles from './login.module.scss';
-import { Link } from 'react-router-dom';
-
-export const loginLoader: LoaderFunction = async () => {
-	const user = getSetting('user');
-	if (user) return redirect('/');
-	return;
-};
 
 const fields: FormFieldType<LoginRequest>[] = [
 	{
@@ -40,6 +34,7 @@ const fields: FormFieldType<LoginRequest>[] = [
 		name: 'password',
 		type: 'password',
 		description: 'Must be at least 6 characters',
+		minLength: 6,
 		required: true,
 	},
 ];
@@ -107,11 +102,11 @@ export const Login = () => {
 				)}
 
 				{error?.isGeneral &&
-					<div
-						className={styles['form-error']}
-					>
-						{error.generalError}
-					</div>
+					<Alert
+						message={error.generalError}
+						size='small'
+						color='danger'
+					/>
 				}
 
 				<Button
