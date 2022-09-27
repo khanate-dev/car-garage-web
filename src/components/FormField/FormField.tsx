@@ -1,8 +1,9 @@
 import { cx } from 'helpers/class-name';
+import omitKey from 'helpers/omit-key';
+import { humanizeString } from 'helpers/string';
 
 import { FormFieldProps } from './FormField.types';
 import styles from './FormField.module.scss';
-import omitKey from 'helpers/omit-key';
 
 const FormField = ({
 	className,
@@ -63,7 +64,7 @@ const FormField = ({
 		<div
 			className={cx(
 				styles.field,
-				styles[size],
+				size,
 				error && styles['error'],
 				className
 			)}
@@ -71,7 +72,7 @@ const FormField = ({
 			<label
 				htmlFor={id}
 			>
-				{label ?? name}
+				{label ?? humanizeString(name)}
 				<span
 					className={styles.required}
 				>

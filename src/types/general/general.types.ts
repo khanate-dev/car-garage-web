@@ -105,3 +105,13 @@ export type FormField<Form extends Record<string, any>> = (
 	| InputFormField<Form>
 	| SelectFormField<Form>
 );
+
+export const sizes = [
+	'tiny',
+	'small',
+	'medium',
+	'large',
+	'huge',
+] as const;
+
+export type Size = typeof sizes[number];

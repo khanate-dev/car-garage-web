@@ -5,17 +5,7 @@ import {
 	SVGProps,
 } from 'react';
 
-import { ThemeColor } from 'types/general';
-
-export const buttonSizes = [
-	'tiny',
-	'small',
-	'medium',
-	'large',
-	'huge',
-] as const;
-
-export type ButtonSize = typeof buttonSizes[number];
+import { Size, ThemeColor } from 'types/general';
 
 export const buttonVariants = [
 	'fill',
@@ -34,7 +24,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	color?: ThemeColor,
 
 	/** the size of the button. @default 'medium' */
-	size?: ButtonSize,
+	size?: Size,
 
 	/** the button's action icon */
 	icon?: FunctionComponent<SVGProps<SVGSVGElement>>,

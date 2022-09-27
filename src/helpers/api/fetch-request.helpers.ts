@@ -6,7 +6,7 @@ import { ApiError } from 'errors/api';
 
 import { invalidateUser } from 'helpers/events';
 import { getSetting, setSetting } from 'helpers/settings';
-import { jwtSchema } from 'schemas/session';
+import { jwtSchema } from 'schemas/auth';
 
 import { ApiResponse, FetchOptions, FetchResponse } from 'types/fetch';
 

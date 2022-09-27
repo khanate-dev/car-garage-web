@@ -9,7 +9,6 @@
 }
 
 .field {
-	--font: 1rem;
 	--accent: var(--foreground);
 	--focus-accent: var(--primary);
 
@@ -31,15 +30,27 @@
 		text-align: start;
 	}
 
+	& > select {
+		appearance: auto;
+		padding-right: var(--spacing-3);
+		position: relative;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 5px;
+			border-width: 5px;
+			border-color: var(--primary);
+			border-bottom-color: transparent;
+		}
+	}
+
 	&:focus-within {
 		--accent: var(--primary-dark);
 
 		& > input {
 			border-color: var(--primary-light);
-		}
-
-		&.error > input {
-			border-color: var(--danger);
 		}
 	}
 
@@ -58,24 +69,11 @@
 		}
 	}
 
-	&.tiny {
-		--font: 0.6rem;
-	}
+	&.error > input,
+	&.error > select {
+		--accent: var(--danger);
 
-	&.small {
-		--font: 0.8rem;
-	}
-
-	&.medium {
-		--font: 1rem;
-	}
-
-	&.large {
-		--font: 1.2rem;
-	}
-
-	&.huge {
-		--font: 1.4rem;
+		border-color: var(--danger);
 	}
 }
 

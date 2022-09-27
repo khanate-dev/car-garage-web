@@ -1,16 +1,6 @@
 import { ReactNode } from 'react';
 
-import { FormField } from 'types/general';
-
-export const formFieldSizes = [
-	'tiny',
-	'small',
-	'medium',
-	'large',
-	'huge',
-] as const;
-
-export type FormFieldSize = typeof formFieldSizes[number];
+import { FormField, Size } from 'types/general';
 
 export interface FormFieldProps<
 	Form extends Record<string, any> = Record<string, any>
@@ -24,7 +14,7 @@ export interface FormFieldProps<
 	error?: ReactNode,
 
 	/** the size of the field. @default 'medium' */
-	size?: FormFieldSize,
+	size?: Size,
 
 	/** the function to call to reset validation errors */
 	onErrorReset?: () => void,

@@ -17,8 +17,8 @@ const Button = ({
 		className={cx(
 			buttonProps.className,
 			styles['button'],
-			styles[color],
-			styles[size],
+			color,
+			size,
 			styles[variant]
 		)}
 	>

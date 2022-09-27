@@ -3,7 +3,6 @@
 	--accent: var(--foreground);
 	--accent-light: var(--foreground-dark);
 	--icon-fill: var(--contrast);
-	--font: 1rem;
 
 	all: unset;
 	cursor: pointer;
@@ -89,55 +88,5 @@
 		border-width: 2px;
 		border-color: var(--accent);
 		padding: calc(var(--spacing-1) - 2px) calc(var(--spacing-2) - 2px);
-	}
-
-	&.primary {
-		--accent: var(--primary);
-		--accent-light: var(--primary-light);
-	}
-
-	&.secondary {
-		--accent: var(--secondary);
-		--accent-light: var(--secondary-light);
-	}
-
-	&.danger {
-		--accent: var(--danger);
-		--accent-light: var(--danger-light);
-	}
-
-	&.success {
-		--accent: var(--success);
-		--accent-light: var(--success-light);
-	}
-
-	&.info {
-		--accent: var(--info);
-		--accent-light: var(--info-light);
-	}
-
-	&.warning {
-		--accent: var(--warning);
-		--accent-light: var(--primary-light);
-	}
-
-	&.tiny {
-		--font: 0.6rem;
-	}
-
-	&.small {
-		--font: 0.8rem;
-	}
-
-	&.medium {
-		--font: 1rem;
-	}
-
-	&.large {
-		--font: 1.2rem;
-	}
-
-	&.huge {
-		--font: 1.4rem;
 	}
 }

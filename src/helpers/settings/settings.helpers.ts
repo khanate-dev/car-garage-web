@@ -1,7 +1,7 @@
 import { z, ZodSchema } from 'zod';
 
 import { userSansPasswordModelSchema } from 'schemas/user';
-import { jwtSchema } from 'schemas/session';
+import { jwtSchema } from 'schemas/auth';
 
 import { Settings } from 'types/general';
 
