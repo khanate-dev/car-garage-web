@@ -3,15 +3,11 @@
 
 :root {
 	--white: #fcfcfc;
+	--white-dark: #ececec;
+	--white-darker: #ccc;
 	--black: #333;
-	--white-dark: #eee;
 	--black-dark: #555;
-	--primary: hsl(280deg 100% 60%);
-	--secondary: hsl(60deg 100% 35%);
-	--danger: hsl(0deg 100% 70%);
-	--success: hsl(100deg 100% 40%);
-	--info: hsl(200deg 100% 60%);
-	--warning: hsl(30deg 100% 60%);
+	--black-darker: #777;
 	--transition: 0.2s linear;
 	--spacing-0: 5px;
 	--spacing-1: 10px;
@@ -22,14 +18,34 @@
 	--border-style: solid;
 	--border-color: var(--background-dark);
 
-	font-size: 16px;
+	font-size: 18px;
 }
 
 body {
 	--background: var(--white);
 	--background-dark: var(--white-dark);
+	--background-darker: var(--white-darker);
 	--foreground: var(--black);
 	--foreground-dark: var(--black-dark);
+	--foreground-darker: var(--black-darker);
+	--primary: hsl(280deg 100% 60%);
+	--primary-dark: hsl(280deg 100% 40%);
+	--primary-light: hsl(280deg 100% 80%);
+	--secondary: hsl(60deg 100% 35%);
+	--secondary-dark: hsl(60deg 100% 15%);
+	--secondary-light: hsl(60deg 100% 55%);
+	--danger: hsl(0deg 100% 70%);
+	--danger-dark: hsl(0deg 100% 50%);
+	--danger-light: hsl(0deg 100% 90%);
+	--success: hsl(100deg 100% 40%);
+	--success-dark: hsl(100deg 100% 20%);
+	--success-light: hsl(100deg 100% 60%);
+	--info: hsl(200deg 100% 60%);
+	--info-dark: hsl(200deg 100% 40%);
+	--info-light: hsl(200deg 100% 80%);
+	--warning: hsl(30deg 100% 60%);
+	--warning-dark: hsl(30deg 100% 40%);
+	--warning-light: hsl(30deg 100% 80%);
 
 	background-color: var(--background);
 	margin: 0;
@@ -41,6 +57,7 @@ body {
 	width: 100%;
 	height: 100vh;
 	overflow: hidden;
+	accent-color: var(--primary);
 }
 
 #root {
@@ -51,16 +68,30 @@ body {
 }
 
 body.dark {
-	--primary: hsl(280deg 100% 75%);
-	--secondary: hsl(60deg 100% 35%);
-	--danger: hsl(0deg 100% 70%);
-	--success: hsl(100deg 100% 40%);
-	--info: hsl(200deg 100% 60%);
-	--warning: hsl(30deg 100% 60%);
 	--background: var(--black);
 	--background-dark: var(--black-dark);
+	--background-darker: var(--black-darker);
 	--foreground: var(--white);
 	--foreground-dark: var(--white-dark);
+	--foreground-darker: var(--white-darker);
+	--primary: hsl(280deg 100% 75%);
+	--primary-dark: hsl(280deg 100% 85%);
+	--primary-light: hsl(280deg 100% 65%);
+	--secondary: hsl(60deg 100% 45%);
+	--secondary-dark: hsl(60deg 100% 75%);
+	--secondary-light: hsl(60deg 100% 35%);
+	--danger: hsl(0deg 100% 70%);
+	--danger-dark: hsl(0deg 100% 80%);
+	--danger-light: hsl(0deg 100% 55%);
+	--success: hsl(100deg 100% 40%);
+	--success-dark: hsl(100deg 100% 70%);
+	--success-light: hsl(100deg 100% 30%);
+	--info: hsl(200deg 100% 60%);
+	--info-dark: hsl(200deg 100% 80%);
+	--info-light: hsl(200deg 100% 45%);
+	--warning: hsl(30deg 100% 60%);
+	--warning-dark: hsl(30deg 100% 80%);
+	--warning-light: hsl(30deg 100% 45%);
 }
 
 * {
@@ -69,4 +100,29 @@ body.dark {
 	transition: color var(--transition);
 	margin: 0;
 	padding: 0;
+}
+
+main {
+	text-align: center;
+	height: 100vh;
+	width: 100%;
+	display: flex;
+}
+
+a {
+	font-size: 0.9em;
+	color: var(--primary);
+	text-decoration-thickness: 1px;
+	text-decoration-skip-ink: none;
+	transition:
+		color var(--transition),
+		font-weight var(--transition),
+		text-decoration-thickness var(--transition);
+
+	&:hover,
+	&:focus {
+		color: var(--primary-dark);
+		font-weight: 500;
+		text-decoration-thickness: 2px;
+	}
 }
