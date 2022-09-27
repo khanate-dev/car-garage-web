@@ -139,6 +139,12 @@ a {
 	}
 }
 
+input[type='checkbox'],
+input[type='radio'] {
+	width: 1rem;
+	height: 1rem;
+}
+
 .tiny {
 	--font: 0.6rem;
 }
