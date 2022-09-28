@@ -19,7 +19,7 @@ import 'theme';
 const redirectIfNotUserLoader: LoaderFunction = async () => {
 	const user = getSetting('user');
 	if (!user) return redirect('/login');
-	return;
+	return user;
 };
 
 const redirectIfUserLoader: LoaderFunction = async () => {
