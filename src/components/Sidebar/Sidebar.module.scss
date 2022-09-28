@@ -1,0 +1,65 @@
+.sidebar {
+	--width: 300px;
+
+	display: flex;
+	width: var(--width);
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-2);
+	background-color: var(--background-dark);
+	border-right-width: var(--border-width);
+	border-right-style: var(--border-style);
+	border-right-color: var(--background-darker);
+	transition: width var(--transition);
+
+	& > * {
+		padding: var(--spacing-1);
+	}
+}
+
+.minimized {
+	--width: 75px;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	gap: var(--spacing-0);
+	padding-bottom: var(--spacing-2);
+	border-bottom-width: var(--border-width);
+	border-bottom-style: var(--border-style);
+	border-bottom-color: var(--background-darker);
+}
+
+.toggle {
+	padding: var(--spacing-0);
+	aspect-ratio: 1;
+	border-radius: 50%;
+}
+
+.user-flex {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-0);
+	width: 100%;
+
+	& > button {
+		margin-left: auto;
+	}
+}
+
+.user-details {
+	display: flex;
+	flex-direction: column;
+
+	& > h5 {
+		font-size: 0.8em;
+	}
+
+	& > :first-child {
+		color: var(--primary);
+	}
+}
