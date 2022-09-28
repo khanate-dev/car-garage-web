@@ -10,6 +10,7 @@ import styles from './ThemeSwitch.module.scss';
 
 const ThemeSwitch = ({
 	className,
+	size = 'medium',
 }: ThemeSwitchProps) => {
 
 	const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -19,7 +20,8 @@ const ThemeSwitch = ({
 			className={cx(
 				styles['switch'],
 				isDarkMode ? styles['dark'] : styles['light'],
-				className
+				className,
+				size
 			)}
 			onClick={(event) => {
 				toggleDarkMode();

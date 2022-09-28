@@ -1,5 +1,5 @@
 .switch {
-	--size: 45px;
+	--size: calc(var(--font) * 2.5);
 
 	all: unset;
 	border-radius: 50%;
