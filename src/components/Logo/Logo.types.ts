@@ -1,11 +1,12 @@
-import { Size } from 'types/general';
-
 export interface LogoProps {
 
-	/** the class name to add to the logo container */
+	/** the class name to add to the svg component */
 	className?: string,
 
-	/** the size of the logo. @default 'medium' */
-	size?: Size,
+	/** the width of the logo. */
+	width?: number,
+
+	/** should the logo only show the brand mark? */
+	isSmall?: boolean,
 
 }

@@ -1,6 +1,10 @@
 .logo {
-	font-size: calc(var(--font) * 2);
-	color: var(--primary);
-	text-align: center;
-	padding: var(--spacing-1);
+	height: auto;
+	width: 100%;
+	flex-grow: 1;
+	flex-shrink: 1;
+
+	& path {
+		fill: var(--primary);
+	}
 }
