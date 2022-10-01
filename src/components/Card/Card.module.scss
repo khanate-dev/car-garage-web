@@ -1,0 +1,142 @@
+.card {
+	border-radius: var(--border-radius);
+	box-shadow: 5px 5px 10px var(--shadow);
+	border-color: var(--accent-dark);
+	border-width: var(--border-width);
+	border-style: var(--border-style);
+	background-color: var(--background-dark);
+	padding: var(--spacing-1);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-0);
+
+	& > * {
+		text-align: left;
+	}
+
+	&.centered {
+		justify-content: center;
+		align-items: center;
+
+		& * {
+			text-align: center;
+		}
+
+		& .content,
+		& .sub-card {
+			justify-content: center;
+			align-items: center;
+		}
+	}
+}
+
+.header {
+	display: flex;
+	gap: var(--spacing-0);
+	align-items: center;
+	height: calc(var(--font) * 2);
+	font-size: var(--font);
+
+	& > svg {
+		height: 100%;
+		width: auto;
+		flex-shrink: 0;
+
+		& path {
+			fill: var(--accent);
+		}
+	}
+
+	& > h3 {
+		margin: 0;
+		font-size: calc(var(--font) * 2);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		color: var(--accent);
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+
+.subtitle {
+	margin: 0;
+	font-size: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--foreground-dark);
+}
+
+.content {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-0);
+	margin-top: auto;
+}
+
+.sub-card {
+	border-radius: var(--border-radius);
+	box-shadow: 5px 5px 5px var(--shadow);
+	padding: var(--spacing-0);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-0);
+	flex-grow: 1;
+	flex-shrink: 1;
+	background-color: var(--background);
+}
+
+.sub-header {
+	display: flex;
+	gap: var(--spacing-0);
+	align-items: center;
+	height: calc(var(--font) * 1.5);
+
+	& > svg {
+		height: 100%;
+		width: auto;
+		flex-shrink: 0;
+
+		& path {
+			fill: var(--foreground);
+		}
+	}
+
+	& > h3 {
+		margin: 0;
+		font-size: calc(var(--font) * 1.3);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		color: var(--foreground);
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+
+.sub-subtitle {
+	margin: 0;
+	font-size: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--foreground-darker);
+}
+
+.sub-content {
+	display: flex;
+	gap: var(--spacing-0);
+	flex-wrap: nowrap;
+	font-size: 1.2em;
+
+	& > span:first-of-type {
+		color: var(--accent);
+		font-weight: 400;
+	}
+
+	& > span:last-of-type {
+		color: var(--foreground-dark);
+		font-weight: 500;
+	}
+}
