@@ -10,6 +10,7 @@ const Button = ({
 	icon: Icon,
 	variant = 'fill',
 	children,
+	onClick,
 	...buttonProps
 }: ButtonProps) => (
 	<button
@@ -21,6 +22,10 @@ const Button = ({
 			size,
 			styles[variant]
 		)}
+		onClick={event => {
+			event.currentTarget.blur();
+			onClick?.(event);
+		}}
 	>
 		{Icon && <Icon />}
 		{text ?? children}
