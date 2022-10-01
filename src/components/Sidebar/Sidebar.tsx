@@ -1,40 +1,28 @@
-import { useEffect, useReducer } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useReducer } from 'react';
+import { NavLink, useLoaderData } from 'react-router-dom';
 
 import { UserSansPassword } from 'schemas/user';
 
-import { removeSetting } from 'helpers/settings';
-import { deleteRequest } from 'helpers/api';
 import { cx } from 'helpers/class-name';
 
 import ThemeSwitch from 'components/ThemeSwitch';
 import Logo from 'components/Logo/Logo';
 import Avatar from 'components/Avatar';
-import Button from 'components/Button';
+import IconButton from 'components/IconButton';
+
+import { ReactComponent as BackIcon } from 'icons/back.svg';
+import { ReactComponent as LogoutIcon } from 'icons/logout.svg';
 
 import styles from './Sidebar.module.scss';
+import { SidebarProps } from './Sidebar.types';
 
-const Sidebar = () => {
+const Sidebar = ({
+	onLogout,
+}: SidebarProps) => {
 
-	const navigate = useNavigate();
 	const user = useLoaderData() as UserSansPassword;
 
 	const [isMinimized, toggleSidebar] = useReducer((prev) => !prev, false);
-
-	const logout = async () => {
-		await deleteRequest('session');
-		removeSetting('user');
-		removeSetting('accessToken');
-		removeSetting('refreshToken');
-		navigate('/login');
-	};
-
-	useEffect(() => {
-		window.addEventListener('invalidate-user', logout);
-		return () => {
-			window.removeEventListener('invalidate-user', logout);
-		};
-	}, []);
 
 	return (
 		<aside
@@ -48,41 +36,88 @@ const Sidebar = () => {
 				className={styles['header']}
 			>
 
-				<ThemeSwitch
-					size='small'
+				<Logo
+					className={styles['logo']}
+					isSmall={isMinimized}
 				/>
 
-				<Button
-					className={styles['toggle']}
-					onClick={toggleSidebar}
-					text='<'
-					variant='ghost'
-				/>
+				<div
+					className={cx(
+						styles['controls'],
+						'flex',
+						isMinimized && 'column'
+					)}
+				>
+					<ThemeSwitch
+						size='small'
+					/>
 
-				<Logo />
+					<IconButton
+						className={cx(
+							isMinimized && styles['flipped']
+						)}
+						onClick={toggleSidebar}
+						icon={<BackIcon />}
+						size='small'
+					/>
+				</div>
 
-				<div className={styles['user-flex']}>
+				<div
+					className={cx(
+						styles['user-flex'],
+						isMinimized && styles['column']
+					)}
+				>
 
 					<Avatar
 						alt={user.name}
 						size='small'
 					/>
 
-					<div className={styles['user-details']}>
-						<h5>{user.name}</h5>
-						<h5>{user.role}</h5>
-					</div>
+					{!isMinimized &&
+						<div className={styles['user-details']}>
+							<h5>{user.name}</h5>
+							<h5>{user.role}</h5>
+						</div>
+					}
 
-					<Button
-						onClick={logout}
-						variant='outline'
-						text='Logout'
-						size='tiny'
+					<IconButton
+						onClick={onLogout}
+						color='danger'
+						variant='fill'
+						size='small'
+						icon={<LogoutIcon />}
 					/>
 
 				</div>
 
 			</header>
+
+			<ul
+				className={styles['page-list']}
+			>
+				<li
+					className={isMinimized ? styles['minimized'] : undefined}
+				>
+					<NavLink
+						to='/'
+					>
+						<BackIcon />
+						<p>Overview</p>
+					</NavLink>
+				</li>
+
+				<li
+					className={isMinimized ? styles['minimized'] : undefined}
+				>
+					<NavLink
+						to='/products'
+					>
+						<BackIcon />
+						<p>Products</p>
+					</NavLink>
+				</li>
+			</ul>
 
 		</aside>
 	);

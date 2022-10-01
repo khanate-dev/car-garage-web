@@ -1,12 +1,12 @@
 .sidebar {
 	--width: 300px;
+	--padding: var(--spacing-1);
 
 	display: flex;
 	width: var(--width);
 	height: 100%;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--spacing-2);
 	background-color: var(--background-dark);
 	border-right-width: var(--border-width);
 	border-right-style: var(--border-style);
@@ -14,12 +14,13 @@
 	transition: width var(--transition);
 
 	& > * {
-		padding: var(--spacing-1);
+		padding: var(--padding);
 	}
 }
 
 .minimized {
 	--width: 75px;
+	--padding: var(--spacing-0);
 }
 
 .header {
@@ -34,21 +35,16 @@
 	border-bottom-color: var(--background-darker);
 }
 
-.toggle {
-	padding: var(--spacing-0);
-	aspect-ratio: 1;
-	border-radius: 50%;
+.logo {
+	height: 60px;
 }
 
-.user-flex {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-0);
-	width: 100%;
+button.flipped {
+	transform: rotate(180deg);
+}
 
-	& > button {
-		margin-left: auto;
-	}
+.controls {
+	gap: var(--spacing-0);
 }
 
 .user-details {
@@ -61,5 +57,100 @@
 
 	& > :first-child {
 		color: var(--primary);
+	}
+}
+
+.user-flex {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	gap: var(--spacing-0);
+
+	& > button {
+		margin-left: auto;
+	}
+
+	&.column {
+		flex-direction: column;
+
+		& > button {
+			margin-left: unset;
+		}
+	}
+}
+
+.page-list {
+	all: unset;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	scroll-behavior: smooth;
+
+	& > li {
+		--accent: var(--foreground-darker);
+		--hover-background: var(--background-darker);
+
+		display: flex;
+		all: unset;
+
+		& > a {
+			all: unset;
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
+			gap: var(--spacing-0);
+			cursor: pointer;
+			transition: background-color var(--transition), color var(--transition);
+			padding: var(--spacing-1);
+
+			&:hover,
+			&:focus {
+				background-color: var(--hover-background);
+			}
+
+			& > svg {
+				width: 30px;
+				height: 30px;
+				flex-shrink: 0;
+				transition: width var(--transition);
+
+				& > path {
+					fill: var(--accent);
+				}
+			}
+
+			& > p {
+				all: unset;
+				margin: 0;
+				font-size: 1em;
+				font-weight: 500;
+				color: var(--accent);
+				overflow: hidden;
+				text-overflow: ellipsis;
+				flex-grow: 1;
+				flex-shrink: 1;
+			}
+
+			/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+			&:global(.active) {
+				--accent: var(--primary);
+
+				&:hover,
+				&:focus {
+					--hover-background: var(--primary-light);
+					--accent: var(--primary-dark);
+				}
+			}
+		}
+
+		&.minimized {
+			& > a > svg {
+				width: 100%;
+			}
+		}
 	}
 }

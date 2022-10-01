@@ -3,6 +3,7 @@
 	width: 100%;
 	flex-grow: 1;
 	flex-shrink: 1;
+	padding: var(--spacing-1);
 
 	& path {
 		fill: var(--primary);
