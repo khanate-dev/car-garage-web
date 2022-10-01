@@ -11,6 +11,7 @@ const config = {
 		'no-missing-end-of-source-newline': null,
 		'string-quotes': 'single',
 		'declaration-block-no-redundant-longhand-properties': null,
+		'no-descending-specificity': null,
 	},
 };
 

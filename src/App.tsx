@@ -7,10 +7,12 @@ import {
 
 import { getSetting } from 'helpers/settings';
 
-import { Error } from 'routes/error';
-import { Dashboard } from 'routes/dashboard';
+import { ErrorBoundary } from 'routes/error';
 import { Login } from 'routes/login';
 import { Register } from 'routes/register';
+import { Dashboard } from 'routes/dashboard';
+import { Overview, overviewLoader } from 'routes/dashboard/overview';
+import { Products, productsLoader } from 'routes/dashboard/products';
 
 import Providers from 'components/Providers';
 
@@ -30,22 +32,36 @@ const redirectIfUserLoader: LoaderFunction = async () => {
 
 const router = createBrowserRouter([
 	{
-		index: true,
+		path: '/',
 		element: <Dashboard />,
 		loader: redirectIfNotUserLoader,
-		errorElement: <Error />,
+		errorElement: <ErrorBoundary />,
+		children: [
+			{
+				index: true,
+				element: <Overview />,
+				loader: overviewLoader,
+				errorElement: <ErrorBoundary />,
+			},
+			{
+				path: '/products',
+				element: <Products />,
+				loader: productsLoader,
+				errorElement: <ErrorBoundary />,
+			},
+		],
 	},
 	{
 		path: '/login',
 		element: <Login />,
 		loader: redirectIfUserLoader,
-		errorElement: <Error />,
+		errorElement: <ErrorBoundary />,
 	},
 	{
 		path: '/register',
 		element: <Register />,
 		loader: redirectIfUserLoader,
-		errorElement: <Error />,
+		errorElement: <ErrorBoundary />,
 	},
 ]);
 
