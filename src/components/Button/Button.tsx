@@ -7,7 +7,7 @@ const Button = ({
 	text,
 	color = 'primary',
 	size = 'medium',
-	icon: Icon,
+	icon,
 	variant = 'fill',
 	children,
 	onClick,
@@ -27,7 +27,7 @@ const Button = ({
 			onClick?.(event);
 		}}
 	>
-		{Icon && <Icon />}
+		{icon}
 		{text ?? children}
 	</button>
 );

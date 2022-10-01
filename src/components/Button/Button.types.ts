@@ -1,8 +1,7 @@
 import {
 	ButtonHTMLAttributes,
-	FunctionComponent,
+	ReactElement,
 	ReactNode,
-	SVGProps,
 } from 'react';
 
 import { Size, ThemeColor } from 'types/general';
@@ -27,7 +26,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	size?: Size,
 
 	/** the button's action icon */
-	icon?: FunctionComponent<SVGProps<SVGSVGElement>>,
+	icon?: ReactElement,
 
 	/** the style variant of the button @default 'fill' */
 	variant?: ButtonVariant,
