@@ -25,6 +25,7 @@ body {
 	--background: var(--white);
 	--background-dark: var(--white-dark);
 	--background-darker: var(--white-darker);
+	--shadow: #ccc8;
 	--foreground: var(--black);
 	--foreground-dark: var(--black-dark);
 	--foreground-darker: var(--black-darker);
@@ -77,6 +78,7 @@ body.dark {
 	--background: var(--black);
 	--background-dark: var(--black-dark);
 	--background-darker: var(--black-darker);
+	--shadow: #7778;
 	--foreground: var(--white);
 	--foreground-dark: var(--white-dark);
 	--foreground-darker: var(--white-darker);
@@ -112,6 +114,7 @@ body.dark {
 	transition: color var(--transition);
 	margin: 0;
 	padding: 0;
+	text-align: left;
 }
 
 main {
@@ -212,4 +215,26 @@ input[type='radio'] {
 	--accent-light: var(--warning-light);
 	--accent-dark: var(--warning-dark);
 	--accent-contrast: var(--warning-contrast);
+}
+
+.flat {
+	--radius: 0;
+}
+
+.rounded {
+	--radius: var(--border-radius);
+}
+
+.circular {
+	--radius: 50%;
+}
+
+.flex {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-1);
+}
+
+.column {
+	flex-direction: column;
 }
