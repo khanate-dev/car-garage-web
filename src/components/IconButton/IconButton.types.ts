@@ -1,6 +1,8 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactElement } from 'react';
 
-import { Size } from 'types/general';
+import { ButtonVariant } from 'components/Button';
+
+import { Size, ThemeColor } from 'types/general';
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
@@ -8,12 +10,18 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 	className?: string,
 
 	/** the icon to render */
-	icon: ReactNode,
+	icon: ReactElement,
 
 	/** the size of the button. @default 'medium' */
 	size?: Size,
 
+	/** the color of the button. @default 'default' */
+	color?: ThemeColor,
+
 	/** the style of the button's corners. @default 'rounded' */
 	corners?: 'flat' | 'rounded' | 'circular',
+
+	/** the style variant of the button @default 'fill' */
+	variant?: ButtonVariant,
 
 }

@@ -1,5 +1,9 @@
 .button {
 	--size: calc(var(--font) * 2.5);
+	--contrast: var(--background);
+	--accent: var(--foreground);
+	--accent-light: var(--foreground-dark);
+	--icon-fill: var(--contrast);
 
 	all: unset;
 	border-radius: var(--radius);
@@ -44,5 +48,59 @@
 		& > path {
 			fill: var(--primary);
 		}
+	}
+
+	&.fill {
+		--icon-fill: var(--accent-contrast);
+
+		background-color: var(--accent);
+		border-color: var(--accent);
+		color: var(--accent-contrast);
+
+		& > svg > path {
+			fill: var(--contrast);
+		}
+
+		&:hover,
+		&:focus {
+			background-color: var(--accent-light);
+
+			& > svg > path {
+				fill: var(--contrast);
+			}
+		}
+	}
+
+	&:not(.fill) {
+		--icon-fill: var(--accent);
+
+		background-color: transparent;
+		color: var(--accent);
+
+		&:hover,
+		&:focus {
+			--icon-fill: var(--accent-contrast);
+
+			background-color: var(--accent);
+			color: var(--accent-contrast);
+
+			& > svg > path {
+				fill: var(--contrast);
+			}
+		}
+	}
+
+	&.ghost {
+		--icon-fill: var(--accent);
+
+		border-color: transparent;
+	}
+
+	&.outline {
+		--icon-fill: var(--accent);
+
+		border-style: solid;
+		border-width: 2px;
+		border-color: var(--accent);
 	}
 }

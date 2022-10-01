@@ -9,6 +9,8 @@ const ThemeSwitch = ({
 	size = 'medium',
 	corners = 'rounded',
 	onClick,
+	variant = 'outline',
+	color = 'primary',
 	...buttonProps
 }: IconButtonProps) => (
 	<button
@@ -17,6 +19,8 @@ const ThemeSwitch = ({
 			styles['button'],
 			size,
 			corners,
+			styles[variant],
+			color,
 			className
 		)}
 		onClick={(event) => {
