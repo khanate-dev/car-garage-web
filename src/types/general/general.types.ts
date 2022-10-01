@@ -115,3 +115,11 @@ export const sizes = [
 ] as const;
 
 export type Size = typeof sizes[number];
+
+const corners = [
+	'flat',
+	'rounded',
+	'circular',
+] as const;
+
+export type Corner = typeof corners[number];
