@@ -1,0 +1,10 @@
+div.container {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	align-content: flex-start;
+	gap: var(--spacing-2);
+
+	& > div {
+		height: 150px;
+	}
+}
