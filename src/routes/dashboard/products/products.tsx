@@ -8,7 +8,7 @@ import {
 } from 'schemas/product';
 
 import { formatDateTime } from 'helpers/date';
-import { getRequest } from 'helpers/api';
+import { humanizeString } from 'helpers/string';
 
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
@@ -16,7 +16,156 @@ import Card, { CardProps } from 'components/Card';
 import styles from './products.module.scss';
 
 export const productsLoader: LoaderFunction = async () => {
-	const products = await getRequest('product');
+	// // const products = await getRequest('product');
+	const products: Product[] = [
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'bike',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			bodyTypeId: '63388570155ecedc37dd5dce',
+			buyerId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			modelId: '63388570155ecedc37dd5dce',
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'car',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			bodyTypeId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			modelId: '63388570155ecedc37dd5dce',
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'auto-parts',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			buyerId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			isFeatured: true,
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'bike',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			bodyTypeId: '63388570155ecedc37dd5dce',
+			buyerId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			modelId: '63388570155ecedc37dd5dce',
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'car',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			bodyTypeId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			modelId: '63388570155ecedc37dd5dce',
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'auto-parts',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			buyerId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			isFeatured: true,
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'bike',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			bodyTypeId: '63388570155ecedc37dd5dce',
+			buyerId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			modelId: '63388570155ecedc37dd5dce',
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'car',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			bodyTypeId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			modelId: '63388570155ecedc37dd5dce',
+		},
+		{
+			__v: 1,
+			_id: '63388570155ecedc37dd5dce',
+			category: 'auto-parts',
+			createdAt: new Date().toUTCString(),
+			makeTypeId: '63388570155ecedc37dd5dce',
+			maxPrice: 4500,
+			minPrice: 4050,
+			sellerId: '63388570155ecedc37dd5dce',
+			title: 'Some Bike',
+			updatedAt: new Date().toUTCString(),
+			buyerId: '63388570155ecedc37dd5dce',
+			description: 'Very good condition',
+			image: 'https://asia.olympus-imaging.com/content/000107506.jpg',
+			isFeatured: true,
+		},
+	];
 	return z.array(productModelSchema).parse(products);
 };
 
@@ -30,7 +179,8 @@ export const Products = () => {
 			className={styles['container']}
 			isEmpty={products.length === 0}
 		>
-			{products.map(({ _id,
+			{products.map(({
+				_id,
 				image,
 				title,
 				category,
@@ -47,7 +197,7 @@ export const Products = () => {
 			}) => {
 
 				const labels: CardProps['labels'] = [{
-					title: category,
+					title: humanizeString(category),
 					color: productCategoryColors[category],
 				}];
 				if (isFeatured) {
@@ -91,7 +241,6 @@ export const Products = () => {
 				return (
 					<Card
 						key={_id}
-						image={image}
 						labels={labels}
 						cover={image}
 						title={title}
