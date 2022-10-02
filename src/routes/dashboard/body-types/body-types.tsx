@@ -21,8 +21,8 @@ import FormField from 'components/FormField';
 import { FormField as FormFieldType } from 'types/general';
 import { getActionError } from 'helpers/route';
 import Alert from 'components/Alert';
-import { loadBodyTypes } from 'helpers/body-type';
-import { loadModels } from 'helpers/model';
+import { loadBodyTypes } from 'endpoints/body-type';
+import { loadModels } from 'endpoints/model';
 import { Model } from 'schemas/model';
 import { humanizeString } from 'helpers/string';
 

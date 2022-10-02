@@ -21,9 +21,9 @@ import { FormField as FormFieldType } from 'types/general';
 import { getActionError } from 'helpers/route';
 import Alert from 'components/Alert';
 import { humanizeString } from 'helpers/string';
-import { loadMakeTypes } from 'helpers/make-type';
+import { loadMakeTypes } from 'endpoints/make-type';
 import { MakeType } from 'schemas/make-type';
-import { loadModels } from 'helpers/model';
+import { loadModels } from 'endpoints/model';
 
 
 export const modelsLoader: LoaderFunction = async () => {

@@ -20,7 +20,7 @@ import FormField from 'components/FormField';
 import { FormField as FormFieldType } from 'types/general';
 import { getActionError } from 'helpers/route';
 import Alert from 'components/Alert';
-import { loadMakeTypes } from 'helpers/make-type';
+import { loadMakeTypes } from 'endpoints/make-type';
 
 export const makeTypesLoader: LoaderFunction = loadMakeTypes;
 
