@@ -117,6 +117,17 @@ const Sidebar = ({
 						<p>Products</p>
 					</NavLink>
 				</li>
+
+				<li
+					className={isMinimized ? styles['minimized'] : undefined}
+				>
+					<NavLink
+						to='/make-types'
+					>
+						<BackIcon />
+						<p>Make Types</p>
+					</NavLink>
+				</li>
 			</ul>
 
 		</aside>
