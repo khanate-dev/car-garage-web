@@ -15,6 +15,10 @@ export const {
 	}),
 });
 
+export const createModelSchema = modelSansMetaModelSchema.omit({
+	makeType: true,
+});
+
 export type ModelSansMeta = z.infer<typeof modelSansMetaModelSchema>;
 
 export type Model = z.infer<typeof modelModelSchema>;

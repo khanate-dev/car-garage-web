@@ -4,6 +4,7 @@ import { z } from 'zod';
 import useFormError from 'hooks/form-error';
 
 import {
+	createModelSchema,
 	Model,
 	modelModelSchema,
 	ModelSansMeta,
@@ -36,7 +37,7 @@ export const modelsAction: ActionFunction = async ({ request }) => {
 	try {
 		const formData = await request.formData();
 		const formDataObject = Object.fromEntries(formData);
-		const body = modelSansMetaModelSchema.parse({
+		const body = createModelSchema.parse({
 			...formDataObject,
 			year: parseInt(formDataObject.year as string),
 		});
