@@ -26,4 +26,22 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 	scroll-behavior: smooth;
+
+	&.empty {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		font-size: 1.5em;
+		gap: var(--spacing-3);
+
+		& > h1 {
+			margin: 0;
+			color: var(--primary);
+		}
+
+		& > p {
+			margin: 0;
+		}
+	}
 }
