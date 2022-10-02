@@ -24,6 +24,11 @@
 	border-style: var(--border-style);
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
+	width: min(100%, 575px);
+
+	& > a:last-child {
+		text-align: center;
+	}
 }
 
 .fields {
