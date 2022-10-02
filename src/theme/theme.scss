@@ -3,9 +3,11 @@
 
 :root {
 	--white: #fcfcfc;
+	--white-slight-dark: #f3f3f3;
 	--white-dark: #ececec;
 	--white-darker: #ccc;
 	--black: #333;
+	--black-slight-dark: #3f3f3f;
 	--black-dark: #555;
 	--black-darker: #777;
 	--transition: 0.2s linear;
@@ -13,7 +15,9 @@
 	--spacing-1: 10px;
 	--spacing-2: calc(var(--spacing-1) * 2);
 	--spacing-3: calc(var(--spacing-1) * 3);
-	--border-radius: 5px;
+	--radius-1: 5px;
+	--radius-2: 10px;
+	--radius-3: 15px;
 	--border-width: 2px;
 	--border-style: solid;
 	--border-color: var(--background-dark);
@@ -23,10 +27,12 @@
 
 body {
 	--background: var(--white);
+	--background-slight-dark: var(--white-slight-dark);
 	--background-dark: var(--white-dark);
 	--background-darker: var(--white-darker);
-	--shadow: #ccc8;
+	--shadow: #ddd8;
 	--foreground: var(--black);
+	--foreground-slight-dark: var(--black-slight-dark);
 	--foreground-dark: var(--black-dark);
 	--foreground-darker: var(--black-darker);
 	--primary: hsl(280deg 100% 60%);
@@ -76,10 +82,12 @@ body {
 
 body.dark {
 	--background: var(--black);
+	--background-slight-dark: var(--black-slight-dark);
 	--background-dark: var(--black-dark);
 	--background-darker: var(--black-darker);
 	--shadow: #7778;
 	--foreground: var(--white);
+	--foreground-slight-dark: var(--white-slight-dark);
 	--foreground-dark: var(--white-dark);
 	--foreground-darker: var(--white-darker);
 	--primary: hsl(280deg 100% 75%);
@@ -169,8 +177,8 @@ input[type='radio'] {
 }
 
 .default {
-	--accent: var(--foreground);
-	--accent-light: var(--foreground-darker);
+	--accent: var(--foreground-slight-dark);
+	--accent-light: var(--foreground);
 	--accent-dark: var(--foreground-dark);
 	--accent-contrast: var(--background);
 }
@@ -222,7 +230,7 @@ input[type='radio'] {
 }
 
 .rounded {
-	--radius: var(--border-radius);
+	--radius: var(--radius-1);
 }
 
 .circular {

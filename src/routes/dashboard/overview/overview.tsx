@@ -5,8 +5,6 @@ import { getSetting } from 'helpers/settings';
 import Page from 'components/Page';
 import Card from 'components/Card';
 
-import { ReactComponent as LogoutIcon } from 'icons/logout.svg';
-
 import styles from './overview.module.scss';
 
 export const overviewLoader: LoaderFunction = async () => {

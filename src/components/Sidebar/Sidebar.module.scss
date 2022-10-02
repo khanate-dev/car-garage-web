@@ -7,7 +7,7 @@
 	height: 100%;
 	flex-direction: column;
 	align-items: center;
-	background-color: var(--background-dark);
+	background-color: var(--background-slight-dark);
 	border-right-width: var(--border-width);
 	border-right-style: var(--border-style);
 	border-right-color: var(--background-darker);
@@ -135,7 +135,6 @@ button.flipped {
 				flex-shrink: 1;
 			}
 
-			/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
 			&:global(.active) {
 				--accent: var(--primary);
 
