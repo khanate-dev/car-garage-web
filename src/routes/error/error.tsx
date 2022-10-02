@@ -3,7 +3,6 @@ import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 import { invalidateUser } from 'helpers/events';
 
 import Button from 'components/Button';
-import ThemeSwitch from 'components/ThemeSwitch';
 
 import { ReactComponent as LogoutIcon } from 'icons/logout.svg';
 
@@ -15,10 +14,6 @@ export const ErrorBoundary = () => {
 
 	return (
 		<div className={styles['container']}>
-
-			<ThemeSwitch
-				className={styles['theme-switch']}
-			/>
 
 			<h1
 				className={styles['heading']}

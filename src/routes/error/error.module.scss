@@ -15,16 +15,12 @@
 }
 
 .error-message {
-	font-size: 0.8em;
+	font-size: 0.5em;
 	background-color: var(--danger);
 	color: var(--white);
+	max-width: 95%;
+	max-height: 150px;
 	opacity: 0.5;
 	padding: var(--spacing-1);
 	border-radius: var(--radius-1);
-}
-
-.theme-switch {
-	position: fixed;
-	top: var(--spacing-2);
-	right: var(--spacing-2);
 }

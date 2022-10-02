@@ -123,3 +123,8 @@ const corners = [
 ] as const;
 
 export type Corner = typeof corners[number];
+
+export interface ActionError {
+	source: string,
+	error: Error,
+}
