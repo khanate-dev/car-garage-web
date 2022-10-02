@@ -4,14 +4,17 @@ import { getModelSchema } from 'helpers/schema';
 import { mongoIdSchema } from 'schemas/mongo';
 
 export const {
-  sansMetaModelSchema: modelSansMetaModelSchema,
-  modelSchema: modelModelSchema,
+	sansMetaModelSchema: modelSansMetaModelSchema,
+	modelSchema: modelModelSchema,
 } = getModelSchema({
-  name: z.string(),
-  year: z.number().positive(),
-  makeTypeId: mongoIdSchema,
+	name: z.string(),
+	year: z.number().positive(),
+	makeTypeId: mongoIdSchema,
+	makeType: z.object({
+		name: z.string(),
+	}),
 });
 
-export type MakeTypeSansMeta = z.infer<typeof modelSansMetaModelSchema>;
+export type ModelSansMeta = z.infer<typeof modelSansMetaModelSchema>;
 
-export type MakeType = z.infer<typeof modelModelSchema>;
+export type Model = z.infer<typeof modelModelSchema>;

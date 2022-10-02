@@ -1,16 +1,14 @@
 import { ActionFunction, Form, LoaderFunction, useLoaderData } from 'react-router-dom';
-import { z } from 'zod';
 
 import useFormError from 'hooks/form-error';
 
 import {
 	MakeType,
-	makeTypeModelSchema,
 	MakeTypeSansMeta,
 	makeTypeSansMetaModelSchema,
 } from 'schemas/make-type';
 
-import { getRequest, postRequest } from 'helpers/api';
+import { postRequest } from 'helpers/api';
 
 import Page from 'components/Page';
 import Card from 'components/Card';
@@ -22,11 +20,9 @@ import FormField from 'components/FormField';
 import { FormField as FormFieldType } from 'types/general';
 import { getActionError } from 'helpers/route';
 import Alert from 'components/Alert';
+import { loadMakeTypes } from 'helpers/make-type';
 
-export const makeTypesLoader: LoaderFunction = async () => {
-	const makeTypes = await getRequest('make-type');
-	return z.array(makeTypeModelSchema).parse(makeTypes);
-};
+export const makeTypesLoader: LoaderFunction = loadMakeTypes;
 
 export const makeTypesAction: ActionFunction = async ({ request }) => {
 	try {
