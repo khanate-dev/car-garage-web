@@ -1,4 +1,4 @@
-const isDate = (value: any): value is string | Date => {
+export const isDate = (value: any): value is string | Date => {
 	if (
 		typeof value !== 'string'
 		&& typeof value !== 'number'
@@ -12,7 +12,7 @@ const isDate = (value: any): value is string | Date => {
 	return !isNaN(date.getTime());
 };
 
-const getDateOrNull = (value: any): null | Date => {
+export const getDateOrNull = (value: any): null | Date => {
 	if (
 		typeof value !== 'string'
 		&& typeof value !== 'number'
@@ -27,15 +27,22 @@ const getDateOrNull = (value: any): null | Date => {
 	return date;
 };
 
-const compareDate = (
+export const compareDate = (
 	first: string | Date,
 	second: string | Date
 ) => (
 	new Date(first).getTime() - new Date(second).getTime()
 );
 
-export {
-	isDate,
-	getDateOrNull,
-	compareDate,
+export const dateTimeFormatter = new Intl.DateTimeFormat('en-PK', {
+	dateStyle: 'short',
+	timeStyle: 'short',
+});
+
+export const formatDateTime = (
+	value: number | string | Date
+): string => {
+	const date = getDateOrNull(value);
+	if (!date) return '';
+	return dateTimeFormatter.format(date);
 };
