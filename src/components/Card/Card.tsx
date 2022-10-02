@@ -1,64 +1,128 @@
-import { CardProps } from './Card.types';
-import styles from './Card.module.scss';
 import { cx } from 'helpers/class-name';
 
+import Chip, { ChipProps } from 'components/Chip';
+import Button from 'components/Button';
+
+import { sizes } from 'types/general';
+
+import { CardProps } from './Card.types';
+import styles from './Card.module.scss';
+
 const Card = ({
-	icon,
+	cover,
+	image,
+	labels,
 	title,
 	subtitle,
-	content,
+	description,
+	details,
+	actions,
 	size = 'medium',
 	color = 'primary',
-	isCentered,
+	centered,
 }: CardProps) => {
 
 	return (
 		<div
 			className={cx(
 				styles['card'],
-				isCentered && styles['centered'],
+				centered && styles['centered'],
 				size,
 				color
 			)}
 		>
 
-			<div className={styles['header']}>
-				{icon}
-				<h3>{title}</h3>
-			</div>
-
-			{subtitle &&
-				<div className={styles['subtitle']}>
-					<p>{subtitle}</p>
+			{cover &&
+				<div className={styles['cover']}>
+					{typeof cover === 'string'
+						? <img src={cover} alt='' />
+						: cover
+					}
 				</div>
 			}
 
-			{content &&
-				<div className={styles['content']}>
-					{content.map((subCard, index) =>
+			{image &&
+				<div className={styles['image']}>
+					{typeof image === 'string'
+						? <img src={image} alt='' />
+						: image
+					}
+				</div>
+			}
+
+			{labels &&
+				<div className={styles['labels']}>
+					{labels.map((label, index) => {
+
+						const props: ChipProps = (
+							typeof label !== 'string'
+								? label
+								: { title: label }
+						);
+
+						return (
+							<Chip
+								key={index}
+								{...props}
+								size={
+									props.size
+									?? sizes[sizes.indexOf(size) - 1]
+									?? 'tiny'
+								}
+							/>
+						);
+
+					})}
+				</div>
+			}
+
+			<h3 className={styles['title']}>
+				{title}
+			</h3>
+
+			{subtitle &&
+				<h6 className={styles['subtitle']}>
+					{subtitle}
+				</h6>
+			}
+
+			{description &&
+				<p className={styles['description']}>
+					{description}
+				</p>
+			}
+
+			{details &&
+				<div className={styles['details']}>
+					{details.map(({ label, value }, index) =>
 						<div
 							key={index}
-							className={styles['sub-card']}
+							className={styles['detail']}
 						>
-
-							{(subCard.icon || subCard.title) &&
-								<div className={styles['sub-header']}>
-									<span>{subCard.icon}</span>
-									<span>{subCard.title}</span>
-								</div>
-							}
-
-							{subCard.subtitle &&
-								<div className={styles['sub-subtitle']}>
-									{subCard.subtitle}
-								</div>
-							}
-
-							<div className={styles['sub-content']}>
-								<span>{subCard.label}</span>
-								<span>{subCard.value}</span>
-							</div>
+							<span>
+								{label}
+							</span>
+							<span>
+								{value}
+							</span>
 						</div>
+					)}
+				</div>
+			}
+
+			{actions &&
+				<div className={styles['actions']}>
+					{actions.map((action, index) =>
+						<Button
+							key={index}
+							{...action}
+							size={
+								action.size
+								?? sizes[sizes.indexOf(size) - 2]
+								?? 'tiny'
+							}
+							variant={action.variant ?? 'outline'}
+						/>
 					)}
 				</div>
 			}

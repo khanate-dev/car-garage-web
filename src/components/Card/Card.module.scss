@@ -1,14 +1,25 @@
 .card {
-	border-radius: var(--border-radius);
+	border-radius: var(--radius-2);
 	box-shadow: 5px 5px 10px var(--shadow);
-	border-color: var(--accent-dark);
 	border-width: var(--border-width);
 	border-style: var(--border-style);
-	background-color: var(--background-dark);
+	border-color: var(--accent);
+	background-color: var(--background);
 	padding: var(--spacing-1);
 	display: flex;
 	flex-direction: column;
-	gap: var(--spacing-0);
+	gap: var(--spacing-1);
+	font-size: var(--font);
+	transition: background-color var(--transition), transform var(--transition);
+
+	&:hover {
+		background-color: var(--background-slight-dark);
+		transform: rotate(-0.5deg) scale(1.01);
+
+		& .detail {
+			background-color: var(--background);
+		}
+	}
 
 	& > * {
 		text-align: left;
@@ -30,113 +41,124 @@
 	}
 }
 
-.header {
+.cover {
+	width: 100%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: var(--radius-2);
+	box-shadow: 5px 5px 10px var(--shadow);
+
+	& > * {
+		width: 100%;
+		max-height: max(130px, 10 * var(--font));
+		object-fit: cover;
+		object-position: center;
+	}
+
+	& > svg * {
+		fill: var(--accent);
+	}
+}
+
+.image {
+	--size: calc(var(--font) * 5);
+
+	width: var(--size);
+	margin-inline: auto;
+	border-radius: 50%;
+	aspect-ratio: 1;
+	border-width: var(--border-width);
+	border-color: var(--accent);
+	border-style: var(--border-style);
+	box-shadow: 5px 5px 10px var(--shadow);
+	margin-block: var(--spacing-2);
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	& > * {
+		width: var(--size);
+		height: var(--size);
+		object-fit: cover;
+		object-position: center;
+	}
+
+	& > svg * {
+		fill: var(--accent);
+	}
+}
+
+.labels {
 	display: flex;
 	gap: var(--spacing-0);
-	align-items: center;
-	height: calc(var(--font) * 2);
-	font-size: var(--font);
+	flex-wrap: wrap;
+}
 
-	& > svg {
-		height: 100%;
-		width: auto;
-		flex-shrink: 0;
+.title,
+.subtitle,
+.description {
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
-		& path {
-			fill: var(--accent);
-		}
-	}
-
-	& > h3 {
-		margin: 0;
-		font-size: calc(var(--font) * 2);
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		color: var(--accent);
-		flex-grow: 1;
-		flex-shrink: 1;
-	}
+.title {
+	color: var(--accent);
+	font-weight: 500;
+	font-size: 1.5em;
 }
 
 .subtitle {
-	margin: 0;
-	font-size: 1em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	font-weight: 400;
+	font-size: 0.9em;
 	color: var(--foreground-dark);
 }
 
-.content {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: var(--spacing-0);
-	margin-top: auto;
-}
-
-.sub-card {
-	border-radius: var(--border-radius);
-	box-shadow: 5px 5px 5px var(--shadow);
-	padding: var(--spacing-0);
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-0);
-	flex-grow: 1;
-	flex-shrink: 1;
-	background-color: var(--background);
-}
-
-.sub-header {
-	display: flex;
-	gap: var(--spacing-0);
-	align-items: center;
-	height: calc(var(--font) * 1.5);
-
-	& > svg {
-		height: 100%;
-		width: auto;
-		flex-shrink: 0;
-
-		& path {
-			fill: var(--foreground);
-		}
-	}
-
-	& > h3 {
-		margin: 0;
-		font-size: calc(var(--font) * 1.3);
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		color: var(--foreground);
-		flex-grow: 1;
-		flex-shrink: 1;
-	}
-}
-
-.sub-subtitle {
-	margin: 0;
-	font-size: 1em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+.description {
+	font-weight: 200;
+	font-size: 0.8em;
 	color: var(--foreground-darker);
 }
 
-.sub-content {
+.details {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--spacing-1);
+	width: 100%;
+}
+
+.detail {
 	display: flex;
+	flex-direction: column;
+	border-color: var(--background-darker);
+	border-width: var(--border-width);
+	border-style: var(--border-style);
+	border-radius: var(--radius-2);
 	gap: var(--spacing-0);
-	flex-wrap: nowrap;
-	font-size: 1.2em;
+	padding: var(--spacing-1);
+	background-color: var(--background-slight-dark);
+	box-shadow: 5px 5px 5px var(--shadow);
+	transition: background-color var(--transition);
 
-	& > span:first-of-type {
-		color: var(--accent);
-		font-weight: 400;
-	}
+	& > span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 0.9em;
 
-	& > span:last-of-type {
-		color: var(--foreground-dark);
-		font-weight: 500;
+		&:first-of-type {
+			color: var(--accent);
+			font-weight: 500;
+		}
 	}
+}
+
+.actions {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-1);
 }
