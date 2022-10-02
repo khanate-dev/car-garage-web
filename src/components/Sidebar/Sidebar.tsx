@@ -139,6 +139,17 @@ const Sidebar = ({
 						<p>Models</p>
 					</NavLink>
 				</li>
+
+				<li
+					className={isMinimized ? styles['minimized'] : undefined}
+				>
+					<NavLink
+						to='/body-types'
+					>
+						<BackIcon />
+						<p>Body Types</p>
+					</NavLink>
+				</li>
 			</ul>
 
 		</aside>

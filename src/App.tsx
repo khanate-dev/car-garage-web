@@ -19,6 +19,7 @@ import Providers from 'components/Providers';
 import 'theme';
 import { MakeTypes, makeTypesAction, makeTypesLoader } from 'routes/dashboard/make-types';
 import { Models, modelsAction, modelsLoader } from 'routes/dashboard/model';
+import { BodyTypes, bodyTypesAction, bodyTypesLoader } from 'routes/dashboard/body-types';
 
 const redirectIfNotUserLoader: LoaderFunction = async () => {
 	const user = getSetting('user');
@@ -63,6 +64,13 @@ const router = createBrowserRouter([
 				element: <Models />,
 				loader: modelsLoader,
 				action: modelsAction,
+				errorElement: <ErrorBoundary />,
+			},
+			{
+				path: '/body-types',
+				element: <BodyTypes />,
+				loader: bodyTypesLoader,
+				action: bodyTypesAction,
 				errorElement: <ErrorBoundary />,
 			},
 		],

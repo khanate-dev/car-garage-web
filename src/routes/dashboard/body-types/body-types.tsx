@@ -3,84 +3,76 @@ import { ActionFunction, Form, LoaderFunction, useLoaderData } from 'react-route
 import useFormError from 'hooks/form-error';
 
 import {
-	createModelSchema,
-	Model,
-	ModelSansMeta,
-} from 'schemas/model';
+	BodyType,
+	BodyTypeSansMeta,
+	bodyTypeSansMetaModelSchema,
+	createBodyTypeSchema,
+} from 'schemas/body-type';
 
 import { postRequest } from 'helpers/api';
 
 import Page from 'components/Page';
 import Card from 'components/Card';
 
-import styles from './model.module.scss';
+import styles from './body-types.module.scss';
 import Button from 'components/Button';
 import { useReducer } from 'react';
 import FormField from 'components/FormField';
 import { FormField as FormFieldType } from 'types/general';
 import { getActionError } from 'helpers/route';
 import Alert from 'components/Alert';
-import { humanizeString } from 'helpers/string';
-import { loadMakeTypes } from 'helpers/make-type';
-import { MakeType } from 'schemas/make-type';
+import { loadBodyTypes } from 'helpers/body-type';
 import { loadModels } from 'helpers/model';
+import { Model } from 'schemas/model';
+import { humanizeString } from 'helpers/string';
 
 
-export const modelsLoader: LoaderFunction = async () => {
-	return [(await loadModels()), (await loadMakeTypes())];
+export const bodyTypesLoader: LoaderFunction = async () => {
+	return [(await loadBodyTypes()), (await loadModels())];
 };
 
-export const modelsAction: ActionFunction = async ({ request }) => {
+export const bodyTypesAction: ActionFunction = async ({ request }) => {
 	try {
 		const formData = await request.formData();
-		const formDataObject = Object.fromEntries(formData);
-		const body = createModelSchema.parse({
-			...formDataObject,
-			year: parseInt(formDataObject.year as string),
-		});
-		await postRequest('model', body);
+		const body = createBodyTypeSchema.parse(Object.fromEntries(formData));
+		await postRequest('body-type', body);
 		return null;
 	}
 	catch (error: any) {
 		console.error(error);
 		return getActionError({
-			source: 'make-types',
+			source: 'body-types',
 			error,
 		});
 	}
 };
 
-const nameField: FormFieldType<ModelSansMeta> = {
+const nameField: FormFieldType<BodyTypeSansMeta> = {
 	fieldType: 'input',
 	name: 'name',
 	required: true,
 };
 
-const yearField: FormFieldType<ModelSansMeta> = {
-	fieldType: 'input',
-	type: 'number',
-	name: 'year',
-	required: true,
-};
 
-const makeTypeField: FormFieldType<ModelSansMeta> = {
+const modelField: FormFieldType<BodyTypeSansMeta> = {
 	fieldType: 'select',
-	name: 'makeTypeId',
+	name: 'modelId',
 	required: true,
 	options: [],
 };
 
-export const Models = () => {
 
-	const error = useFormError<ModelSansMeta>('models');
+export const BodyTypes = () => {
+
+	const error = useFormError<BodyTypeSansMeta>('body-types');
 	const [isAdding, toggleIsAdding] = useReducer((prev) => !prev, false);
 
-	const [models, makeTypes] = useLoaderData() as [Model[], MakeType[]];
+	const [bodyTypes, models] = useLoaderData() as [BodyType[], Model[]];
 
 	return (
 		<Page
-			title='Model'
-			isEmpty={models.length === 0}
+			title='Body Types'
+			isEmpty={bodyTypes.length === 0}
 		>
 
 			{isAdding &&
@@ -95,19 +87,14 @@ export const Models = () => {
 					/>
 
 					<FormField
-						field={yearField}
-						error={error.errors?.year}
-					/>
-
-					<FormField
 						field={{
-							...makeTypeField,
-							options: makeTypes.map(makeType => ({
-								label: makeType.name,
-								value: makeType._id,
+							...modelField,
+							options: models.map(model => ({
+								label: `${model.year} ${model.name}`,
+								value: model._id,
 							})),
 						}}
-						error={error.errors?.makeTypeId}
+						error={error.errors?.modelId}
 					/>
 
 					{error.type === 'general' &&
@@ -134,18 +121,24 @@ export const Models = () => {
 				/>
 			</div>
 
-			{models.length > 0 &&
+			{bodyTypes.length > 0 &&
 				<div
 					className={styles['grid']}
 				>
-					{models.map(({ _id, name, year, makeType }) =>
+					{bodyTypes.map(({ _id, name, model }) =>
 						<Card
 							key={_id}
-							title={`${year} ${name}`}
-							labels={[{
-								title: `Make Type: ${humanizeString(makeType.name)}`,
-								color: 'info',
-							}]}
+							title={name}
+							labels={[
+								{
+									title: `Model: ${`${model.year} ${model.name}`}`,
+									color: 'secondary',
+								},
+								{
+									title: `Make Type: ${humanizeString(model.makeType.name)}`,
+									color: 'info',
+								},
+							]}
 						/>
 					)}
 				</div>
