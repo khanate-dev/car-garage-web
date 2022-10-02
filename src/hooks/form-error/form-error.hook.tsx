@@ -1,40 +1,20 @@
-import { useReducer } from 'react';
+import { useActionData } from 'react-router-dom';
 
 import FormError from 'errors/form';
 
-type Action<Form extends Record<string, any>> = (
-	| { type: 'reset', }
-	| { type: 'remove-field', value: (keyof Form) | (keyof Form)[], }
-	| { type: 'update', value: FormError<Form>, }
-);
-const reducer = <Form extends Record<string, any>>(
-	prev: null | FormError<Form>,
-	action: Action<Form>
-): null | FormError<Form> => {
-	switch (action.type) {
-		case 'remove-field': {
-			if (!prev) return null;
-			const fieldsToRemove = (
-				Array.isArray(action.value)
-					? action.value
-					: [action.value]
-			);
-			fieldsToRemove.forEach(field =>
-				delete prev.fieldErrors[field]
-			);
-			return new FormError(prev.fieldErrors);
-		}
-		case 'update':
-			return action.value;
-		case 'reset':
-			return null;
-		default:
-			throw new Error('Invalid action type');
-	}
-};
+import { ActionError } from 'types/general';
 
-const useFormError = <Form extends Record<string, any>>() => {
-	return useReducer(reducer<Form>, null);
+const useFormError = <
+	Form extends Record<string, any>
+>(
+	source: string
+): FormError<Form> => {
+	const actionError = useActionData() as ActionError;
+	return new FormError<Form>(
+		actionError?.source === source
+			? actionError.error
+			: null
+	);
 };
 
 export default useFormError;
