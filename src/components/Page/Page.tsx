@@ -18,18 +18,15 @@ const Page = ({
 			<div
 				className={cx(
 					styles['body'],
-					isEmpty && styles['empty'],
 					className
 				)}
 			>
-				{isEmpty
-					? (
-						<>
-							<h1>Nothing to see here!</h1>
-							<p>No {title} entries have been added yet</p>
-						</>
-					)
-					: children
+				{children}
+				{isEmpty &&
+					<div className={styles['empty']}>
+						<h1>Nothing to see here!</h1>
+						<p>No {title} entries have been added yet</p>
+					</div>
 				}
 			</div>
 		</main>
