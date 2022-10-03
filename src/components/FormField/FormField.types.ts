@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 import { FormField, Size } from 'types/general';
 
 export interface FormFieldProps<
@@ -11,12 +9,9 @@ export interface FormFieldProps<
 	field: FormField<Form>,
 
 	/** validation errors against the field */
-	error?: ReactNode,
+	error?: Error,
 
 	/** the size of the field. @default 'medium' */
 	size?: Size,
-
-	/** the function to call to reset validation errors */
-	onErrorReset?: () => void,
 
 }

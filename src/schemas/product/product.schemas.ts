@@ -1,7 +1,10 @@
 import z from 'zod';
 
-import { getModelSchema } from 'helpers/schema';
 import { mongoIdSchema } from 'schemas/mongo';
+
+import { getModelSchema } from 'helpers/schema';
+
+import { ThemeColor } from 'types/general';
 
 export const productCategories = [
 	'car',
@@ -10,6 +13,15 @@ export const productCategories = [
 ] as const;
 
 export type ProductCategory = typeof productCategories[number];
+
+export const productCategoryColors: Record<
+	ProductCategory,
+	ThemeColor
+> = {
+	car: 'danger',
+	bike: 'info',
+	'auto-parts': 'success',
+};
 
 export const {
 	sansMetaModelSchema: productSansMetaModelSchema,

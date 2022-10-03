@@ -19,11 +19,16 @@
 	max-width: min(100%, 700px);
 	gap: var(--spacing-1);
 	padding: var(--spacing-3);
-	border-radius: var(--border-radius);
+	border-radius: var(--radius-1);
 	background-color: var(--background-dark);
 	border-style: var(--border-style);
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
+	width: min(100%, 575px);
+
+	& > a:last-child {
+		text-align: center;
+	}
 }
 
 .fields {

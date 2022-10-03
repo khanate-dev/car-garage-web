@@ -1,18 +1,19 @@
-import ThemeSwitch from 'components/ThemeSwitch';
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+
+import { invalidateUser } from 'helpers/events';
+
+import Button from 'components/Button';
+
+import { ReactComponent as LogoutIcon } from 'icons/logout.svg';
 
 import styles from './error.module.scss';
 
-export const Error = () => {
+export const ErrorBoundary = () => {
 
 	const error = useRouteError();
 
 	return (
 		<div className={styles['container']}>
-
-			<ThemeSwitch
-				className={styles['theme-switch']}
-			/>
 
 			<h1
 				className={styles['heading']}
@@ -29,6 +30,24 @@ export const Error = () => {
 						<code className={styles['error-message']}>
 							{error.data.message}
 						</code>
+					}
+				</>
+			}
+
+			{(error instanceof Error) &&
+				<>
+					<h3>{error.name}</h3>
+					<code className={styles['error-message']}>
+						{error.message}
+					</code>
+					{error.name === 'ApiAuthError' &&
+						<Button
+							icon={<LogoutIcon />}
+							color='primary'
+							variant='outline'
+							text='Logout'
+							onClick={invalidateUser}
+						/>
 					}
 				</>
 			}

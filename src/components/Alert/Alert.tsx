@@ -1,6 +1,7 @@
+import { cx } from 'helpers/class-name';
+
 import { AlertProps } from './Alert.types';
 import styles from './Alert.module.scss';
-import { cx } from 'helpers/class-name';
 
 const Alert = ({
 	message,

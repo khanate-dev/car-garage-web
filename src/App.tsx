@@ -7,19 +7,24 @@ import {
 
 import { getSetting } from 'helpers/settings';
 
-import { Error } from 'routes/error';
+import { ErrorBoundary } from 'routes/error';
+import { Login, loginAction } from 'routes/login';
+import { Register, registerAction } from 'routes/register';
 import { Dashboard } from 'routes/dashboard';
-import { Login } from 'routes/login';
-import { Register } from 'routes/register';
+import { Overview, overviewLoader } from 'routes/dashboard/overview';
+import { Products, productsLoader } from 'routes/dashboard/products';
 
 import Providers from 'components/Providers';
 
 import 'theme';
+import { MakeTypes, makeTypesAction, makeTypesLoader } from 'routes/dashboard/make-types';
+import { Models, modelsAction, modelsLoader } from 'routes/dashboard/model';
+import { BodyTypes, bodyTypesAction, bodyTypesLoader } from 'routes/dashboard/body-types';
 
 const redirectIfNotUserLoader: LoaderFunction = async () => {
 	const user = getSetting('user');
 	if (!user) return redirect('/login');
-	return;
+	return user;
 };
 
 const redirectIfUserLoader: LoaderFunction = async () => {
@@ -30,22 +35,59 @@ const redirectIfUserLoader: LoaderFunction = async () => {
 
 const router = createBrowserRouter([
 	{
-		index: true,
+		path: '/',
 		element: <Dashboard />,
 		loader: redirectIfNotUserLoader,
-		errorElement: <Error />,
+		errorElement: <ErrorBoundary />,
+		children: [
+			{
+				index: true,
+				element: <Overview />,
+				loader: overviewLoader,
+				errorElement: <ErrorBoundary />,
+			},
+			{
+				path: '/products',
+				element: <Products />,
+				loader: productsLoader,
+				errorElement: <ErrorBoundary />,
+			},
+			{
+				path: '/make-types',
+				element: <MakeTypes />,
+				loader: makeTypesLoader,
+				action: makeTypesAction,
+				errorElement: <ErrorBoundary />,
+			},
+			{
+				path: '/models',
+				element: <Models />,
+				loader: modelsLoader,
+				action: modelsAction,
+				errorElement: <ErrorBoundary />,
+			},
+			{
+				path: '/body-types',
+				element: <BodyTypes />,
+				loader: bodyTypesLoader,
+				action: bodyTypesAction,
+				errorElement: <ErrorBoundary />,
+			},
+		],
 	},
 	{
 		path: '/login',
 		element: <Login />,
 		loader: redirectIfUserLoader,
-		errorElement: <Error />,
+		action: loginAction,
+		errorElement: <ErrorBoundary />,
 	},
 	{
 		path: '/register',
 		element: <Register />,
 		loader: redirectIfUserLoader,
-		errorElement: <Error />,
+		action: registerAction,
+		errorElement: <ErrorBoundary />,
 	},
 ]);
 

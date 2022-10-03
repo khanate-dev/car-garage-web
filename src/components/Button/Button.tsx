@@ -7,9 +7,10 @@ const Button = ({
 	text,
 	color = 'primary',
 	size = 'medium',
-	icon: Icon,
+	icon,
 	variant = 'fill',
 	children,
+	onClick,
 	...buttonProps
 }: ButtonProps) => (
 	<button
@@ -21,8 +22,12 @@ const Button = ({
 			size,
 			styles[variant]
 		)}
+		onClick={event => {
+			event.currentTarget.blur();
+			onClick?.(event);
+		}}
 	>
-		{Icon && <Icon />}
+		{icon}
 		{text ?? children}
 	</button>
 );

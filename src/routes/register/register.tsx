@@ -1,5 +1,4 @@
-import { FormEventHandler } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, ActionFunction, redirect, Form } from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
@@ -9,7 +8,6 @@ import {
 	registerResponseSchema,
 } from 'schemas/auth';
 import { userRoles } from 'schemas/user';
-import FormError from 'errors/form';
 
 import { postRequest } from 'helpers/api';
 
@@ -21,6 +19,7 @@ import Alert from 'components/Alert';
 import { FormField as FormFieldType } from 'types/general';
 
 import styles from './register.module.scss';
+import { getActionError } from 'helpers/route';
 
 const fields: FormFieldType<RegisterRequest>[] = [
 	{
@@ -62,33 +61,27 @@ const fields: FormFieldType<RegisterRequest>[] = [
 	},
 ];
 
+export const registerAction: ActionFunction = async ({ request }) => {
+	try {
+		const formData = await request.formData();
+		const json = registerRequestSchema.parse(Object.fromEntries(formData));
+
+		const response = await postRequest('user', json, true);
+		registerResponseSchema.parse(response);
+
+		return redirect('/login');
+	}
+	catch (error: any) {
+		return getActionError({
+			source: 'register',
+			error,
+		});
+	}
+};
+
 export const Register = () => {
 
-	const navigate = useNavigate();
-
-	const [error, dispatchError] = useFormError<RegisterRequest>();
-
-	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-		try {
-			event.preventDefault();
-
-			const formData = new FormData(event.currentTarget);
-			const json = registerRequestSchema.parse(Object.fromEntries(formData));
-
-			const response = await postRequest('user', json, true);
-			registerResponseSchema.parse(response);
-
-			navigate('/login');
-
-		}
-		catch (error: any) {
-			console.error(error);
-			dispatchError({
-				type: 'update',
-				value: new FormError(error),
-			});
-		}
-	};
+	const error = useFormError<RegisterRequest>('register');
 
 	return (
 		<main
@@ -99,9 +92,9 @@ export const Register = () => {
 				className={styles['theme-switch']}
 			/>
 
-			<form
+			<Form
+				method='post'
 				className={styles['form']}
-				onSubmit={handleSubmit}
 			>
 
 				<h1>Car Garage</h1>
@@ -114,19 +107,14 @@ export const Register = () => {
 						<FormField
 							key={field.name}
 							field={field}
-							error={error?.fieldErrors[field.name]}
-							onErrorReset={() => {
-								dispatchError({
-									type: 'remove-field', value: field.name,
-								});
-							}}
+							error={error?.errors?.[field.name]}
 						/>
 					)}
 				</div>
 
-				{error?.isGeneral &&
+				{error.type === 'general' &&
 					<Alert
-						message={error.generalError}
+						message={error.message}
 						size='small'
 						color='danger'
 					/>
@@ -143,7 +131,7 @@ export const Register = () => {
 					Have An Account? Login here
 				</Link>
 
-			</form>
+			</Form>
 
 		</main>
 	);

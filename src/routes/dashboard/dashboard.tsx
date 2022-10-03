@@ -1,20 +1,17 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-import { removeSetting } from 'helpers/settings';
 import { deleteRequest } from 'helpers/api';
+import { removeSetting } from 'helpers/settings';
 
-import ThemeSwitch from 'components/ThemeSwitch';
-
-import styles from './dashboard.module.scss';
-import Button from 'components/Button';
+import Sidebar from 'components/Sidebar';
 
 export const Dashboard = () => {
 
 	const navigate = useNavigate();
 
-	const logout = async () => {
-		await deleteRequest('session');
+	const logout = async (isLoggedOut?: boolean) => {
+		if (!isLoggedOut) await deleteRequest('session');
 		removeSetting('user');
 		removeSetting('accessToken');
 		removeSetting('refreshToken');
@@ -22,29 +19,20 @@ export const Dashboard = () => {
 	};
 
 	useEffect(() => {
-		window.addEventListener('invalidate-user', logout);
+		const invalidateUser = () => logout(true);
+		window.addEventListener('invalidate-user', invalidateUser);
 		return () => {
-			window.removeEventListener('invalidate-user', logout);
+			window.removeEventListener('invalidate-user', invalidateUser);
 		};
 	}, []);
 
 	return (
-		<main
-			className={styles['main']}
-		>
-
-			<h1>
-				Car Garage Web App
-			</h1>
-
-			<ThemeSwitch />
-
-			<Button
-				onClick={logout}
-				text='Logout'
+		<>
+			<Sidebar
+				onLogout={logout}
 			/>
-
-		</main>
+			<Outlet />
+		</>
 	);
 
 };

@@ -1,0 +1,18 @@
+.avatar {
+	--size: calc(var(--font) * 2.7);
+
+	width: var(--size);
+	height: var(--size);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	border-width: var(--border-width);
+	border-style: var(--border-style);
+	border-color: var(--primary-dark);
+	background-color: var(--primary-light);
+	color: var(--primary-dark);
+	font-size: calc(var(--font) * 1.5);
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

@@ -1,0 +1,7 @@
+div.container {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	align-content: flex-start;
+	justify-items: stretch;
+	gap: var(--spacing-2);
+}

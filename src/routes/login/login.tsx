@@ -1,5 +1,4 @@
-import { FormEventHandler } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, ActionFunction, Form } from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
@@ -8,10 +7,10 @@ import {
 	loginRequestSchema,
 	loginResponseSchema,
 } from 'schemas/auth';
-import FormError from 'errors/form';
 
 import { postRequest } from 'helpers/api';
 import { setSetting } from 'helpers/settings';
+import { getActionError } from 'helpers/route';
 
 import ThemeSwitch from 'components/ThemeSwitch';
 import FormField from 'components/FormField';
@@ -34,42 +33,39 @@ const fields: FormFieldType<LoginRequest>[] = [
 		name: 'password',
 		type: 'password',
 		description: 'Must be at least 6 characters',
-		minLength: 6,
 		required: true,
 	},
 ];
 
+export const loginAction: ActionFunction = async ({ request }) => {
+	try {
+		const formData = await request.formData();
+		const json = loginRequestSchema.parse(Object.fromEntries(formData));
+
+		const response = await postRequest('session', json, true);
+
+		const {
+			user,
+			accessToken,
+			refreshToken,
+		} = loginResponseSchema.parse(response);
+
+		setSetting('user', user);
+		setSetting('accessToken', accessToken);
+		setSetting('refreshToken', refreshToken);
+		return null;
+	}
+	catch (error: any) {
+		return getActionError({
+			source: 'login',
+			error,
+		});
+	}
+};
+
 export const Login = () => {
 
-	const navigate = useNavigate();
-
-	const [error, dispatchError] = useFormError<LoginRequest>();
-
-	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-		try {
-
-			event.preventDefault();
-
-			const formData = new FormData(event.currentTarget);
-			const json = loginRequestSchema.parse(Object.fromEntries(formData));
-
-			const response = await postRequest('session', json, true);
-
-			const { user, accessToken, refreshToken } = loginResponseSchema.parse(response);
-			setSetting('user', user);
-			setSetting('accessToken', accessToken);
-			setSetting('refreshToken', refreshToken);
-
-			navigate('/');
-
-		}
-		catch (error: any) {
-			dispatchError({
-				type: 'update',
-				value: new FormError(error),
-			});
-		}
-	};
+	const error = useFormError<LoginRequest>('login');
 
 	return (
 		<main
@@ -80,9 +76,9 @@ export const Login = () => {
 				className={styles['theme-switch']}
 			/>
 
-			<form
+			<Form
+				method='post'
 				className={styles['form']}
-				onSubmit={handleSubmit}
 			>
 
 				<h1>Car Garage</h1>
@@ -92,18 +88,13 @@ export const Login = () => {
 					<FormField
 						key={field.name}
 						field={field}
-						error={error?.fieldErrors[field.name]}
-						onErrorReset={() => {
-							dispatchError({
-								type: 'remove-field', value: field.name,
-							});
-						}}
+						error={error?.errors?.[field.name]}
 					/>
 				)}
 
-				{error?.isGeneral &&
+				{error.type === 'general' &&
 					<Alert
-						message={error.generalError}
+						message={error.message}
 						size='small'
 						color='danger'
 					/>
@@ -120,7 +111,7 @@ export const Login = () => {
 					{'New Here? Register'}
 				</Link>
 
-			</form>
+			</Form>
 
 		</main>
 	);

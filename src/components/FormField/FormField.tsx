@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { cx } from 'helpers/class-name';
 import omitKey from 'helpers/omit-key';
 import { humanizeString } from 'helpers/string';
@@ -9,9 +11,15 @@ const FormField = ({
 	className,
 	field,
 	error,
-	onErrorReset,
 	size = 'medium',
 }: FormFieldProps) => {
+
+	const [hideError, setHideError] = useState(false);
+
+	useEffect(() => {
+		setHideError(false);
+	}, [error]);
+
 
 	const {
 		label,
@@ -24,7 +32,11 @@ const FormField = ({
 	const fieldProps = {
 		id,
 		name,
-		onChange: error ? onErrorReset : undefined,
+		onChange: (
+			error && !hideError
+				? () => setHideError(true)
+				: undefined
+		),
 	};
 
 	const fieldElement = (
@@ -65,7 +77,7 @@ const FormField = ({
 			className={cx(
 				styles.field,
 				size,
-				error && styles['error'],
+				error && !hideError && styles['error'],
 				className
 			)}
 		>
@@ -90,11 +102,11 @@ const FormField = ({
 				</div>
 			}
 
-			{error &&
+			{error && !hideError &&
 				<div
 					className={styles['error-text']}
 				>
-					{error}
+					{error.message}
 				</div>
 			}
 

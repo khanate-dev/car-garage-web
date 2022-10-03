@@ -19,9 +19,13 @@
 	max-width: min(100%, 350px);
 	gap: var(--spacing-2);
 	padding: var(--spacing-3);
-	border-radius: var(--border-radius);
+	border-radius: var(--radius-1);
 	background-color: var(--background-dark);
 	border-style: var(--border-style);
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
+
+	& > a:last-child {
+		text-align: center;
+	}
 }
