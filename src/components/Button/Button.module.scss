@@ -5,6 +5,7 @@
 	--icon-fill: var(--contrast);
 
 	all: unset;
+	box-sizing: border-box;
 	cursor: pointer;
 	padding: var(--spacing-1) var(--spacing-2);
 	font-size: var(--font);

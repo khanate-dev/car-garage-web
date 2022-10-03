@@ -1,5 +1,7 @@
 import { cx } from 'helpers/class-name';
 
+import Loading from 'components/Loading';
+
 import { ButtonProps } from './Button.types';
 import styles from './Button.module.scss';
 
@@ -11,6 +13,7 @@ const Button = ({
 	variant = 'fill',
 	children,
 	onClick,
+	isLoading,
 	...buttonProps
 }: ButtonProps) => (
 	<button
@@ -27,8 +30,13 @@ const Button = ({
 			onClick?.(event);
 		}}
 	>
-		{icon}
-		{text ?? children}
+		{isLoading
+			? <Loading />
+			: <>
+				{icon}
+				{text ?? children}
+			</>
+		}
 	</button>
 );
 
