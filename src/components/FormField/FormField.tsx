@@ -9,7 +9,13 @@ import styles from './FormField.module.scss';
 
 const FormField = <Type extends Record<string, any>>({
 	className,
-	field,
+	field: {
+		name,
+		label,
+		description,
+		getHidden,
+		...field
+	},
 	error,
 	size = 'medium',
 	disabled,
@@ -21,16 +27,9 @@ const FormField = <Type extends Record<string, any>>({
 		setHideError(false);
 	}, [error]);
 
-
-	const {
-		label,
-		name,
-		description,
-	} = field;
-
 	const id = field.id ?? name as string;
 
-	const fieldProps = {
+	const commonProps = {
 		id,
 		name: name as string,
 		onChange: (
@@ -44,17 +43,17 @@ const FormField = <Type extends Record<string, any>>({
 		field.fieldType === 'input'
 			? <input
 				{...omitKey(field, 'fieldType')}
-				{...fieldProps}
+				{...commonProps}
 				disabled={disabled ?? field.disabled}
 			/>
 			: <select
 				{...omitKey(field, 'fieldType')}
-				{...fieldProps}
+				{...commonProps}
+				defaultValue=''
 				disabled={disabled ?? field.disabled}
 			>
 				<option
 					value=''
-					selected
 					disabled
 					hidden
 				>
