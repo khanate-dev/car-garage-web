@@ -39,9 +39,27 @@ export const {
 	makeTypeId: mongoIdSchema,
 	modelId: mongoIdSchema.optional(),
 	bodyTypeId: mongoIdSchema.optional(),
-
 });
 
 export type ProductSansMeta = z.infer<typeof productSansMetaModelSchema>;
 
 export type Product = z.infer<typeof productModelSchema>;
+
+export const productRequestSchema = productSansMetaModelSchema
+	.omit({ buyerId: true })
+	.extend({
+		minPrice: z.preprocess(
+			(value) => parseInt(z.string().parse(value)),
+			z.number().positive()
+		),
+		maxPrice: z.preprocess(
+			(value) => parseInt(z.string().parse(value)),
+			z.number().positive()
+		),
+	})
+	.refine(
+		({ minPrice, maxPrice }) => maxPrice >= minPrice,
+		'Maximum price must be bigger than or equal to minimum'
+	);
+
+export type ProductRequest = z.infer<typeof productRequestSchema>;
