@@ -1,6 +1,4 @@
-import { Link, ActionFunction, Form } from 'react-router-dom';
-
-import useFormError from 'hooks/form-error';
+import { Link, ActionFunction } from 'react-router-dom';
 
 import {
 	LoginRequest,
@@ -13,9 +11,7 @@ import { setSetting } from 'helpers/settings';
 import { getActionError } from 'helpers/route';
 
 import ThemeSwitch from 'components/ThemeSwitch';
-import FormField from 'components/FormField';
-import Button from 'components/Button';
-import Alert from 'components/Alert';
+import Form from 'components/Form';
 
 import { FormField as FormFieldType } from 'types/general';
 
@@ -65,7 +61,6 @@ export const loginAction: ActionFunction = async ({ request }) => {
 
 export const Login = () => {
 
-	const error = useFormError<LoginRequest>('login');
 
 	return (
 		<main
@@ -77,43 +72,22 @@ export const Login = () => {
 			/>
 
 			<Form
-				method='post'
 				className={styles['form']}
-			>
-
-				<h1>Car Garage</h1>
-				<p>Welcome! Login below</p>
-
-				{fields.map(field =>
-					<FormField
-						key={field.name}
-						field={field}
-						error={error?.errors?.[field.name]}
-					/>
-				)}
-
-				{error.type === 'general' &&
-					<Alert
-						message={error.message}
-						size='small'
-						color='danger'
-					/>
+				page='login'
+				title='Car Garage'
+				subtitle='Welcome! Login below'
+				fields={fields}
+				footer={
+					<Link
+						to='/register'
+					>
+						{'New Here? Register'}
+					</Link>
 				}
+				noGrid
+			/>
 
-				<Button
-					text='Submit'
-					type='submit'
-				/>
-
-				<Link
-					to='/register'
-				>
-					{'New Here? Register'}
-				</Link>
-
-			</Form>
-
-		</main>
+		</main >
 	);
 
 };
