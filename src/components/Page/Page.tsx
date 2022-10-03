@@ -57,7 +57,7 @@ const Page = ({
 				className={cx(
 					styles['body'],
 					isEmpty && styles['empty'],
-					isGridView && styles['grid'],
+					!isEmpty && isGridView && styles['grid'],
 					className
 				)}
 			>
