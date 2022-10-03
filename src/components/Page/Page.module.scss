@@ -5,14 +5,20 @@
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+}
 
-	:global {
-		animation: show-area var(--transition);
-	}
+.header {
+	display: flex;
+	align-items: center;
+	padding: var(--spacing-1);
+	gap: var(--spacing-2);
+	background-color: var(--background-slight-dark);
+	border-color: var(--background-darker);
+	border-bottom-width: var(--border-width);
+	border-bottom-style: var(--border-style);
 
 	& > h1 {
 		margin: 0;
-		padding: var(--spacing-1);
 		flex-shrink: 0;
 		font-weight: 500;
 		color: var(--foreground-darker);
@@ -35,7 +41,7 @@
 		animation: show-area var(--transition);
 	}
 
-	& > .empty {
+	&.empty {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

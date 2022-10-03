@@ -2,33 +2,72 @@ import { cx } from 'helpers/class-name';
 
 import { PageProps } from './Page.types';
 import styles from './Page.module.scss';
+import Button from 'components/Button';
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 const Page = ({
 	title,
 	className,
 	isEmpty,
+	hasAdd,
+	hasBack,
 	children,
 }: PageProps) => {
+
+	const navigate = useNavigate();
+	const { location } = useNavigation();
 
 	return (
 		<main
 			className={styles['main']}
 		>
-			<h1>{title}</h1>
+
+			<header
+				className={styles['header']}
+			>
+
+				<h1>{title}</h1>
+
+				{hasAdd &&
+					<Button
+						variant='outline'
+						color='primary'
+						text='Add New'
+						size='small'
+						onClick={() => navigate('add')}
+						isLoading={Boolean(location)}
+					/>
+				}
+
+				{hasBack &&
+					<Button
+						variant='outline'
+						color='primary'
+						text='Back'
+						size='small'
+						onClick={() => navigate(-1)}
+						isLoading={Boolean(location)}
+					/>
+				}
+
+			</header>
+
 			<div
 				className={cx(
 					styles['body'],
+					isEmpty && styles['empty'],
 					className
 				)}
 			>
 				{children}
 				{isEmpty &&
-					<div className={styles['empty']}>
+					<>
 						<h1>Nothing to see here!</h1>
-						<p>No {title} entries have been added yet</p>
-					</div>
+						<p>No {title} have been added yet</p>
+					</>
 				}
 			</div>
+
 		</main>
 	);
 

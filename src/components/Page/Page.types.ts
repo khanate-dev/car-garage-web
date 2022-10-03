@@ -13,4 +13,10 @@ export interface PageProps {
 
 	children: ReactNode,
 
+	/** should the page have a navigation button for add form? */
+	hasAdd?: boolean,
+
+	/** should the page have a back navigation button? */
+	hasBack?: boolean,
+
 }
