@@ -1,5 +1,9 @@
 import { useReducer } from 'react';
 import { NavLink, useLoaderData } from 'react-router-dom';
+import {
+	ChevronLeftIcon as BackIcon,
+	SignOutIcon as LogoutIcon,
+} from '@primer/octicons-react';
 
 import { UserSansPassword } from 'schemas/user';
 
@@ -10,11 +14,9 @@ import Logo from 'components/Logo/Logo';
 import Avatar from 'components/Avatar';
 import IconButton from 'components/IconButton';
 
-import { ReactComponent as BackIcon } from 'icons/back.svg';
-import { ReactComponent as LogoutIcon } from 'icons/logout.svg';
-
 import styles from './Sidebar.module.scss';
 import { SidebarProps } from './Sidebar.types';
+import { dashboardRoutes } from 'App';
 
 const Sidebar = ({
 	onLogout,
@@ -96,60 +98,20 @@ const Sidebar = ({
 			<ul
 				className={styles['page-list']}
 			>
-				<li
-					className={isMinimized ? styles['minimized'] : undefined}
-				>
-					<NavLink
-						to='/'
+				{dashboardRoutes.map(route =>
+					<li
+						key={route.path ?? route.label}
+						className={isMinimized ? styles['minimized'] : undefined}
 					>
-						<BackIcon />
-						<p>Overview</p>
-					</NavLink>
-				</li>
+						<NavLink
+							to={route.path}
+						>
+							{route.icon}
+							<p>{route.label}</p>
+						</NavLink>
+					</li>
 
-				<li
-					className={isMinimized ? styles['minimized'] : undefined}
-				>
-					<NavLink
-						to='/products'
-					>
-						<BackIcon />
-						<p>Products</p>
-					</NavLink>
-				</li>
-
-				<li
-					className={isMinimized ? styles['minimized'] : undefined}
-				>
-					<NavLink
-						to='/make-types'
-					>
-						<BackIcon />
-						<p>Make Types</p>
-					</NavLink>
-				</li>
-
-				<li
-					className={isMinimized ? styles['minimized'] : undefined}
-				>
-					<NavLink
-						to='/models'
-					>
-						<BackIcon />
-						<p>Models</p>
-					</NavLink>
-				</li>
-
-				<li
-					className={isMinimized ? styles['minimized'] : undefined}
-				>
-					<NavLink
-						to='/body-types'
-					>
-						<BackIcon />
-						<p>Body Types</p>
-					</NavLink>
-				</li>
+				)}
 			</ul>
 
 		</aside>

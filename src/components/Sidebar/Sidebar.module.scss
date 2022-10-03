@@ -119,6 +119,7 @@ button.flipped {
 				height: 30px;
 				flex-shrink: 0;
 				transition: width var(--transition);
+				padding: var(--spacing-0);
 
 				& > path {
 					fill: var(--accent);
