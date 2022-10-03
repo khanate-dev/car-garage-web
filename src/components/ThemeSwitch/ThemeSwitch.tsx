@@ -1,11 +1,10 @@
+import { MoonIcon, SunIcon } from '@primer/octicons-react';
+
 import { useDarkMode } from 'contexts/dark-mode';
 
 import { cx } from 'helpers/class-name';
 
 import IconButton from 'components/IconButton';
-
-import { ReactComponent as LightModeIcon } from 'icons/light-mode.svg';
-import { ReactComponent as DarkModeIcon } from 'icons/dark-mode.svg';
 
 import { ThemeSwitchProps } from './ThemeSwitch.types';
 import styles from './ThemeSwitch.module.scss';
@@ -27,10 +26,10 @@ const ThemeSwitch = ({
 			onClick={toggleDarkMode}
 			icon={
 				<>
-					<LightModeIcon
+					<SunIcon
 						className={styles['light-icon']}
 					/>
-					<DarkModeIcon
+					<MoonIcon
 						className={styles['dark-icon']}
 					/>
 				</>
