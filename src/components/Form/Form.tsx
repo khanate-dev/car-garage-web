@@ -1,5 +1,9 @@
 import { Fragment } from 'react';
-import { Form as RouterForm, useNavigation } from 'react-router-dom';
+import {
+	Form as RouterForm,
+	useLoaderData,
+	useNavigation,
+} from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
@@ -11,8 +15,9 @@ import Button from 'components/Button';
 
 import { FormProps } from './Form.types';
 import styles from './Form.module.scss';
+import { SelectOptions } from 'types/general';
 
-const Form = ({
+const Form = <Type extends Record<string, any>>({
 	className,
 	page,
 	title,
@@ -21,16 +26,21 @@ const Form = ({
 	footer,
 	noGrid,
 	...routerProps
-}: FormProps) => {
+}: FormProps<Type>) => {
 
 	const { state } = useNavigation();
-	const error = useFormError(page);
+	const options = useLoaderData() as Record<keyof Type, SelectOptions>;
+	const error = useFormError(page, fields);
 
 	const FormContainer = (
 		noGrid
 			? Fragment
 			: 'div'
 	);
+	const formContainerProps = {
+		className: !noGrid ? styles['form-grid'] : undefined,
+	};
+	if (noGrid) delete formContainerProps.className;
 
 	return (
 		<RouterForm
@@ -47,15 +57,25 @@ const Form = ({
 			{subtitle && <p>{subtitle}</p>}
 
 			<FormContainer
-				className={styles['form-grid']}
+				{...formContainerProps}
 			>
-				{fields.map(field =>
-					<FormField
-						key={field.name}
+				{fields.map(field => {
+
+					if (
+						field.fieldType === 'select'
+						&& Array.isArray(options[field.name])
+					) {
+						field.options = options[field.name];
+					}
+
+					return <FormField
+						key={field.name as string}
 						field={field}
-						error={error?.errors?.[field.name]}
-					/>
-				)}
+						error={error?.errors?.[field.name as string]}
+						disabled={state !== 'idle'}
+					/>;
+
+				})}
 			</FormContainer>
 
 			{error.type === 'general' &&
