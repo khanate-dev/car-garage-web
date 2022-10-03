@@ -4,7 +4,7 @@ import { makeTypeModelSchema } from 'schemas/make-type';
 
 import { getRequest } from 'helpers/api';
 
-export const loadMakeTypes = async () => {
+export const getMakeTypes = async () => {
 	const makeTypes = await getRequest('make-type');
 	return z.array(makeTypeModelSchema).parse(makeTypes);
 };
