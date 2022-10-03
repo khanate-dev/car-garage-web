@@ -9,6 +9,7 @@ const Page = ({
 	title,
 	className,
 	isEmpty,
+	isGridView,
 	hasAdd,
 	hasBack,
 	children,
@@ -56,6 +57,7 @@ const Page = ({
 				className={cx(
 					styles['body'],
 					isEmpty && styles['empty'],
+					isGridView && styles['grid'],
 					className
 				)}
 			>

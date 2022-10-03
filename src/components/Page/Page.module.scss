@@ -61,4 +61,11 @@
 			margin: 0;
 		}
 	}
+
+	&.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		align-content: flex-start;
+		gap: var(--spacing-2);
+	}
 }
