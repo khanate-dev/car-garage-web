@@ -32,8 +32,20 @@ import {
 	MakeTypesAdd,
 	makeTypesAddAction,
 } from 'routes/dashboard/make-types';
-import { Models, modelsAction, modelsLoader } from 'routes/dashboard/model';
-import { BodyTypes, bodyTypesAction, bodyTypesLoader } from 'routes/dashboard/body-types';
+import {
+	ModelsAdd,
+	modelsAddAction,
+	modelsAddLoader,
+	ModelsView,
+	modelsViewLoader,
+} from 'routes/dashboard/model';
+import {
+	BodyTypesView,
+	bodyTypesViewLoader,
+	BodyTypesAdd,
+	bodyTypesAddLoader,
+	bodyTypesAddAction,
+} from 'routes/dashboard/body-types';
 
 import Providers from 'components/Providers';
 
@@ -101,19 +113,39 @@ export const dashboardRoutes: DashboardRoute[] = [
 	},
 	{
 		path: '/models',
-		element: <Models />,
-		loader: modelsLoader,
-		action: modelsAction,
 		errorElement: <ErrorBoundary />,
+		children: [
+			{
+				index: true,
+				element: <ModelsView />,
+				loader: modelsViewLoader,
+			},
+			{
+				path: 'add',
+				element: <ModelsAdd />,
+				loader: modelsAddLoader,
+				action: modelsAddAction,
+			},
+		],
 		label: 'Models',
 		icon: <ModelsIcon />,
 	},
 	{
 		path: '/body-types',
-		element: <BodyTypes />,
-		loader: bodyTypesLoader,
-		action: bodyTypesAction,
 		errorElement: <ErrorBoundary />,
+		children: [
+			{
+				index: true,
+				element: <BodyTypesView />,
+				loader: bodyTypesViewLoader,
+			},
+			{
+				path: 'add',
+				element: <BodyTypesAdd />,
+				loader: bodyTypesAddLoader,
+				action: bodyTypesAddAction,
+			},
+		],
 		label: 'Body Types',
 		icon: <BodTypesIcon />,
 	},

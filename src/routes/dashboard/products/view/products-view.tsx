@@ -23,9 +23,9 @@ export const ProductsView = () => {
 	return (
 		<Page
 			title='Products'
-			className={styles['container']}
 			isEmpty={products.length === 0}
 			hasAdd
+			isGridView
 		>
 			{products.map(({
 				_id,
