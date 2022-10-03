@@ -30,17 +30,15 @@ const fields: FormField<MakeTypeSansMeta>[] = [{
 	required: true,
 }];
 
-export const MakeTypesAdd = () => {
-	return (
-		<Page
-			title='Add Make Type'
-			hasBack
-		>
-			<Form
-				page='make-types-add'
-				fields={fields}
-				noGrid
-			/>
-		</Page>
-	);
-};
+export const MakeTypesAdd = () => (
+	<Page
+		title='Add Make Type'
+		hasBack
+	>
+		<Form
+			page='make-types-add'
+			fields={fields}
+			noGrid
+		/>
+	</Page>
+);

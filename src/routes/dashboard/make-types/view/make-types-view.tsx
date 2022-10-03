@@ -9,8 +9,6 @@ import { getMakeTypes } from 'endpoints/make-type';
 import Page from 'components/Page';
 import Card from 'components/Card';
 
-import styles from './make-types-view.module.scss';
-
 export const makeTypesViewLoader: LoaderFunction = getMakeTypes;
 
 export const MakeTypesView = () => {
@@ -22,17 +20,14 @@ export const MakeTypesView = () => {
 			title='Make Types'
 			isEmpty={makeTypes.length === 0}
 			hasAdd
+			isGridView
 		>
-			<div
-				className={styles['grid']}
-			>
-				{makeTypes.map(({ _id, name }) =>
-					<Card
-						key={_id}
-						title={name}
-					/>
-				)}
-			</div>
+			{makeTypes.map(({ _id, name }) =>
+				<Card
+					key={_id}
+					title={name}
+				/>
+			)}
 		</Page>
 	);
 
