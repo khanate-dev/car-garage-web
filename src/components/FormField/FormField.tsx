@@ -7,12 +7,13 @@ import { humanizeString } from 'helpers/string';
 import { FormFieldProps } from './FormField.types';
 import styles from './FormField.module.scss';
 
-const FormField = ({
+const FormField = <Type extends Record<string, any>>({
 	className,
 	field,
 	error,
 	size = 'medium',
-}: FormFieldProps) => {
+	disabled,
+}: FormFieldProps<Type>) => {
 
 	const [hideError, setHideError] = useState(false);
 
@@ -27,11 +28,11 @@ const FormField = ({
 		description,
 	} = field;
 
-	const id = field.id ?? name;
+	const id = field.id ?? name as string;
 
 	const fieldProps = {
 		id,
-		name,
+		name: name as string,
 		onChange: (
 			error && !hideError
 				? () => setHideError(true)
@@ -44,10 +45,12 @@ const FormField = ({
 			? <input
 				{...omitKey(field, 'fieldType')}
 				{...fieldProps}
+				disabled={disabled ?? field.disabled}
 			/>
 			: <select
 				{...omitKey(field, 'fieldType')}
 				{...fieldProps}
+				disabled={disabled ?? field.disabled}
 			>
 				{field.options.map(option => {
 					const value = (
@@ -84,12 +87,14 @@ const FormField = ({
 			<label
 				htmlFor={id}
 			>
-				{label ?? humanizeString(name)}
-				<span
-					className={styles.required}
-				>
-					*
-				</span>
+				{label ?? humanizeString(name as string)}
+				{field.required &&
+					<span
+						className={styles.required}
+					>
+						*
+					</span>
+				}
 			</label>
 
 			{fieldElement}
