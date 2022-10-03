@@ -16,6 +16,7 @@ import Button from 'components/Button';
 import { FormProps } from './Form.types';
 import styles from './Form.module.scss';
 import { SelectOptions } from 'types/general';
+import { ZapIcon as SubmitIcon } from '@primer/octicons-react';
 
 const Form = <Type extends Record<string, any>>({
 	className,
@@ -90,6 +91,7 @@ const Form = <Type extends Record<string, any>>({
 			<Button
 				text='Submit'
 				type='submit'
+				icon={<SubmitIcon />}
 				isLoading={state !== 'idle'}
 			/>
 
