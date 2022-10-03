@@ -4,6 +4,7 @@ import {
 	Product,
 	productCategoryColors,
 } from 'schemas/product';
+import { getProducts } from 'endpoints/product';
 
 import { formatDateTime } from 'helpers/date';
 import { humanizeString } from 'helpers/string';
@@ -11,12 +12,11 @@ import { humanizeString } from 'helpers/string';
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
 
-import styles from './products.module.scss';
-import { getProducts } from 'endpoints/product';
+import styles from './products-view.module.scss';
 
-export const productsLoader: LoaderFunction = getProducts;
+export const productsViewLoader: LoaderFunction = getProducts;
 
-export const Products = () => {
+export const ProductsView = () => {
 
 	const products = useLoaderData() as Product[];
 
