@@ -6,6 +6,10 @@
 	flex-direction: column;
 	overflow: hidden;
 
+	:global {
+		animation: show-area var(--transition);
+	}
+
 	& > h1 {
 		margin: 0;
 		padding: var(--spacing-1);
@@ -26,6 +30,10 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 	scroll-behavior: smooth;
+
+	:global {
+		animation: show-area var(--transition);
+	}
 
 	& > .empty {
 		display: flex;

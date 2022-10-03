@@ -4,6 +4,10 @@
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
+
+	:global {
+		animation: show-area var(--transition);
+	}
 }
 
 .theme-switch {
@@ -19,4 +23,8 @@ form.form {
 	border-style: var(--border-style);
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
+
+	:global {
+		animation: show-page var(--transition);
+	}
 }

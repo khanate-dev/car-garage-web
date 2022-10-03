@@ -1,11 +1,15 @@
 .button {
-	--size: calc(var(--font) * 2.5);
+	--size: calc(var(--font) * 2.8);
 	--contrast: var(--background);
 	--accent: var(--foreground);
 	--accent-light: var(--foreground-dark);
 	--icon-fill: var(--contrast);
 
 	all: unset;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border-radius: var(--radius);
 	width: var(--size);
 	height: var(--size);
@@ -34,8 +38,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: var(--size);
-		height: var(--size);
+		width: 100%;
+		height: 100%;
 		padding: var(--spacing-0);
 		aspect-ratio: 1;
 		transform-origin: 50% 100%;

@@ -1,10 +1,11 @@
 .container {
 	--speed: 0.5s;
-	--dot-size: calc(var(--font) * 0.5);
+	--dot-size: calc(var(--font) * 0.4);
 
 	display: flex;
-	padding: var(--spacing-0);
+	align-items: center;
 	gap: var(--spacing-0);
+	height: var(--font);
 }
 
 .dot {

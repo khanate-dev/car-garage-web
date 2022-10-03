@@ -246,3 +246,15 @@ input[type='radio'] {
 .column {
 	flex-direction: column;
 }
+
+@keyframes show-area {
+	from {
+		opacity: 0;
+		transform: translateY(var(--spacing-3));
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

@@ -4,6 +4,10 @@
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
+
+	:global {
+		animation: show-area 0.2s linear;
+	}
 }
 
 .theme-switch {

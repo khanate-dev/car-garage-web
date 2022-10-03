@@ -81,6 +81,7 @@ button.flipped {
 
 .page-list {
 	all: unset;
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -95,6 +96,7 @@ button.flipped {
 
 		display: flex;
 		all: unset;
+		box-sizing: border-box;
 
 		& > a {
 			all: unset;
@@ -125,6 +127,7 @@ button.flipped {
 
 			& > p {
 				all: unset;
+				box-sizing: border-box;
 				margin: 0;
 				font-size: 1em;
 				font-weight: 500;
