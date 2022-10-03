@@ -1,1 +1,2 @@
-export * from './body-types';
+export * from './view';
+export * from './add';
