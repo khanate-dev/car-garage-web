@@ -24,4 +24,7 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 	/** the style variant of the button @default 'fill' */
 	variant?: ButtonVariant,
 
+	/** should the button show loading spinner */
+	isLoading?: boolean,
+
 }

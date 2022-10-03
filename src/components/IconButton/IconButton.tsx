@@ -1,5 +1,7 @@
 import { cx } from 'helpers/class-name';
 
+import Loading from 'components/Loading';
+
 import { IconButtonProps } from './IconButton.types';
 import styles from './IconButton.module.scss';
 
@@ -11,6 +13,7 @@ const ThemeSwitch = ({
 	onClick,
 	variant = 'outline',
 	color = 'primary',
+	isLoading,
 	...buttonProps
 }: IconButtonProps) => (
 	<button
@@ -28,7 +31,10 @@ const ThemeSwitch = ({
 			onClick?.(event);
 		}}
 	>
-		{icon}
+		{isLoading
+			? <Loading size='tiny' button />
+			: icon
+		}
 	</button>
 );
 
