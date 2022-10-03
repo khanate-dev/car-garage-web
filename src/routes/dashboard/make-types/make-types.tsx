@@ -1,4 +1,10 @@
-import { ActionFunction, Form, LoaderFunction, useLoaderData } from 'react-router-dom';
+import { useReducer } from 'react';
+import {
+	ActionFunction,
+	Form,
+	LoaderFunction,
+	useLoaderData,
+} from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
@@ -7,22 +13,22 @@ import {
 	MakeTypeSansMeta,
 	makeTypeSansMetaModelSchema,
 } from 'schemas/make-type';
+import { getMakeTypes } from 'endpoints/make-type';
 
 import { postRequest } from 'helpers/api';
+import { getActionError } from 'helpers/route';
 
 import Page from 'components/Page';
 import Card from 'components/Card';
+import Button from 'components/Button';
+import FormField from 'components/FormField';
+import Alert from 'components/Alert';
+
+import { FormField as FormFieldType } from 'types/general';
 
 import styles from './make-types.module.scss';
-import Button from 'components/Button';
-import { useReducer } from 'react';
-import FormField from 'components/FormField';
-import { FormField as FormFieldType } from 'types/general';
-import { getActionError } from 'helpers/route';
-import Alert from 'components/Alert';
-import { loadMakeTypes } from 'endpoints/make-type';
 
-export const makeTypesLoader: LoaderFunction = loadMakeTypes;
+export const makeTypesLoader: LoaderFunction = getMakeTypes;
 
 export const makeTypesAction: ActionFunction = async ({ request }) => {
 	try {
@@ -47,7 +53,7 @@ const field: FormFieldType<MakeTypeSansMeta> = {
 
 export const MakeTypes = () => {
 
-	const error = useFormError<MakeTypeSansMeta>('make-types');
+	const error = useFormError<MakeTypeSansMeta>('make-types', []);
 	const [isAdding, toggleIsAdding] = useReducer((prev) => !prev, false);
 
 	const makeTypes = useLoaderData() as MakeType[];

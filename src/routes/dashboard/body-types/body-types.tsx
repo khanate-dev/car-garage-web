@@ -15,8 +15,8 @@ import {
 } from 'schemas/body-type';
 
 import { Model } from 'schemas/model';
-import { loadBodyTypes } from 'endpoints/body-type';
-import { fetchModels } from 'endpoints/model';
+import { getBodyTypes } from 'endpoints/body-type';
+import { getModels } from 'endpoints/model';
 
 import { postRequest } from 'helpers/api';
 import { getActionError } from 'helpers/route';
@@ -34,7 +34,7 @@ import styles from './body-types.module.scss';
 
 
 export const bodyTypesLoader: LoaderFunction = async () => {
-	return [(await loadBodyTypes()), (await fetchModels())];
+	return [(await getBodyTypes()), (await getModels())];
 };
 
 export const bodyTypesAction: ActionFunction = async ({ request }) => {
@@ -70,7 +70,7 @@ const modelField: FormFieldType<BodyTypeSansMeta> = {
 
 export const BodyTypes = () => {
 
-	const error = useFormError<BodyTypeSansMeta>('body-types');
+	const error = useFormError<BodyTypeSansMeta>('body-types', []);
 	const [isAdding, toggleIsAdding] = useReducer((prev) => !prev, false);
 
 	const [bodyTypes, models] = useLoaderData() as [BodyType[], Model[]];

@@ -21,13 +21,13 @@ import { FormField as FormFieldType } from 'types/general';
 import { getActionError } from 'helpers/route';
 import Alert from 'components/Alert';
 import { humanizeString } from 'helpers/string';
-import { loadMakeTypes } from 'endpoints/make-type';
+import { getMakeTypes } from 'endpoints/make-type';
 import { MakeType } from 'schemas/make-type';
-import { fetchModels } from 'endpoints/model';
+import { getModels } from 'endpoints/model';
 
 
 export const modelsLoader: LoaderFunction = async () => {
-	return [(await fetchModels()), (await loadMakeTypes())];
+	return [(await getModels()), (await getMakeTypes())];
 };
 
 export const modelsAction: ActionFunction = async ({ request }) => {
@@ -72,7 +72,7 @@ const makeTypeField: FormFieldType<ModelSansMeta> = {
 
 export const Models = () => {
 
-	const error = useFormError<ModelSansMeta>('models');
+	const error = useFormError<ModelSansMeta>('models', []);
 	const [isAdding, toggleIsAdding] = useReducer((prev) => !prev, false);
 
 	const [models, makeTypes] = useLoaderData() as [Model[], MakeType[]];

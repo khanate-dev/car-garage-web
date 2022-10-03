@@ -3,6 +3,7 @@ import { ZodError } from 'zod';
 import { readableTypeOf } from 'helpers/type';
 
 import { FormFieldErrors } from './form.error.types';
+import { FormField } from 'types/general';
 
 class FormError<Form extends Record<string, any>> extends Error {
 
@@ -12,8 +13,9 @@ class FormError<Form extends Record<string, any>> extends Error {
 	/** the type of form error */
 	type: 'general' | 'field' | 'none' = 'none';
 
-	constructor(error: any) {
+	constructor(fields: FormField<Form>[], error: any) {
 
+		const fieldNames = fields.map(field => field.name);
 		const type = (
 			!error
 				? 'none'
@@ -22,7 +24,8 @@ class FormError<Form extends Record<string, any>> extends Error {
 						error instanceof ZodError
 						&& error.issues.every(issue =>
 							issue.code !== 'custom'
-							&& issue.path.length > 0
+							&& issue.path.length !== 1
+							&& !fieldNames.includes(issue.path[0] as string)
 						)
 					)
 					|| (
