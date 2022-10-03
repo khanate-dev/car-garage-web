@@ -44,19 +44,16 @@ const fields: FormField<ProductSansMeta>[] = [
 	{
 		name: 'makeTypeId',
 		fieldType: 'select',
-		options: [],
 		required: true,
 	},
 	{
 		name: 'modelId',
 		fieldType: 'select',
-		options: [],
 		getHidden: ({ category }) => category === 'auto-parts',
 	},
 	{
 		name: 'bodyTypeId',
 		fieldType: 'select',
-		options: [],
 		getHidden: ({ category }) => category === 'auto-parts',
 	},
 	{

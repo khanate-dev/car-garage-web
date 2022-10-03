@@ -102,7 +102,7 @@ export interface SelectFormField<
 	fieldType: 'select',
 
 	/** the select fields allowed options */
-	options: SelectOptions,
+	options?: SelectOptions,
 
 }
 

@@ -13,14 +13,14 @@ import { Register, registerAction } from 'routes/register';
 import { Dashboard } from 'routes/dashboard';
 import { Overview, overviewLoader } from 'routes/dashboard/overview';
 import { Products, productsLoader } from 'routes/dashboard/products';
-
-import Providers from 'components/Providers';
-
-import 'theme';
 import { MakeTypes, makeTypesAction, makeTypesLoader } from 'routes/dashboard/make-types';
 import { Models, modelsAction, modelsLoader } from 'routes/dashboard/model';
 import { BodyTypes, bodyTypesAction, bodyTypesLoader } from 'routes/dashboard/body-types';
 import { ProductAdd, productAddAction, productAddLoader } from 'routes/dashboard/product-add';
+
+import Providers from 'components/Providers';
+
+import 'theme';
 
 const redirectIfNotUserLoader: LoaderFunction = async () => {
 	const user = getSetting('user');
