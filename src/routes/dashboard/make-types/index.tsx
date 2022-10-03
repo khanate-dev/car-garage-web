@@ -1,1 +1,2 @@
-export * from './make-types';
+export * from './view';
+export * from './add';
