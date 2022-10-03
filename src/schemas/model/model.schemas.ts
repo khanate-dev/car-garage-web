@@ -15,10 +15,21 @@ export const {
 	}),
 });
 
-export const createModelSchema = modelSansMetaModelSchema.omit({
-	makeType: true,
-});
-
 export type ModelSansMeta = z.infer<typeof modelSansMetaModelSchema>;
 
 export type Model = z.infer<typeof modelModelSchema>;
+
+export const createModelSchema = modelSansMetaModelSchema
+	.omit({ makeType: true })
+	.extend({
+		year: z.preprocess(
+			(value) => parseInt(z.string().parse(value)),
+			z.number().positive()
+		),
+	});
+
+export type CreateModel = z.infer<typeof createModelSchema>;
+
+export const createModelResponseSchema = modelModelSchema.omit({ makeType: true });
+
+export type CreateModelResponse = z.infer<typeof createModelResponseSchema>;

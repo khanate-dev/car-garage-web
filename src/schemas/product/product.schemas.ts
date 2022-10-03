@@ -45,7 +45,7 @@ export type ProductSansMeta = z.infer<typeof productSansMetaModelSchema>;
 
 export type Product = z.infer<typeof productModelSchema>;
 
-export const productRequestSchema = productSansMetaModelSchema
+export const createProductSchema = productSansMetaModelSchema
 	.omit({ buyerId: true })
 	.extend({
 		minPrice: z.preprocess(
@@ -62,4 +62,4 @@ export const productRequestSchema = productSansMetaModelSchema
 		'Maximum price must be bigger than or equal to minimum'
 	);
 
-export type ProductRequest = z.infer<typeof productRequestSchema>;
+export type CreateProduct = z.infer<typeof createProductSchema>;

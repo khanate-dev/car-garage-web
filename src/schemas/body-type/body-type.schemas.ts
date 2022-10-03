@@ -19,10 +19,16 @@ export const {
 	}),
 });
 
+export type BodyTypeSansMeta = z.infer<typeof bodyTypeSansMetaModelSchema>;
+
+export type BodyType = z.infer<typeof bodyTypeModelSchema>;
+
 export const createBodyTypeSchema = bodyTypeSansMetaModelSchema.omit({
 	model: true,
 });
 
-export type BodyTypeSansMeta = z.infer<typeof bodyTypeSansMetaModelSchema>;
+export type CreateBodyType = z.infer<typeof createBodyTypeSchema>;
 
-export type BodyType = z.infer<typeof bodyTypeModelSchema>;
+export const createBodyTypeResponseSchema = bodyTypeModelSchema.omit({ model: true });
+
+export type CreateBodyTypeResponse = z.infer<typeof createBodyTypeResponseSchema>;
