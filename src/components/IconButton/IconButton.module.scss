@@ -49,8 +49,8 @@
 		top: 0;
 		left: 0;
 
-		& > path {
-			fill: var(--primary);
+		& * {
+			fill: var(--icon-fill);
 		}
 	}
 
@@ -61,17 +61,9 @@
 		border-color: var(--accent);
 		color: var(--accent-contrast);
 
-		& > svg > path {
-			fill: var(--contrast);
-		}
-
 		&:hover,
 		&:focus {
 			background-color: var(--accent-light);
-
-			& > svg > path {
-				fill: var(--contrast);
-			}
 		}
 	}
 
@@ -87,10 +79,6 @@
 
 			background-color: var(--accent);
 			color: var(--accent-contrast);
-
-			& > svg > path {
-				fill: var(--contrast);
-			}
 		}
 	}
 

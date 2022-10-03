@@ -38,7 +38,7 @@
 	& > svg {
 		width: 1.5em;
 
-		& > * {
+		& * {
 			transition: fill var(--transition);
 			fill: var(--icon-fill);
 		}
