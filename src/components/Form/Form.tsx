@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Form as RouterForm } from 'react-router-dom';
+import { Form as RouterForm, useNavigation } from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
@@ -23,6 +23,7 @@ const Form = ({
 	...routerProps
 }: FormProps) => {
 
+	const { state } = useNavigation();
 	const error = useFormError(page);
 
 	const FormContainer = (
@@ -68,6 +69,7 @@ const Form = ({
 			<Button
 				text='Submit'
 				type='submit'
+				isLoading={state !== 'idle'}
 			/>
 
 			{footer}
