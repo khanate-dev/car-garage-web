@@ -16,7 +16,7 @@
 	right: var(--spacing-2);
 }
 
-.form {
+form.form {
 	max-width: min(100%, 700px);
 	flex-grow: 0;
 	background-color: var(--background-dark);
@@ -24,4 +24,11 @@
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
 	width: min(100%, 575px);
+	gap: var(--spacing-1);
+	padding: var(--spacing-2);
+
+	& > div {
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--spacing-2);
+	}
 }

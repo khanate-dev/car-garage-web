@@ -63,9 +63,9 @@ const Form = <Type extends Record<string, any>>({
 
 					if (
 						field.fieldType === 'select'
-						&& Array.isArray(options[field.name])
+						&& Array.isArray(options?.[field.name])
 					) {
-						field.options = options[field.name];
+						field.options = options?.[field.name];
 					}
 
 					return <FormField
