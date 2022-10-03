@@ -3,7 +3,7 @@ import { z } from 'zod';
 import {
 	Product,
 	productModelSchema,
-	productRequestSchema,
+	createProductSchema,
 } from 'schemas/product';
 
 import { getRequest, postRequest } from 'helpers/api';
@@ -17,7 +17,7 @@ export const getProducts = async (): Promise<Product[]> => {
 export const createProduct = async (
 	formData: FormData
 ): Promise<Product> => {
-	const json = productRequestSchema.parse({
+	const json = createProductSchema.parse({
 		...Object.fromEntries(formData),
 		sellerId: getSetting('user')?._id,
 	});
