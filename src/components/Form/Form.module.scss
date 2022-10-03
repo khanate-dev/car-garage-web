@@ -13,6 +13,6 @@
 .form-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: var(--spacing-1);
+	gap: var(--spacing-2);
 	margin-block: var(--spacing-2);
 }

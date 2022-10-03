@@ -1,1 +1,1 @@
-export * from './make-type.helpers';
+export * from './make-type.endpoints';

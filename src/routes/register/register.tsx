@@ -1,13 +1,10 @@
 import { Link, ActionFunction, redirect } from 'react-router-dom';
 
-import {
-	RegisterRequest,
-	registerRequestSchema,
-	registerResponseSchema,
-} from 'schemas/auth';
+import { RegisterRequest } from 'schemas/auth';
 import { userRoles } from 'schemas/user';
+import { createUser } from 'endpoints/user';
 
-import { postRequest } from 'helpers/api';
+import { getActionError } from 'helpers/route';
 
 import ThemeSwitch from 'components/ThemeSwitch';
 import Form from 'components/Form';
@@ -15,7 +12,6 @@ import Form from 'components/Form';
 import { FormField as FormFieldType } from 'types/general';
 
 import styles from './register.module.scss';
-import { getActionError } from 'helpers/route';
 
 const fields: FormFieldType<RegisterRequest>[] = [
 	{
@@ -60,11 +56,7 @@ const fields: FormFieldType<RegisterRequest>[] = [
 export const registerAction: ActionFunction = async ({ request }) => {
 	try {
 		const formData = await request.formData();
-		const json = registerRequestSchema.parse(Object.fromEntries(formData));
-
-		const response = await postRequest('user', json, true);
-		registerResponseSchema.parse(response);
-
+		await createUser(formData);
 		return redirect('/login');
 	}
 	catch (error: any) {

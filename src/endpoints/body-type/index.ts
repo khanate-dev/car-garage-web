@@ -1,1 +1,1 @@
-export * from './body-type.helpers';
+export * from './body-type.endpoints';

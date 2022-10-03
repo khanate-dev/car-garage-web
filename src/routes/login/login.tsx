@@ -1,12 +1,8 @@
 import { Link, ActionFunction } from 'react-router-dom';
 
-import {
-	LoginRequest,
-	loginRequestSchema,
-	loginResponseSchema,
-} from 'schemas/auth';
+import { LoginRequest } from 'schemas/auth';
+import { createSession } from 'endpoints/session';
 
-import { postRequest } from 'helpers/api';
 import { setSetting } from 'helpers/settings';
 import { getActionError } from 'helpers/route';
 
@@ -36,19 +32,10 @@ const fields: FormFieldType<LoginRequest>[] = [
 export const loginAction: ActionFunction = async ({ request }) => {
 	try {
 		const formData = await request.formData();
-		const json = loginRequestSchema.parse(Object.fromEntries(formData));
-
-		const response = await postRequest('session', json, true);
-
-		const {
-			user,
-			accessToken,
-			refreshToken,
-		} = loginResponseSchema.parse(response);
-
-		setSetting('user', user);
-		setSetting('accessToken', accessToken);
-		setSetting('refreshToken', refreshToken);
+		const session = await createSession(formData);
+		setSetting('user', session.user);
+		setSetting('accessToken', session.accessToken);
+		setSetting('refreshToken', session.refreshToken);
 		return null;
 	}
 	catch (error: any) {
@@ -60,7 +47,6 @@ export const loginAction: ActionFunction = async ({ request }) => {
 };
 
 export const Login = () => {
-
 
 	return (
 		<main

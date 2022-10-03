@@ -23,11 +23,11 @@ import Alert from 'components/Alert';
 import { humanizeString } from 'helpers/string';
 import { loadMakeTypes } from 'endpoints/make-type';
 import { MakeType } from 'schemas/make-type';
-import { loadModels } from 'endpoints/model';
+import { fetchModels } from 'endpoints/model';
 
 
 export const modelsLoader: LoaderFunction = async () => {
-	return [(await loadModels()), (await loadMakeTypes())];
+	return [(await fetchModels()), (await loadMakeTypes())];
 };
 
 export const modelsAction: ActionFunction = async ({ request }) => {

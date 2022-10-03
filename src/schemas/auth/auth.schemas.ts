@@ -2,7 +2,10 @@ import { z } from 'zod';
 
 import { JWT_REGEX } from 'config';
 
-import { userSansMetaModelSchema, userSansPasswordModelSchema } from 'schemas/user';
+import {
+	userSansMetaModelSchema,
+	userSansPasswordModelSchema,
+} from 'schemas/user';
 
 export const jwtSchema = z.string().regex(JWT_REGEX);
 
@@ -18,6 +21,8 @@ export const loginResponseSchema = z.strictObject({
 	accessToken: jwtSchema,
 	refreshToken: jwtSchema,
 });
+
+export type LoginResponse = z.infer<typeof loginResponseSchema>;
 
 export const registerRequestSchema = userSansMetaModelSchema.extend({
 	passwordConfirmation: z.string().min(6),

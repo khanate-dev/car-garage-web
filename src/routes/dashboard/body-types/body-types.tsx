@@ -1,34 +1,40 @@
-import { ActionFunction, Form, LoaderFunction, useLoaderData } from 'react-router-dom';
+import { useReducer } from 'react';
+import {
+	ActionFunction,
+	Form,
+	LoaderFunction,
+	useLoaderData,
+} from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
 import {
 	BodyType,
 	BodyTypeSansMeta,
-	bodyTypeSansMetaModelSchema,
 	createBodyTypeSchema,
 } from 'schemas/body-type';
 
+import { Model } from 'schemas/model';
+import { loadBodyTypes } from 'endpoints/body-type';
+import { fetchModels } from 'endpoints/model';
+
 import { postRequest } from 'helpers/api';
+import { getActionError } from 'helpers/route';
+import { humanizeString } from 'helpers/string';
 
 import Page from 'components/Page';
 import Card from 'components/Card';
+import Button from 'components/Button';
+import FormField from 'components/FormField';
+import Alert from 'components/Alert';
+
+import { FormField as FormFieldType } from 'types/general';
 
 import styles from './body-types.module.scss';
-import Button from 'components/Button';
-import { useReducer } from 'react';
-import FormField from 'components/FormField';
-import { FormField as FormFieldType } from 'types/general';
-import { getActionError } from 'helpers/route';
-import Alert from 'components/Alert';
-import { loadBodyTypes } from 'endpoints/body-type';
-import { loadModels } from 'endpoints/model';
-import { Model } from 'schemas/model';
-import { humanizeString } from 'helpers/string';
 
 
 export const bodyTypesLoader: LoaderFunction = async () => {
-	return [(await loadBodyTypes()), (await loadModels())];
+	return [(await loadBodyTypes()), (await fetchModels())];
 };
 
 export const bodyTypesAction: ActionFunction = async ({ request }) => {
