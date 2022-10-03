@@ -13,27 +13,11 @@
 }
 
 .form {
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
 	max-width: min(100%, 700px);
-	gap: var(--spacing-1);
-	padding: var(--spacing-3);
-	border-radius: var(--radius-1);
+	flex-grow: 0;
 	background-color: var(--background-dark);
 	border-style: var(--border-style);
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
 	width: min(100%, 575px);
-
-	& > a:last-child {
-		text-align: center;
-	}
-}
-
-.fields {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: var(--spacing-1);
-	margin-block: var(--spacing-2);
 }

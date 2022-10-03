@@ -1,6 +1,4 @@
-import { Link, ActionFunction, redirect, Form } from 'react-router-dom';
-
-import useFormError from 'hooks/form-error';
+import { Link, ActionFunction, redirect } from 'react-router-dom';
 
 import {
 	RegisterRequest,
@@ -12,9 +10,7 @@ import { userRoles } from 'schemas/user';
 import { postRequest } from 'helpers/api';
 
 import ThemeSwitch from 'components/ThemeSwitch';
-import Button from 'components/Button';
-import FormField from 'components/FormField';
-import Alert from 'components/Alert';
+import Form from 'components/Form';
 
 import { FormField as FormFieldType } from 'types/general';
 
@@ -81,8 +77,6 @@ export const registerAction: ActionFunction = async ({ request }) => {
 
 export const Register = () => {
 
-	const error = useFormError<RegisterRequest>('register');
-
 	return (
 		<main
 			className={styles['container']}
@@ -93,45 +87,19 @@ export const Register = () => {
 			/>
 
 			<Form
-				method='post'
 				className={styles['form']}
-			>
-
-				<h1>Car Garage</h1>
-				<p>Welcome! Register below</p>
-
-				<div
-					className={styles['fields']}
-				>
-					{fields.map(field =>
-						<FormField
-							key={field.name}
-							field={field}
-							error={error?.errors?.[field.name]}
-						/>
-					)}
-				</div>
-
-				{error.type === 'general' &&
-					<Alert
-						message={error.message}
-						size='small'
-						color='danger'
-					/>
+				page='register'
+				title='Car Garage'
+				subtitle='Welcome! Register below'
+				fields={fields}
+				footer={
+					<Link
+						to='/login'
+					>
+						Have An Account? Login here
+					</Link>
 				}
-
-				<Button
-					text='Submit'
-					type='submit'
-				/>
-
-				<Link
-					to='/login'
-				>
-					Have An Account? Login here
-				</Link>
-
-			</Form>
+			/>
 
 		</main>
 	);
