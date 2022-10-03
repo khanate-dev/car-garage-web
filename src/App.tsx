@@ -20,6 +20,7 @@ import 'theme';
 import { MakeTypes, makeTypesAction, makeTypesLoader } from 'routes/dashboard/make-types';
 import { Models, modelsAction, modelsLoader } from 'routes/dashboard/model';
 import { BodyTypes, bodyTypesAction, bodyTypesLoader } from 'routes/dashboard/body-types';
+import { ProductAdd, productAddAction, productAddLoader } from 'routes/dashboard/product-add';
 
 const redirectIfNotUserLoader: LoaderFunction = async () => {
 	const user = getSetting('user');
@@ -50,6 +51,13 @@ const router = createBrowserRouter([
 				path: '/products',
 				element: <Products />,
 				loader: productsLoader,
+				errorElement: <ErrorBoundary />,
+			},
+			{
+				path: '/products/add',
+				element: <ProductAdd />,
+				loader: productAddLoader,
+				action: productAddAction,
 				errorElement: <ErrorBoundary />,
 			},
 			{

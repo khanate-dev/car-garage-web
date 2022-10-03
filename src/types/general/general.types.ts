@@ -67,6 +67,9 @@ export interface BaseFormField<Form extends Record<string, any>> {
 	/** additional information about the field */
 	description?: ReactNode,
 
+	/** checks if the field should be hidden? */
+	getHidden?: (state: Form) => boolean,
+
 }
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement>;
@@ -84,6 +87,11 @@ export interface InputFormField<
 
 export type SelectProps = SelectHTMLAttributes<HTMLSelectElement>;
 
+export type SelectOptions = string[] | {
+	value: number | string,
+	label: ReactNode,
+}[];
+
 export interface SelectFormField<
 	Form extends Record<string, any>
 > extends
@@ -94,10 +102,7 @@ export interface SelectFormField<
 	fieldType: 'select',
 
 	/** the select fields allowed options */
-	options: string[] | {
-		value: number | string,
-		label: ReactNode,
-	}[],
+	options: SelectOptions,
 
 }
 
