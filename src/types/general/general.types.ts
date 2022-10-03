@@ -1,8 +1,10 @@
 import {
 	InputHTMLAttributes,
+	ReactElement,
 	ReactNode,
 	SelectHTMLAttributes,
 } from 'react';
+import { RouteObject } from 'react-router-dom';
 import { UserSansPassword } from 'schemas/user';
 
 export const themeColors = [
@@ -132,4 +134,17 @@ export type Corner = typeof corners[number];
 export interface ActionError {
 	source: string,
 	error: Error,
+}
+
+export interface DashboardRoute extends RouteObject {
+
+	/** the route path  */
+	path: string,
+
+	/** the label to show for the route in the sidebar */
+	label: string,
+
+	/** the icon to use for the route in the sidebar */
+	icon: ReactElement,
+
 }

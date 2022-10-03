@@ -59,12 +59,12 @@ const Page = ({
 					className
 				)}
 			>
-				{children}
-				{isEmpty &&
-					<>
+				{isEmpty
+					? <>
 						<h1>Nothing to see here!</h1>
 						<p>No {title} have been added yet</p>
 					</>
+					: children
 				}
 			</div>
 

@@ -1,10 +1,9 @@
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+import { SignOutIcon as LogoutIcon } from '@primer/octicons-react';
 
 import { invalidateUser } from 'helpers/events';
 
 import Button from 'components/Button';
-
-import { ReactComponent as LogoutIcon } from 'icons/logout.svg';
 
 import styles from './error.module.scss';
 
