@@ -1,7 +1,7 @@
 import { cx } from 'helpers/class-name';
 
 import { LoadingProps } from './Loading.types';
-import styles from './DotWave.module.scss';
+import styles from './Loading.module.scss';
 
 const Loading = ({
 	size = 'medium',
