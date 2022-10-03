@@ -91,12 +91,10 @@ const fields: FormField<ProductSansMeta>[] = [
 	{
 		name: 'modelId',
 		fieldType: 'select',
-		getHidden: ({ category }) => category === 'auto-parts',
 	},
 	{
 		name: 'bodyTypeId',
 		fieldType: 'select',
-		getHidden: ({ category }) => category === 'auto-parts',
 	},
 	{
 		name: 'isFeatured',

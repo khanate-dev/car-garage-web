@@ -13,7 +13,6 @@ const FormField = <Type extends Record<string, any>>({
 		name,
 		label,
 		description,
-		getHidden,
 		...field
 	},
 	error,

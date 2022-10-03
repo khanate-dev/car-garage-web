@@ -12,8 +12,6 @@ import { humanizeString } from 'helpers/string';
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
 
-import styles from './products-view.module.scss';
-
 export const productsViewLoader: LoaderFunction = getProducts;
 
 export const ProductsView = () => {

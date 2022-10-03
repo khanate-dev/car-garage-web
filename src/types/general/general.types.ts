@@ -69,9 +69,6 @@ export interface BaseFormField<Form extends Record<string, any>> {
 	/** additional information about the field */
 	description?: ReactNode,
 
-	/** checks if the field should be hidden? */
-	getHidden?: (state: Form) => boolean,
-
 }
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement>;
