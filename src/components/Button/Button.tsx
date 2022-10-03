@@ -31,7 +31,7 @@ const Button = ({
 		}}
 	>
 		{isLoading
-			? <Loading />
+			? <Loading button />
 			: <>
 				{icon}
 				{text ?? children}

@@ -6,12 +6,14 @@ import styles from './Loading.module.scss';
 const Loading = ({
 	size = 'medium',
 	color = 'default',
+	button,
 }: LoadingProps) => {
 
 	return (
 		<div
 			className={cx(
 				styles.container,
+				button && styles.inherit,
 				size,
 				color
 			)}
