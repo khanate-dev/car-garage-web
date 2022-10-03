@@ -74,6 +74,7 @@
 	&.error > select {
 		--accent: var(--danger);
 
+		accent-color: var(--accent);
 		border-color: var(--danger);
 	}
 }

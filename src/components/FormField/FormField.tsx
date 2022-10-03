@@ -52,7 +52,15 @@ const FormField = <Type extends Record<string, any>>({
 				{...fieldProps}
 				disabled={disabled ?? field.disabled}
 			>
-				{field.options.map(option => {
+				<option
+					value=''
+					selected
+					disabled
+					hidden
+				>
+					-- Select {label ?? humanizeString(name as string)} --
+				</option>
+				{(field.options ?? []).map(option => {
 					const value = (
 						typeof option === 'string'
 							? option
