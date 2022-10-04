@@ -81,29 +81,58 @@ const FormField = <Type extends Record<string, any>>({
 			</select>
 	);
 
+	const labelContent = (
+		<>
+			{label ?? humanizeString(name as string)}
+			{field.required &&
+				<span
+					className={styles.required}
+				>
+					*
+				</span>
+			}
+		</>
+	);
+
+	const isCheck = (
+		field.fieldType === 'input'
+		&& field.type
+		&& ['checkbox', 'radio'].includes(field.type)
+	);
+
 	return (
 		<div
 			className={cx(
 				styles.field,
 				size,
 				error && !hideError && styles['error'],
+				isCheck && styles['check'],
 				className
 			)}
 		>
-			<label
-				htmlFor={id}
-			>
-				{label ?? humanizeString(name as string)}
-				{field.required &&
-					<span
-						className={styles.required}
-					>
-						*
-					</span>
-				}
-			</label>
 
-			{fieldElement}
+			{isCheck &&
+				<label
+					htmlFor={id}
+
+					className={styles['check-container']}
+				>
+					{fieldElement}
+					<span>
+						{labelContent}
+					</span>
+				</label>
+			}
+			{!isCheck &&
+				<>
+					<label
+						htmlFor={id}
+					>
+						{labelContent}
+					</label>
+					{fieldElement}
+				</>
+			}
 
 			{description &&
 				<div

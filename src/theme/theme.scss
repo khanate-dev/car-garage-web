@@ -10,7 +10,8 @@
 	--black-slight-dark: #3f3f3f;
 	--black-dark: #555;
 	--black-darker: #777;
-	--transition: 0.2s linear;
+	--transition-fast: 0.1s ease-in-out;
+	--transition: 0.2s ease-in-out;
 	--spacing-0: 5px;
 	--spacing-1: 10px;
 	--spacing-2: calc(var(--spacing-1) * 2);
@@ -152,8 +153,8 @@ a {
 
 input[type='checkbox'],
 input[type='radio'] {
-	width: 1rem;
-	height: 1rem;
+	width: 1.8rem;
+	height: 1.8rem;
 }
 
 .tiny {
