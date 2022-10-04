@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { cx } from 'helpers/class-name';
-import omitKey from 'helpers/omit-key';
+import { omitKey } from 'helpers/omit-key';
 import { humanizeString } from 'helpers/string';
 
 import { FormFieldProps } from './FormField.types';
