@@ -4,13 +4,7 @@ import {
 	redirect,
 	RouterProvider,
 } from 'react-router-dom';
-import {
-	GraphIcon as OverviewIcon,
-	MegaphoneIcon as ProductsIcon,
-	PlugIcon as BodTypesIcon,
-	RocketIcon as MakeTypesIcon,
-	TrophyIcon as ModelsIcon,
-} from '@primer/octicons-react';
+
 
 import { getSetting } from 'helpers/settings';
 
@@ -48,6 +42,7 @@ import {
 } from 'routes/dashboard/body-types';
 
 import Providers from 'components/Providers';
+import { icons } from 'components/icons';
 
 import { DashboardRoute } from 'types/general';
 
@@ -72,7 +67,7 @@ export const dashboardRoutes: DashboardRoute[] = [
 		loader: overviewLoader,
 		errorElement: <ErrorBoundary />,
 		label: 'Overview',
-		icon: <OverviewIcon />,
+		icon: icons.overview,
 	},
 	{
 		path: 'products',
@@ -91,7 +86,7 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 		],
 		label: 'Products',
-		icon: <ProductsIcon />,
+		icon: icons.products,
 	},
 	{
 		path: '/make-types',
@@ -109,7 +104,7 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 		],
 		label: 'Make Types',
-		icon: <MakeTypesIcon />,
+		icon: icons.makeTypes,
 	},
 	{
 		path: '/models',
@@ -128,7 +123,7 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 		],
 		label: 'Models',
-		icon: <ModelsIcon />,
+		icon: icons.models,
 	},
 	{
 		path: '/body-types',
@@ -147,7 +142,7 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 		],
 		label: 'Body Types',
-		icon: <BodTypesIcon />,
+		icon: icons.bodyTypes,
 	},
 ];
 
