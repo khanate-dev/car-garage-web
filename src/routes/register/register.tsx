@@ -12,6 +12,7 @@ import Form from 'components/Form';
 import { FormField as FormFieldType } from 'types/general';
 
 import styles from './register.module.scss';
+import Logo from 'components/Logo/Logo';
 
 const fields: FormFieldType<RegisterRequest>[] = [
 	{
@@ -81,7 +82,7 @@ export const Register = () => {
 			<Form
 				className={styles['form']}
 				page='register'
-				title='Car Garage'
+				title={<Logo />}
 				subtitle='Welcome! Register below'
 				fields={fields}
 				footer={

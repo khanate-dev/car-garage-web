@@ -31,4 +31,9 @@ form.form {
 		grid-template-columns: repeat(2, 1fr);
 		gap: var(--spacing-2);
 	}
+
+	& > svg {
+		max-width: 250px;
+		padding: 0;
+	}
 }

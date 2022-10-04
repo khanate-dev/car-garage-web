@@ -12,6 +12,7 @@ import Form from 'components/Form';
 import { FormField as FormFieldType } from 'types/general';
 
 import styles from './login.module.scss';
+import Logo from 'components/Logo/Logo';
 
 const fields: FormFieldType<LoginRequest>[] = [
 	{
@@ -60,7 +61,7 @@ export const Login = () => {
 			<Form
 				className={styles['form']}
 				page='login'
-				title='Car Garage'
+				title={<Logo />}
 				subtitle='Welcome! Login below'
 				fields={fields}
 				footer={
