@@ -24,8 +24,8 @@ class FormError<Form extends Record<string, any>> extends Error {
 						error instanceof ZodError
 						&& error.issues.every(issue =>
 							issue.code !== 'custom'
-							&& issue.path.length !== 1
-							&& !fieldNames.includes(issue.path[0] as string)
+							&& issue.path[0]
+							&& fieldNames.includes(issue.path[0] as string)
 						)
 					)
 					|| (
