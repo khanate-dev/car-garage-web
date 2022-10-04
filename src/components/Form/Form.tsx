@@ -53,9 +53,17 @@ const Form = <Type extends Record<string, any>>({
 			method={routerProps.method ?? 'post'}
 		>
 
-			{title && <h1>{title}</h1>}
+			{title && (
+				typeof title === 'object'
+					? title
+					: <h1>{title}</h1>
+			)}
 
-			{subtitle && <p>{subtitle}</p>}
+			{subtitle && (
+				typeof subtitle === 'object'
+					? subtitle
+					: <p>{subtitle}</p>
+			)}
 
 			<FormContainer
 				{...formContainerProps}
