@@ -5,6 +5,7 @@ import {
 	SelectHTMLAttributes,
 } from 'react';
 import { RouteObject } from 'react-router-dom';
+
 import { UserSansPassword } from 'schemas/user';
 
 export const themeColors = [

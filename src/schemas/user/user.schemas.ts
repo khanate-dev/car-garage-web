@@ -6,7 +6,6 @@ import { getModelSchema } from 'helpers/schema';
 export const userRoles = [
 	'user',
 	'admin',
-	'guest',
 ] as const;
 
 export type UserRole = typeof userRoles[number];
