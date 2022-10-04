@@ -97,6 +97,22 @@
 	flex-wrap: wrap;
 }
 
+.heading {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: var(--spacing-1);
+
+	& > svg {
+		width: 20px;
+		height: 20px;
+
+		& * {
+			fill: var(--accent);
+		}
+	}
+}
+
 .title,
 .subtitle,
 .description {

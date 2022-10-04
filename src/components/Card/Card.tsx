@@ -12,6 +12,7 @@ const Card = ({
 	cover,
 	image,
 	labels,
+	icon,
 	title,
 	subtitle,
 	description,
@@ -76,9 +77,13 @@ const Card = ({
 				</div>
 			}
 
-			<h3 className={styles['title']}>
-				{title}
-			</h3>
+			<div className={styles['heading']}>
+				{icon}
+				<h3 className={styles['title']}>
+					{title}
+				</h3>
+			</div>
+
 
 			{subtitle &&
 				<h6 className={styles['subtitle']}>

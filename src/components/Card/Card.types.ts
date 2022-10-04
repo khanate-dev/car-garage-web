@@ -25,6 +25,9 @@ export interface CardProps {
 	/** the labels to show on the card */
 	labels?: string[] | ChipProps[],
 
+	/** the icon to show next to the title */
+	icon?: ReactElement,
+
 	/** the title of the card */
 	title: string,
 
