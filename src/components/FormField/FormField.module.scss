@@ -110,6 +110,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		border-color: var(--background-darker);
 		transition: border-color var(--transition-fast);
 
 		&::before {

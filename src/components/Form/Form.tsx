@@ -79,7 +79,7 @@ const Form = <Type extends Record<string, any>>({
 					}
 
 					return <FormField
-						key={field.name as string}
+						key={field.id ?? field.name as string}
 						field={field}
 						error={error?.errors?.[field.name as string]}
 						disabled={state !== 'idle'}

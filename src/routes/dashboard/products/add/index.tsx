@@ -1,1 +1,4 @@
-export * from './products-add';
+export * from './choose';
+export * from './car';
+export * from './bike';
+export * from './auto-parts';

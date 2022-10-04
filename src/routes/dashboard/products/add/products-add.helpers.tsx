@@ -1,6 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect } from 'react-router-dom';
 
-import { productCategories, ProductSansMeta } from 'schemas/product';
+import { ProductCategory, ProductSansMeta } from 'schemas/product';
 import { getBodyTypes } from 'endpoints/body-type';
 import { getModels } from 'endpoints/model';
 import { getMakeTypes } from 'endpoints/make-type';
@@ -11,22 +11,27 @@ import { getActionError } from 'helpers/route';
 import Form from 'components/Form';
 import Page from 'components/Page';
 
-import { FormField, SelectOptions } from 'types/general';
+import { FormField } from 'types/general';
+import { humanizeString } from 'helpers/string';
 
-type ProductAddOptions = Record<
-	'makeTypeId' | 'modelId' | 'bodyTypeId',
-	SelectOptions
->;
+export const getProductsAddLoader = (
+	category: ProductCategory
+): LoaderFunction => async () => {
 
-export const productsAddLoader: LoaderFunction = async () => {
 	const makeTypes = await getMakeTypes();
+	const makeTypeOptions = makeTypes.map(({ _id, name }) => ({
+		label: name,
+		value: _id,
+	}));
+
+	if (category === 'auto-parts') return {
+		makeTypesId: makeTypeOptions,
+	};
+
 	const models = await getModels();
 	const bodyTypes = await getBodyTypes();
-	const options: ProductAddOptions = {
-		makeTypeId: makeTypes.map(({ _id, name }) => ({
-			label: name,
-			value: _id,
-		})),
+	const options = {
+		makeTypeId: makeTypeOptions,
 		modelId: models.map(({ _id, name }) => ({
 			label: name,
 			value: _id,
@@ -39,15 +44,18 @@ export const productsAddLoader: LoaderFunction = async () => {
 	return options;
 };
 
-export const productsAddAction: ActionFunction = async ({ request }) => {
+export const getProductsAddAction = (
+	category: ProductCategory
+): ActionFunction => async ({ request }) => {
 	try {
 		const formData = await request.formData();
+		formData.set('category', category);
 		await createProduct(formData);
 		return redirect('/products');
 	}
 	catch (error: any) {
 		return getActionError({
-			source: 'products-add',
+			source: `products-add-${category}`,
 			error,
 		});
 	}
@@ -78,12 +86,6 @@ const fields: FormField<ProductSansMeta>[] = [
 		required: true,
 	},
 	{
-		name: 'category',
-		fieldType: 'select',
-		options: productCategories as any,
-		required: true,
-	},
-	{
 		name: 'makeTypeId',
 		fieldType: 'select',
 		required: true,
@@ -104,14 +106,24 @@ const fields: FormField<ProductSansMeta>[] = [
 	},
 ];
 
-export const ProductsAdd = () => (
+export const getProductsAddFields = (
+	category: ProductCategory
+) => (
+	category === 'auto-parts'
+		? fields.filter(field =>
+			!['modelId', 'bodyTypeId'].includes(field.name)
+		)
+		: fields
+);
+
+export const getProductsAddComponent = (category: ProductCategory) => (
 	<Page
-		title='Add Product'
+		title={`Add Product - ${humanizeString(category)}`}
 		hasBack
 	>
 		<Form
-			page='products-add'
-			fields={fields}
+			page={`products-add-${category}`}
+			fields={getProductsAddFields(category)}
 		/>
 	</Page>
 );
