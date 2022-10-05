@@ -31,11 +31,12 @@ const FormField = <Type extends Record<string, any>>({
 	const commonProps = {
 		id,
 		name: name as string,
-		onChange: (
-			error && !hideError
-				? () => setHideError(true)
-				: undefined
-		),
+		value: field.value !== undefined && field.onChange ? field.value : undefined,
+		defaultValue: field.value && field.onChange ? undefined : '',
+		onChange: (event: any) => {
+			if (error && !hideError) setHideError(true);
+			field.onChange?.(event);
+		},
 	};
 
 	const fieldElement = (
@@ -48,13 +49,11 @@ const FormField = <Type extends Record<string, any>>({
 			: <select
 				{...omitKey(field, 'fieldType')}
 				{...commonProps}
-				defaultValue=''
 				disabled={disabled ?? field.disabled}
 			>
 				<option
 					value=''
 					disabled
-					hidden
 				>
 					-- Select {label ?? humanizeString(name as string)} --
 				</option>

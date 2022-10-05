@@ -31,6 +31,7 @@
 		border-radius: var(--radius-1);
 		text-align: start;
 		accent-color: var(--accent);
+		transition: background-color var(--transition), color var(--transition), border var(--transition);
 	}
 
 	& select {
@@ -52,6 +53,11 @@
 	&:focus-within {
 		--accent: var(--primary-dark);
 		--input-border: var(--primary-light);
+	}
+
+	&:hover input,
+	&:hover select {
+		background-color: var(--background-slight-dark);
 	}
 
 	& > * {
@@ -120,7 +126,6 @@
 			height: 0;
 			background-color: var(--primary-light);
 			border-radius: calc(var(--radius-1) - 2px);
-
 			transition: width var(--transition-fast), height var(--transition-fast);
 		}
 
@@ -153,7 +158,7 @@
 
 	&:hover,
 	&:focus {
-		background-color: var(--background-dark);
+		background-color: var(--background-slight-dark);
 		border-color: var(--background-darker);
 	}
 }
