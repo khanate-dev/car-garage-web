@@ -13,10 +13,10 @@ import FormField from 'components/FormField';
 import Alert from 'components/Alert';
 import Button from 'components/Button';
 
+import { SelectOptions } from 'types/general';
+
 import { FormProps } from './Form.types';
 import styles from './Form.module.scss';
-import { SelectOptions } from 'types/general';
-import { ZapIcon as SubmitIcon } from '@primer/octicons-react';
 
 const Form = <Type extends Record<string, any>>({
 	className,
@@ -25,6 +25,7 @@ const Form = <Type extends Record<string, any>>({
 	subtitle,
 	fields,
 	footer,
+	submitProps,
 	noGrid,
 	...routerProps
 }: FormProps<Type>) => {
@@ -45,6 +46,7 @@ const Form = <Type extends Record<string, any>>({
 
 	return (
 		<RouterForm
+			id={page}
 			className={cx(
 				styles['container'],
 				className
@@ -97,10 +99,11 @@ const Form = <Type extends Record<string, any>>({
 			}
 
 			<Button
-				text='Submit'
+				text={'Submit'}
 				type='submit'
-				icon={<SubmitIcon />}
+				icon='submit'
 				isLoading={state !== 'idle'}
+				{...submitProps}
 			/>
 
 			{footer}

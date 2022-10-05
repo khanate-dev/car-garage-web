@@ -1,6 +1,8 @@
 import { ReactElement, ReactNode } from 'react';
 import { FormProps as RouterFormProps } from 'react-router-dom';
 
+import { ButtonProps } from 'components/Button';
+
 import { FormField } from 'types/general';
 
 export interface FormProps<
@@ -24,6 +26,9 @@ export interface FormProps<
 
 	/** the footer to show on form's bottom */
 	footer?: ReactElement,
+
+	/** the props to override the default submit button */
+	submitProps?: ButtonProps,
 
 	/** should the form be in a single column */
 	noGrid?: boolean,
