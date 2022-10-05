@@ -56,6 +56,15 @@ export const createProductSchema = productSansMetaModelSchema
 			(value) => parseInt(z.string().parse(value)),
 			z.number().positive()
 		),
+		image: z.string(),
+		modelId: z.preprocess(
+			(value) => value === '' ? undefined : value,
+			mongoIdSchema.optional()
+		),
+		bodyTypeId: z.preprocess(
+			(value) => value === '' ? undefined : value,
+			mongoIdSchema.optional()
+		),
 	})
 	.refine(
 		({ minPrice, maxPrice }) => maxPrice >= minPrice,

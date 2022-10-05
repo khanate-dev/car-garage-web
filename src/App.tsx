@@ -16,16 +16,9 @@ import { Overview, overviewLoader } from 'routes/dashboard/overview';
 import {
 	ProductsView,
 	productsViewLoader,
-	ProductsAddSelection,
-	ProductsAddCar,
-	productsAddCarLoader,
-	productsAddCarAction,
-	ProductsAddBike,
-	productsAddBikeLoader,
-	productsAddBikeAction,
-	ProductsAddAutoParts,
-	productsAddAutoPartsLoader,
-	productsAddAutoPartsAction,
+	ProductsAdd,
+	productsAddLoader,
+	productsAddAction,
 } from 'routes/dashboard/products';
 import {
 	MakeTypesView,
@@ -87,30 +80,9 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 			{
 				path: 'add',
-				children: [
-					{
-						index: true,
-						element: <ProductsAddSelection />,
-					},
-					{
-						path: 'car',
-						element: <ProductsAddCar />,
-						loader: productsAddCarLoader,
-						action: productsAddCarAction,
-					},
-					{
-						path: 'bike',
-						element: <ProductsAddBike />,
-						loader: productsAddBikeLoader,
-						action: productsAddBikeAction,
-					},
-					{
-						path: 'auto-parts',
-						element: <ProductsAddAutoParts />,
-						loader: productsAddAutoPartsLoader,
-						action: productsAddAutoPartsAction,
-					},
-				],
+				element: <ProductsAdd />,
+				loader: productsAddLoader,
+				action: productsAddAction,
 			},
 		],
 		label: 'Products',

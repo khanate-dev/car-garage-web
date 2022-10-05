@@ -1,14 +1,11 @@
 import { useReducer } from 'react';
 import { NavLink, useLoaderData } from 'react-router-dom';
-import {
-	ChevronLeftIcon as BackIcon,
-	SignOutIcon as LogoutIcon,
-} from '@primer/octicons-react';
 
 import { UserSansPassword } from 'schemas/user';
 
 import { cx } from 'helpers/class-name';
 
+import { dashboardRoutes } from 'App';
 import ThemeSwitch from 'components/ThemeSwitch';
 import Logo from 'components/Logo/Logo';
 import Avatar from 'components/Avatar';
@@ -16,7 +13,6 @@ import IconButton from 'components/IconButton';
 
 import styles from './Sidebar.module.scss';
 import { SidebarProps } from './Sidebar.types';
-import { dashboardRoutes } from 'App';
 
 const Sidebar = ({
 	onLogout,
@@ -59,7 +55,7 @@ const Sidebar = ({
 							isMinimized && styles['flipped']
 						)}
 						onClick={toggleSidebar}
-						icon={<BackIcon />}
+						icon='back'
 						size='small'
 					/>
 				</div>
@@ -88,7 +84,7 @@ const Sidebar = ({
 						color='danger'
 						variant='fill'
 						size='small'
-						icon={<LogoutIcon />}
+						icon='logout'
 					/>
 
 				</div>
