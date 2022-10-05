@@ -2,9 +2,12 @@ import { ChangeEvent, useState } from 'react';
 
 import {
 	CreateProduct,
+	createProductSchema,
 	productCategories,
 	ProductCategory,
 } from 'schemas/product';
+
+import useFormError from 'hooks/form-error';
 
 import Form from 'components/Form';
 import Page from 'components/Page';
@@ -22,6 +25,7 @@ import ImageUpload, { Image } from 'components/ImageUpload';
 import { MakeType } from 'schemas/make-type';
 import { Model } from 'schemas/model';
 import { BodyType } from 'schemas/body-type';
+import Alert from 'components/Alert';
 
 const steps = [
 	'category',
@@ -153,10 +157,18 @@ type Form = Partial<Record<
 	string
 >>;
 
+const allFields: FormField<CreateProduct>[] = [
+	{ name: 'category', fieldType: 'input' },
+	...typeFields,
+	{ name: 'image', fieldType: 'input' },
+	...detailsFields,
+];
+
 export const ProductsAdd = () => {
 
 	const typeOptions = useLoaderData() as TypeOptions;
 	const fetcher = useFetcher();
+	const error = useFormError('products-add', allFields);
 
 	const [step, setStep] = useState<Step>(steps[0]);
 	const [form, setForm] = useState<Form>({});
@@ -316,6 +328,13 @@ export const ProductsAdd = () => {
 					onClick={() => setStep(prev =>
 						steps[steps.indexOf(prev) - 1] ?? 'category'
 					)}
+				/>
+			}
+
+			{error.type !== 'none' &&
+				<Alert
+					message={error.message}
+					color='danger'
 				/>
 			}
 
