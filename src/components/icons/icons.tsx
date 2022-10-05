@@ -13,6 +13,9 @@ import {
 	MoonIcon,
 	SunIcon,
 	ImageIcon,
+	StarIcon,
+	StarFillIcon,
+	CodeReviewIcon,
 } from '@primer/octicons-react';
 
 
@@ -30,6 +33,9 @@ export const logoutIcon = <SignOutIcon />;
 export const darkModeIcon = <MoonIcon />;
 export const lightModeIcon = <SunIcon />;
 export const imageIcon = <ImageIcon />;
+export const starIcon = <StarIcon />;
+export const starFilledIcon = <StarFillIcon />;
+export const reviewIcon = <CodeReviewIcon />;
 
 export const icons = {
 	overview: overviewIcon,
@@ -46,4 +52,7 @@ export const icons = {
 	darkMode: darkModeIcon,
 	lightMode: lightModeIcon,
 	image: imageIcon,
+	star: starIcon,
+	starFilled: starFilledIcon,
+	review: reviewIcon,
 };
