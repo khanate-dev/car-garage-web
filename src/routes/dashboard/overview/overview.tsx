@@ -8,9 +8,9 @@ import { getSetting } from 'helpers/settings';
 
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
+import { icons } from 'components/icons';
 
 import styles from './overview.module.scss';
-import { icons } from 'components/icons';
 
 export const overviewLoader: LoaderFunction = async () => {
 	const products = await getProducts();

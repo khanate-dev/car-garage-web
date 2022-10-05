@@ -1,5 +1,4 @@
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
-import { SignOutIcon as LogoutIcon } from '@primer/octicons-react';
 
 import { invalidateUser } from 'helpers/events';
 
@@ -41,7 +40,7 @@ export const ErrorBoundary = () => {
 					</code>
 					{error.name === 'ApiAuthError' &&
 						<Button
-							icon={<LogoutIcon />}
+							icon='logout'
 							color='primary'
 							variant='outline'
 							text='Logout'
