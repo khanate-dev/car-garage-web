@@ -1,6 +1,7 @@
 import { cx } from 'helpers/class-name';
 
 import Loading from 'components/Loading';
+import { icons } from 'components/icons';
 
 import { ButtonProps } from './Button.types';
 import styles from './Button.module.scss';
@@ -33,7 +34,10 @@ const Button = ({
 		{isLoading
 			? <Loading button />
 			: <>
-				{icon}
+				{typeof icon === 'string'
+					? icons[icon]
+					: icon
+				}
 				{text ?? children}
 			</>
 		}
