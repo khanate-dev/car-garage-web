@@ -1,5 +1,8 @@
 const {
 	REACT_APP_BACKEND_API_PATH,
+	REACT_APP_IMGUR_CLIENT_ID,
+	REACT_APP_IMGUR_CLIENT_SECRET,
+	REACT_APP_IMGUR_REFRESH_TOKEN,
 	NODE_ENV,
 } = process.env;
 
@@ -17,17 +20,23 @@ const isValidEnvironment = (
 	&& environments.includes(environment as any)
 );
 
-const appEnvironment: Environment = (
+export const appEnvironment: Environment = (
 	isValidEnvironment(NODE_ENV)
 		? NODE_ENV
 		: 'development'
 );
 
 /** the base url path for the backend api's */
-const backendApiEndpoint: string = (
+export const backendApiEndpoint: string = (
 	REACT_APP_BACKEND_API_PATH
 	?? 'http://localhost:5000'
 );
+
+export const imgurAuth = {
+	clientId: REACT_APP_IMGUR_CLIENT_ID ?? '',
+	clientSecret: REACT_APP_IMGUR_CLIENT_SECRET ?? '',
+	refreshToken: REACT_APP_IMGUR_REFRESH_TOKEN ?? '',
+};
 
 const disableAuthConfig: Record<Environment, boolean> = {
 	development: false,
@@ -35,10 +44,4 @@ const disableAuthConfig: Record<Environment, boolean> = {
 	production: false,
 };
 /** should fetch authentication be disabled? */
-const disableAuth = disableAuthConfig[appEnvironment];
-
-export {
-	appEnvironment,
-	backendApiEndpoint,
-	disableAuth,
-};
+export const disableAuth = disableAuthConfig[appEnvironment];

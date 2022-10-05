@@ -17,7 +17,11 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"lint": "eslint . --fix && stylelint **/*.scss --fix"
+		"lint": "eslint . --fix && stylelint **/*.scss --fix",
+		"env:login": "dotenv-vault login -y",
+		"env:push": "dotenv-vault push",
+		"env:pull": "dotenv-vault pull && dotenv-vault pull example .env.example",
+		"env:open": "dotenv-vault open -y"
 	},
 	"eslintConfig": {
 		"extends": [
