@@ -4,6 +4,9 @@ import { Size, ThemeColor } from 'types/general';
 
 export interface AlertProps {
 
+	/** the class to pass to the container */
+	className?: string,
+
 	/** the alert message */
 	message: ReactNode,
 
