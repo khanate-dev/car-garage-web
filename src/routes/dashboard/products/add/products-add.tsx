@@ -1,31 +1,38 @@
 import { ChangeEvent, useState } from 'react';
-
 import {
-	CreateProduct,
-	createProductSchema,
-	productCategories,
-	ProductCategory,
-} from 'schemas/product';
+	ActionFunction,
+	LoaderFunction,
+	redirect,
+	useFetcher,
+	useLoaderData,
+} from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
-import Form from 'components/Form';
-import Page from 'components/Page';
-
-import styles from './products-add.module.scss';
-import { FormField, SelectFormField, SelectOptions } from 'types/general';
-import { ActionFunction, LoaderFunction, redirect, useFetcher, useLoaderData } from 'react-router-dom';
-import { getMakeTypes } from 'endpoints/make-type';
-import { getModels } from 'endpoints/model';
-import { getBodyTypes } from 'endpoints/body-type';
-import { createProduct } from 'endpoints/product';
-import { getActionError } from 'helpers/route';
-import Button from 'components/Button';
-import ImageUpload, { Image } from 'components/ImageUpload';
+import {
+	CreateProduct,
+	productCategories,
+	ProductCategory,
+} from 'schemas/product';
 import { MakeType } from 'schemas/make-type';
 import { Model } from 'schemas/model';
 import { BodyType } from 'schemas/body-type';
+import { getModels } from 'endpoints/model';
+import { getBodyTypes } from 'endpoints/body-type';
+import { createProduct } from 'endpoints/product';
+import { getMakeTypes } from 'endpoints/make-type';
+
+import { getActionError } from 'helpers/route';
+
+import Form from 'components/Form';
+import Page from 'components/Page';
+import ImageUpload, { Image } from 'components/ImageUpload';
+import Button from 'components/Button';
 import Alert from 'components/Alert';
+
+import { FormField, SelectFormField, SelectOptions } from 'types/general';
+
+import styles from './products-add.module.scss';
 
 const steps = [
 	'category',
@@ -316,7 +323,6 @@ export const ProductsAdd = () => {
 							encType: 'multipart/form-data',
 						});
 					}}
-					noGrid
 				/>
 			}
 
@@ -333,7 +339,9 @@ export const ProductsAdd = () => {
 
 			{error.type !== 'none' &&
 				<Alert
+					className={styles['error']}
 					message={error.message}
+					size='large'
 					color='danger'
 				/>
 			}

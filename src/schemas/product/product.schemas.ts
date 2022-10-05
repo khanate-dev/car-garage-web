@@ -56,7 +56,7 @@ export const createProductSchema = productSansMetaModelSchema
 			(value) => parseInt(z.string().parse(value)),
 			z.number().positive()
 		),
-		image: z.string(),
+		image: z.instanceof(File),
 		modelId: z.preprocess(
 			(value) => value === '' ? undefined : value,
 			mongoIdSchema.optional()

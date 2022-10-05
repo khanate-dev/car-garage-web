@@ -45,7 +45,6 @@ export interface Settings {
 	isDarkMode: boolean,
 	accessToken: string,
 	refreshToken: string,
-	imgurAccessToken: string,
 }
 
 export type AssertFunction<Type> = (

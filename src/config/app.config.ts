@@ -1,10 +1,11 @@
 const {
 	REACT_APP_BACKEND_API_PATH,
-	REACT_APP_IMGUR_CLIENT_ID,
-	REACT_APP_IMGUR_CLIENT_SECRET,
-	REACT_APP_IMGUR_REFRESH_TOKEN,
 	NODE_ENV,
 } = process.env;
+
+if (!REACT_APP_BACKEND_API_PATH) {
+	throw new Error('Backend api path environment not found!');
+}
 
 const environments = [
 	'development',
@@ -27,16 +28,7 @@ export const appEnvironment: Environment = (
 );
 
 /** the base url path for the backend api's */
-export const backendApiEndpoint: string = (
-	REACT_APP_BACKEND_API_PATH
-	?? 'http://localhost:5000'
-);
-
-export const imgurAuth = {
-	clientId: REACT_APP_IMGUR_CLIENT_ID ?? '',
-	clientSecret: REACT_APP_IMGUR_CLIENT_SECRET ?? '',
-	refreshToken: REACT_APP_IMGUR_REFRESH_TOKEN ?? '',
-};
+export const backendApiEndpoint: string = REACT_APP_BACKEND_API_PATH;
 
 const disableAuthConfig: Record<Environment, boolean> = {
 	development: false,

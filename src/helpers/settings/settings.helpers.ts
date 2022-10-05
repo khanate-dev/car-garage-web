@@ -10,7 +10,6 @@ const schemaMapping: Record<keyof Settings, ZodSchema> = {
 	user: userSansPasswordModelSchema,
 	accessToken: jwtSchema,
 	refreshToken: jwtSchema,
-	imgurAccessToken: z.string(),
 };
 
 const getSetting = <Key extends keyof Settings>(
