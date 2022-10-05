@@ -1,39 +1,27 @@
 import { ChangeEvent } from 'react';
 
-import { backendApiEndpoint } from 'config';
+import { Image } from 'components/ImageUpload';
 
-const isValidImage = (file: any): file is File => {
+export const validImageExtensions = [
+	'.jpg',
+	'.jpeg',
+	'.png',
+] as const;
+
+export const isValidImage = (file: any): file is File => {
 	if (!(file instanceof File)) return false;
-	const validImage = /[/.](jpg|jpeg|png)$/i;
-	return validImage.test(file.type);
-};
-
-const getImageUrl = (
-	schema: any,
-	object: null | Record<string, any>
-): string => {
-
-	if (!object) return '';
-
-	const identifier = object[schema.identifier?.id ?? -1];
-	const imageTimeStamp = object[`${schema.name}ImageUrl`];
-
-	if (
-		!identifier
-		|| !imageTimeStamp
-		|| typeof imageTimeStamp !== 'string'
-	) return '';
-
-	const url = new URL(
-		`/images/${schema.api.route}/${identifier}.png`,
-		backendApiEndpoint
+	const validImageRegex = new RegExp(
+		'.*('
+		+ validImageExtensions.join('|').replace(/\./g, 'image/')
+		+ ')$',
+		'i'
 	);
-	url.searchParams.set('timeStamp', imageTimeStamp);
-	return url.href;
-
+	return validImageRegex.test(file.type);
 };
 
-const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+export const handleImageUpload = (
+	event: ChangeEvent<HTMLInputElement>
+): Image => {
 
 	const { target } = event;
 
@@ -44,7 +32,7 @@ const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
 	const file = target.files[0];
 
 	if (!isValidImage(file)) {
-		throw new Error('Please Select A Valid PNG Or JPG Image!');
+		throw new Error(`Invalid image! must be one of ${validImageExtensions.join(', ')}`);
 	}
 	else if (file.size > 3000000) {
 		throw new Error('File Must Be Smaller Than 3 MB!');
@@ -57,10 +45,4 @@ const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
 		preview,
 	};
 
-};
-
-export {
-	isValidImage,
-	getImageUrl,
-	handleImageUpload,
 };
