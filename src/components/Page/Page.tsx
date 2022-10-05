@@ -1,10 +1,11 @@
+import { useNavigate, useNavigation } from 'react-router-dom';
+
 import { cx } from 'helpers/class-name';
+
+import Button from 'components/Button';
 
 import { PageProps } from './Page.types';
 import styles from './Page.module.scss';
-import Button from 'components/Button';
-import { useNavigate, useNavigation } from 'react-router-dom';
-import { ArrowLeftIcon as BackIcon, PlusIcon as AddIcon } from '@primer/octicons-react';
 
 const Page = ({
 	title,
@@ -36,7 +37,7 @@ const Page = ({
 						color='primary'
 						text='Add New'
 						size='small'
-						icon={<AddIcon />}
+						icon='add'
 						onClick={() => navigate('add')}
 						isLoading={Boolean(location)}
 					/>
@@ -48,7 +49,7 @@ const Page = ({
 						color='primary'
 						text='Back'
 						size='small'
-						icon={<BackIcon />}
+						icon='back'
 						onClick={() => navigate(-1)}
 						isLoading={Boolean(location)}
 					/>
