@@ -16,43 +16,43 @@ import {
 	StarIcon,
 	StarFillIcon,
 	CodeReviewIcon,
+	IconProps,
+	Icon,
 } from '@primer/octicons-react';
 
-
-export const overviewIcon = <GraphIcon />;
-export const productsIcon = <MegaphoneIcon />;
-export const bodyTypesIcon = <PlugIcon />;
-export const makeTypesIcon = <RocketIcon />;
-export const modelsIcon = <TrophyIcon />;
-export const submitIcon = <ZapIcon />;
-export const backIcon = <ArrowLeftIcon />;
-export const nextIcon = <ArrowRightIcon />;
-export const addIcon = <PlusIcon />;
-export const minimizeIcon = <ChevronLeftIcon />;
-export const logoutIcon = <SignOutIcon />;
-export const darkModeIcon = <MoonIcon />;
-export const lightModeIcon = <SunIcon />;
-export const imageIcon = <ImageIcon />;
-export const starIcon = <StarIcon />;
-export const starFilledIcon = <StarFillIcon />;
-export const reviewIcon = <CodeReviewIcon />;
-
 export const icons = {
-	overview: overviewIcon,
-	products: productsIcon,
-	bodyTypes: bodyTypesIcon,
-	makeTypes: makeTypesIcon,
-	models: modelsIcon,
-	submit: submitIcon,
-	back: backIcon,
-	next: nextIcon,
-	add: addIcon,
-	minimize: minimizeIcon,
-	logout: logoutIcon,
-	darkMode: darkModeIcon,
-	lightMode: lightModeIcon,
-	image: imageIcon,
-	star: starIcon,
-	starFilled: starFilledIcon,
-	review: reviewIcon,
+	overview: GraphIcon,
+	products: MegaphoneIcon,
+	bodyTypes: PlugIcon,
+	makeTypes: RocketIcon,
+	models: TrophyIcon,
+	submit: ZapIcon,
+	back: ArrowLeftIcon,
+	next: ArrowRightIcon,
+	add: PlusIcon,
+	minimize: ChevronLeftIcon,
+	logout: SignOutIcon,
+	darkMode: MoonIcon,
+	lightMode: SunIcon,
+	image: ImageIcon,
+	star: StarIcon,
+	starFilled: StarFillIcon,
+	review: CodeReviewIcon,
+};
+
+export interface AppIconProps extends IconProps {
+	icon?: keyof typeof icons | Icon,
+}
+
+export const AppIcon = ({
+	icon,
+	...iconProps
+}: AppIconProps) => {
+	if (!icon) return null;
+	const Icon = (
+		typeof icon === 'string'
+			? icons[icon]
+			: icon
+	);
+	return <Icon {...iconProps} />;
 };
