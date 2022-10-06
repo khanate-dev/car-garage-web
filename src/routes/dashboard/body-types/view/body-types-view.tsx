@@ -3,6 +3,7 @@ import {
 	LoaderFunction,
 	useFetcher,
 	useLoaderData,
+	useNavigate,
 } from 'react-router-dom';
 
 import { BodyType } from 'schemas/body-type';
@@ -10,13 +11,20 @@ import { Favorite } from 'schemas/favorite';
 import { Review } from 'schemas/review';
 import { getBodyTypes } from 'endpoints/body-type';
 import { getReviews } from 'endpoints/review';
-import { createFavorite, getFavorites } from 'endpoints/favorite';
+import {
+	createFavorite,
+	deleteFavorite,
+	getFavorites,
+} from 'endpoints/favorite';
 
 import { humanizeString } from 'helpers/string';
 import { getActionError } from 'helpers/route';
 
 import Page from 'components/Page';
-import Card from 'components/Card';
+import Card, { CardProps } from 'components/Card';
+import Rating from 'components/Rating';
+
+import styles from './body-types-view.module.scss';
 
 interface LoaderData {
 	bodyTypes: BodyType[],
@@ -35,13 +43,24 @@ export const bodyTypesViewLoader: LoaderFunction = async (): Promise<LoaderData>
 	};
 };
 
-export const bodyTypesFavoriteAction: ActionFunction = async ({ request }) => {
+export const bodyTypesFavoriteAction: ActionFunction = async ({ params, request }) => {
 	try {
+		if (typeof params.bodyTypeId !== 'string') {
+			throw new Error('Require Body Type Id');
+		}
+		const isDelete = request.method === 'DELETE';
 		const formData = await request.formData();
-		await createFavorite(formData);
+		if (isDelete) {
+			await deleteFavorite(formData);
+		}
+		else {
+			formData.append('bodyTypeId', params.bodyTypeId);
+			await createFavorite(formData);
+		}
 		return null;
 	}
 	catch (error: any) {
+		console.error(error);
 		return getActionError({
 			source: 'body-types-favorite',
 			error,
@@ -53,6 +72,7 @@ export const BodyTypesView = () => {
 
 	const { bodyTypes, favorites, reviews } = useLoaderData() as LoaderData;
 	const fetcher = useFetcher();
+	const navigate = useNavigate();
 
 	return (
 		<Page
@@ -63,13 +83,49 @@ export const BodyTypesView = () => {
 		>
 			{bodyTypes.map(({ _id, name, model }) => {
 
-				const isFavorite = favorites.some(row => row.bodyTypeId === _id);
-				const isReviewed = favorites.some(row => row.bodyTypeId === _id);
+				const favorite = favorites.find(row => row.bodyTypeId === _id);
+				const review = reviews.find(row => row.bodyTypeId === _id);
+
+				const actions: CardProps['actions'] = [{
+					text: 'Favorite',
+					icon: favorite ? 'starFilled' : 'star',
+					color: 'warning',
+					onClick: () => {
+						const form = (
+							favorite
+								? { _id: favorite._id }
+								: null
+						);
+						fetcher.submit(form, {
+							action: `body-types/favorite/${_id}`,
+							method: favorite ? 'delete' : 'post',
+						});
+					},
+				}];
+				if (!review) {
+					actions.push({
+						text: 'Review',
+						icon: 'review',
+						onClick: () => navigate(`review/${_id}`),
+					});
+				}
+
+				const subtitle = (
+					review
+						? <Rating
+							className={styles['rating']}
+							rating={review.rating}
+						/>
+						: undefined
+				);
 
 				return (
 					<Card
 						key={_id}
+						icon={favorite ? 'starFilled' : undefined}
 						title={name}
+						subtitle={subtitle}
+						description={review ? review.description : undefined}
 						labels={[
 							{
 								title: `Model: ${`${model.year} ${model.name}`}`,
@@ -80,31 +136,7 @@ export const BodyTypesView = () => {
 								color: 'success',
 							},
 						]}
-						actions={[
-							{
-								text: 'Favorite',
-								icon: isFavorite ? 'starFilled' : 'star',
-								color: 'warning',
-								onClick: () => {
-									if (isFavorite) {
-										return fetcher.submit(null, {
-											action: '/favorite',
-											method: 'delete',
-										});
-									}
-									const form = new FormData();
-									form.append('bodyTypeId', _id);
-									fetcher.submit(form, {
-										action: '/favorite',
-										method: 'post',
-									});
-								},
-							},
-							{
-								text: 'Review',
-								icon: 'review',
-							},
-						]}
+						actions={actions}
 					/>
 				);
 			})}
