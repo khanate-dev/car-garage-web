@@ -27,6 +27,8 @@ const Form = <Type extends Record<string, any>>({
 	footer,
 	submitProps,
 	noGrid,
+	disabled,
+	busy,
 	...routerProps
 }: FormProps<Type>) => {
 
@@ -84,7 +86,7 @@ const Form = <Type extends Record<string, any>>({
 						key={field.id ?? field.name as string}
 						field={field}
 						error={error?.errors?.[field.name as string]}
-						disabled={state !== 'idle'}
+						disabled={busy || disabled || state !== 'idle'}
 					/>;
 
 				})}
@@ -102,7 +104,7 @@ const Form = <Type extends Record<string, any>>({
 				text={'Submit'}
 				type='submit'
 				icon='submit'
-				isLoading={state !== 'idle'}
+				isLoading={busy || state !== 'idle'}
 				{...submitProps}
 			/>
 

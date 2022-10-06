@@ -33,4 +33,10 @@ export interface FormProps<
 	/** should the form be in a single column */
 	noGrid?: boolean,
 
+	/** is the form disabled? */
+	disabled?: boolean,
+
+	/** is the form currently busy in loading or posting? */
+	busy?: boolean,
+
 }
