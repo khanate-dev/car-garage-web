@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 import {
+	CreateReviewResponse,
+	createReviewResponseSchema,
 	createReviewSchema,
 	Review,
 	reviewModelSchema,
@@ -15,8 +17,8 @@ export const getReviews = async (): Promise<Review[]> => {
 
 export const createReview = async (
 	formData: FormData
-): Promise<Review> => {
+): Promise<CreateReviewResponse> => {
 	const json = createReviewSchema.parse(Object.fromEntries(formData));
-	const favorite = await postRequest('favorite', json);
-	return reviewModelSchema.parse(favorite);
+	const favorite = await postRequest('review', json);
+	return createReviewResponseSchema.parse(favorite);
 };
