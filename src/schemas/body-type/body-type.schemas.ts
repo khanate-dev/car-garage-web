@@ -1,7 +1,9 @@
 import z from 'zod';
 
-import { getModelSchema } from 'helpers/schema';
 import { mongoIdSchema } from 'schemas/mongo';
+import { modelSansMetaModelSchema } from 'schemas/model';
+
+import { getModelSchema } from 'helpers/schema';
 
 export const {
 	sansMetaModelSchema: bodyTypeSansMetaModelSchema,
@@ -9,14 +11,7 @@ export const {
 } = getModelSchema({
 	name: z.string(),
 	modelId: mongoIdSchema,
-	model: z.strictObject({
-		name: z.string(),
-		year: z.number().positive(),
-		makeTypeId: mongoIdSchema,
-		makeType: z.strictObject({
-			name: z.string(),
-		}),
-	}),
+	model: modelSansMetaModelSchema,
 });
 
 export type BodyTypeSansMeta = z.infer<typeof bodyTypeSansMetaModelSchema>;
