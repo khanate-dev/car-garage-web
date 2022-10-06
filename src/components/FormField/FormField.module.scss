@@ -19,7 +19,8 @@
 	font-size: var(--font);
 
 	& input,
-	& select {
+	& select,
+	& textarea {
 		all: unset;
 		box-sizing: border-box;
 		color: var(--accent);
@@ -48,6 +49,12 @@
 			border-color: var(--primary);
 			border-bottom-color: transparent;
 		}
+	}
+
+	& textarea {
+		resize: none;
+		white-space: break-spaces;
+		word-wrap: break-word;
 	}
 
 	&:focus-within {

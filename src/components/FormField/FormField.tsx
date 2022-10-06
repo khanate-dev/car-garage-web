@@ -4,6 +4,8 @@ import { cx } from 'helpers/class-name';
 import { omitKey } from 'helpers/omit-key';
 import { humanizeString } from 'helpers/string';
 
+import Rating from 'components/Rating';
+
 import { FormFieldProps } from './FormField.types';
 import styles from './FormField.module.scss';
 
@@ -32,21 +34,54 @@ const FormField = <Type extends Record<string, any>>({
 		id,
 		name: name as string,
 		value: field.value !== undefined && field.onChange ? field.value : undefined,
-		defaultValue: field.value && field.onChange ? undefined : '',
+		defaultValue: field.value && field.onChange ? undefined : field.defaultValue ?? '',
 		onChange: (event: any) => {
 			if (error && !hideError) setHideError(true);
 			field.onChange?.(event);
 		},
 	};
 
-	const fieldElement = (
+	if (
 		field.fieldType === 'input'
-			? <input
+		&& field.type === 'hidden'
+	) {
+		return (
+			<input
+				type='hidden'
+				name={name as string}
+				id={id}
+				defaultValue={field.value ?? field.defaultValue}
+			/>
+		);
+	}
+
+	let fieldElement;
+	switch (field.fieldType) {
+
+		case 'rating':
+			fieldElement = <Rating
+				{...omitKey(field, 'fieldType')}
+				className={field.className}
+				name={name}
+				id={field.id ?? name as string}
+				value={field.value !== undefined && field.onChange ? field.value : undefined}
+				defaultValue={field.value && field.onChange ? undefined : field.defaultValue}
+				onChange={(event: any) => {
+					if (error && !hideError) setHideError(true);
+					field.onChange?.(event);
+				}}
+				interactive
+			/>; break;
+
+		case 'input':
+			fieldElement = <input
 				{...omitKey(field, 'fieldType')}
 				{...commonProps}
 				disabled={disabled ?? field.disabled}
-			/>
-			: <select
+			/>; break;
+
+		case 'select':
+			fieldElement = <select
 				{...omitKey(field, 'fieldType')}
 				{...commonProps}
 				disabled={disabled ?? field.disabled}
@@ -77,8 +112,18 @@ const FormField = <Type extends Record<string, any>>({
 						</option>
 					);
 				})}
-			</select>
-	);
+			</select>; break;
+
+		case 'textarea':
+			fieldElement = <textarea
+				{...omitKey(field, 'fieldType')}
+				{...commonProps}
+				disabled={disabled ?? field.disabled}
+				rows={7}
+				wrap='off'
+			/>; break;
+
+	}
 
 	const labelContent = (
 		<>
