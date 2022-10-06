@@ -23,6 +23,13 @@ export const createProduct = async (
 		...Object.fromEntries(formData),
 		sellerId: getSetting('user')?._id,
 	});
-	const response = await postRequest('product', json);
+
+	const validatedFormData = new FormData();
+	for (const key in json) {
+		const value = (json as any)[key]; // TODO add proper type
+		if (value) validatedFormData.append(key, value);
+	}
+
+	const response = await postRequest('product', validatedFormData);
 	return createProductResponseSchema.parse(response);
 };

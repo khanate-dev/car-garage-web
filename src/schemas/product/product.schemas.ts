@@ -39,15 +39,15 @@ export const {
 	isFeatured: z.boolean().optional(),
 	category: z.enum(productCategories),
 	buyerId: mongoIdSchema.optional(),
-	buyer: userSansMetaModelSchema.omit({ password: true }),
+	buyer: userSansMetaModelSchema.omit({ password: true }).nullable(),
 	sellerId: mongoIdSchema,
-	seller: userSansMetaModelSchema.omit({ password: true }),
+	seller: userSansMetaModelSchema.omit({ password: true }).nullable(),
 	makeTypeId: mongoIdSchema,
 	makeType: makeTypeSansMetaModelSchema,
 	modelId: mongoIdSchema.optional(),
-	model: modelSansMetaModelSchema,
+	model: modelSansMetaModelSchema.nullable(),
 	bodyTypeId: mongoIdSchema.optional(),
-	bodyType: bodyTypeSansMetaModelSchema,
+	bodyType: bodyTypeSansMetaModelSchema.nullable(),
 });
 
 export type ProductSansMeta = z.infer<typeof productSansMetaModelSchema>;
