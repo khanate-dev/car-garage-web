@@ -39,6 +39,10 @@ import {
 	BodyTypesAdd,
 	bodyTypesAddLoader,
 	bodyTypesAddAction,
+	BodyTypesReview,
+	bodyTypesReviewLoader,
+	bodyTypesReviewAction,
+	bodyTypesFavoriteAction,
 } from 'routes/dashboard/body-types';
 
 import Providers from 'components/Providers';
@@ -133,6 +137,16 @@ export const dashboardRoutes: DashboardRoute[] = [
 				index: true,
 				element: <BodyTypesView />,
 				loader: bodyTypesViewLoader,
+			},
+			{
+				path: 'review/:bodyTypeId',
+				element: <BodyTypesReview />,
+				loader: bodyTypesReviewLoader,
+				action: bodyTypesReviewAction,
+			},
+			{
+				path: 'favorite/:bodyTypeId',
+				action: bodyTypesFavoriteAction,
 			},
 			{
 				path: 'add',
