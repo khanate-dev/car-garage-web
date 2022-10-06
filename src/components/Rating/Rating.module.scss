@@ -1,0 +1,53 @@
+.rating {
+	--size: 30px;
+
+	display: flex;
+	justify-content: center;
+
+	& > .star {
+		--accent: var(--background-dark);
+		--accent-hover: var(--background-darker);
+
+		all: unset;
+		padding-inline: var(--spacing-0);
+		box-sizing: border-box;
+		transition: transform var(--transition);
+
+		& > svg {
+			width: var(--size);
+			height: var(--size);
+			aspect-ratio: 1;
+
+			& * {
+				fill: var(--accent);
+				transition: fill var(--transition);
+			}
+		}
+	}
+
+	& > .filled {
+		--accent: var(--warning);
+		--accent-hover: var(--warning-dark);
+	}
+
+	&.interactive:hover {
+		& > .star {
+			cursor: pointer;
+			transform: rotate(-5deg) scale(1.2);
+
+			& > svg * {
+				fill: var(--accent-hover);
+			}
+		}
+	}
+
+	&.interactive {
+		& > .star:hover ~ * {
+			transform: scale(1);
+
+			& > svg * {
+				fill: var(--accent);
+			}
+		}
+	}
+}
