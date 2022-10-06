@@ -96,10 +96,14 @@ export const BodyTypesView = () => {
 								: null
 						);
 						fetcher.submit(form, {
-							action: `body-types/favorite/${_id}`,
+							action: `/body-types/favorite/${_id}`,
 							method: favorite ? 'delete' : 'post',
 						});
 					},
+					isLoading: (
+						fetcher.state !== 'idle'
+						&& fetcher.formAction === `/body-types/favorite/${_id}`
+					),
 				}];
 				if (!review) {
 					actions.push({
