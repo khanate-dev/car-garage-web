@@ -2,6 +2,7 @@ import { cx } from 'helpers/class-name';
 
 import Chip, { ChipProps } from 'components/Chip';
 import Button from 'components/Button';
+import { AppIcon } from 'components/icons';
 
 import { sizes } from 'types/general';
 
@@ -78,7 +79,7 @@ const Card = ({
 			}
 
 			<div className={styles['heading']}>
-				{icon}
+				<AppIcon icon={icon} />
 				<h3 className={styles['title']}>
 					{title}
 				</h3>

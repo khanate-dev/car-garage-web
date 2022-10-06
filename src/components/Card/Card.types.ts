@@ -1,6 +1,9 @@
+import { ReactElement, ReactNode } from 'react';
+import { Icon } from '@primer/octicons-react';
+
 import { ButtonProps } from 'components/Button';
 import { ChipProps } from 'components/Chip';
-import { ReactElement } from 'react';
+import { icons } from 'components/icons';
 
 import { Size, ThemeColor } from 'types/general';
 
@@ -26,16 +29,16 @@ export interface CardProps {
 	labels?: string[] | ChipProps[],
 
 	/** the icon to show next to the title */
-	icon?: ReactElement,
+	icon?: keyof typeof icons | Icon,
 
 	/** the title of the card */
-	title: string,
+	title: ReactNode,
 
 	/** the subtitle to show beneath the title */
-	subtitle?: string,
+	subtitle?: ReactNode,
 
 	/** the detailed description */
-	description?: string,
+	description?: ReactNode,
 
 	/** the list of details to show on the card */
 	details?: CardDetail[],
