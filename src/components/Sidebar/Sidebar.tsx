@@ -10,6 +10,7 @@ import ThemeSwitch from 'components/ThemeSwitch';
 import Logo from 'components/Logo/Logo';
 import Avatar from 'components/Avatar';
 import IconButton from 'components/IconButton';
+import { AppIcon } from 'components/icons';
 
 import styles from './Sidebar.module.scss';
 import { SidebarProps } from './Sidebar.types';
@@ -102,7 +103,7 @@ const Sidebar = ({
 						<NavLink
 							to={route.path}
 						>
-							{route.icon}
+							<AppIcon icon={route.icon} />
 							<p>{route.label}</p>
 						</NavLink>
 					</li>

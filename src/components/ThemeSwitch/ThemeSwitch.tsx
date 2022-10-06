@@ -4,7 +4,7 @@ import { useDarkMode } from 'contexts/dark-mode';
 import { cx } from 'helpers/class-name';
 
 import IconButton from 'components/IconButton';
-import { darkModeIcon, lightModeIcon } from 'components/icons';
+import { icons } from 'components/icons';
 
 import { ThemeSwitchProps } from './ThemeSwitch.types';
 import styles from './ThemeSwitch.module.scss';
@@ -26,8 +26,8 @@ const ThemeSwitch = ({
 			onClick={toggleDarkMode}
 			icon={
 				<>
-					{lightModeIcon}
-					{darkModeIcon}
+					<icons.lightMode />
+					<icons.darkMode />
 				</>
 			}
 		/>
