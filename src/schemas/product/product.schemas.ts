@@ -45,9 +45,9 @@ export const {
 	makeTypeId: mongoIdSchema,
 	makeType: makeTypeSansMetaModelSchema,
 	modelId: mongoIdSchema.optional(),
-	model: modelSansMetaModelSchema.nullable(),
+	model: modelSansMetaModelSchema.omit({ makeType: true }).nullable(),
 	bodyTypeId: mongoIdSchema.optional(),
-	bodyType: bodyTypeSansMetaModelSchema.nullable(),
+	bodyType: bodyTypeSansMetaModelSchema.omit({ model: true }).nullable(),
 });
 
 export type ProductSansMeta = z.infer<typeof productSansMetaModelSchema>;
@@ -80,6 +80,10 @@ export const createProductSchema = productSansMetaModelSchema
 		bodyTypeId: z.preprocess(
 			(value) => value === '' ? undefined : value,
 			mongoIdSchema.optional()
+		),
+		isFeatured: z.preprocess(
+			(value) => value !== undefined ? true : false,
+			z.boolean()
 		),
 	})
 	.refine(
