@@ -5,6 +5,10 @@ import { mongoIdSchema } from 'schemas/mongo';
 import { getModelSchema } from 'helpers/schema';
 
 import { ThemeColor } from 'types/general';
+import { userSansMetaModelSchema } from 'schemas/user';
+import { makeTypeSansMetaModelSchema } from 'schemas/make-type';
+import { modelSansMetaModelSchema } from 'schemas/model';
+import { bodyTypeSansMetaModelSchema } from 'schemas/body-type';
 
 export const productCategories = [
 	'car',
@@ -35,10 +39,15 @@ export const {
 	isFeatured: z.boolean().optional(),
 	category: z.enum(productCategories),
 	buyerId: mongoIdSchema.optional(),
+	buyer: userSansMetaModelSchema.omit({ password: true }),
 	sellerId: mongoIdSchema,
+	seller: userSansMetaModelSchema.omit({ password: true }),
 	makeTypeId: mongoIdSchema,
+	makeType: makeTypeSansMetaModelSchema,
 	modelId: mongoIdSchema.optional(),
+	model: modelSansMetaModelSchema,
 	bodyTypeId: mongoIdSchema.optional(),
+	bodyType: bodyTypeSansMetaModelSchema,
 });
 
 export type ProductSansMeta = z.infer<typeof productSansMetaModelSchema>;
@@ -46,7 +55,14 @@ export type ProductSansMeta = z.infer<typeof productSansMetaModelSchema>;
 export type Product = z.infer<typeof productModelSchema>;
 
 export const createProductSchema = productSansMetaModelSchema
-	.omit({ buyerId: true })
+	.omit({
+		buyerId: true,
+		buyer: true,
+		seller: true,
+		makeType: true,
+		model: true,
+		bodyType: true,
+	})
 	.extend({
 		minPrice: z.preprocess(
 			(value) => parseInt(z.string().parse(value)),
@@ -72,3 +88,13 @@ export const createProductSchema = productSansMetaModelSchema
 	);
 
 export type CreateProduct = z.infer<typeof createProductSchema>;
+
+export const createProductResponseSchema = productModelSchema.omit({
+	buyer: true,
+	seller: true,
+	makeType: true,
+	model: true,
+	bodyType: true,
+});
+
+export type CreateProductResponse = z.infer<typeof createProductResponseSchema>;

@@ -4,6 +4,8 @@ import {
 	Product,
 	productModelSchema,
 	createProductSchema,
+	createProductResponseSchema,
+	CreateProductResponse,
 } from 'schemas/product';
 
 import { getRequest, postRequest } from 'helpers/api';
@@ -16,11 +18,11 @@ export const getProducts = async (): Promise<Product[]> => {
 
 export const createProduct = async (
 	formData: FormData
-): Promise<Product> => {
+): Promise<CreateProductResponse> => {
 	const json = createProductSchema.parse({
 		...Object.fromEntries(formData),
 		sellerId: getSetting('user')?._id,
 	});
 	const response = await postRequest('product', json);
-	return productModelSchema.parse(response);
+	return createProductResponseSchema.parse(response);
 };
