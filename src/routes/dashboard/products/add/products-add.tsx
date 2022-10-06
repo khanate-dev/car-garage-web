@@ -309,6 +309,7 @@ export const ProductsAdd = () => {
 					title='Please provide the product details'
 					page='products-add'
 					fields={detailsFields}
+					busy={fetcher.state !== 'idle'}
 					onSubmit={async (event) => {
 						event.preventDefault();
 						if (!image?.file) return;

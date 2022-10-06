@@ -60,7 +60,6 @@ export const bodyTypesFavoriteAction: ActionFunction = async ({ params, request 
 		return null;
 	}
 	catch (error: any) {
-		console.error(error);
 		return getActionError({
 			source: 'body-types-favorite',
 			error,

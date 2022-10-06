@@ -30,7 +30,6 @@ export const bodyTypesReviewAction: ActionFunction = async ({ request }) => {
 		return redirect('/body-types');
 	}
 	catch (error: any) {
-		console.error(error);
 		return getActionError({
 			source: 'body-types-review',
 			error,
