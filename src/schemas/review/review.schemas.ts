@@ -5,7 +5,7 @@ import { bodyTypeSansMetaModelSchema } from 'schemas/body-type';
 
 import { getModelSchema } from 'helpers/schema';
 
-import { Rating } from 'types/general';
+import { FormField, Rating } from 'types/general';
 
 export const {
 	sansMetaModelSchema: reviewSansMetaModelSchema,
@@ -23,7 +23,7 @@ export type ReviewSansMeta = z.infer<typeof reviewSansMetaModelSchema>;
 
 export type Review = z.infer<typeof reviewModelSchema>;
 
-export const createReviewSchema = reviewSansMetaModelSchema.extend({
+export const reviewRequestSchema = reviewSansMetaModelSchema.extend({
 	rating: z.preprocess(
 		(value) => parseInt(z.string().parse(value)),
 		z.nativeEnum(Rating)
@@ -33,10 +33,25 @@ export const createReviewSchema = reviewSansMetaModelSchema.extend({
 	bodyType: true,
 });
 
-export type CreateReview = z.infer<typeof createReviewSchema>;
+export type ReviewRequest = z.infer<typeof reviewRequestSchema>;
 
-export const createReviewResponseSchema = reviewModelSchema.omit({
+export const reviewResponseSchema = reviewModelSchema.omit({
 	bodyType: true,
 });
 
-export type CreateReviewResponse = z.infer<typeof createReviewResponseSchema>;
+export type ReviewResponse = z.infer<typeof reviewResponseSchema>;
+
+export type ReviewForm = Omit<ReviewRequest, 'bodyTypeId'>;
+
+export const reviewFormFields: FormField<ReviewForm>[] = [
+	{
+		name: 'rating',
+		fieldType: 'rating',
+		required: true,
+		interactive: true,
+	},
+	{
+		name: 'description',
+		fieldType: 'textarea',
+	},
+];
