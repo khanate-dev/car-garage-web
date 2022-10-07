@@ -1,4 +1,4 @@
-export type FormatStringStrategy = (
+export type FormatTokenStrategy = (
 	| 'camel'
 	| 'pascal'
 	| 'snake'
@@ -6,7 +6,7 @@ export type FormatStringStrategy = (
 	| 'constant'
 );
 
-export type HumanizeStringCase = (
+export type HumanizeTokenCase = (
 	| 'sentence'
 	| 'title'
 	| 'lower'
@@ -19,14 +19,14 @@ const alphabet = `${lowerCase}${upperCase}`;
 const separators = ' \n-_.0-9';
 
 /**
- * Takes a string, and format strategy and returns formatted string
+ * Takes a token name, and format strategy and returns the converted token name
  * @param string the string to format
  * @param strategy - the strategy to format the string. defaults to 'camel'
- * @example formatString('camelCaseString', 'kebab') => 'camel-case-string'
+ * @example formatToken('camelCaseString', 'kebab') => 'camel-case-string'
 */
-const formatString = (
+const formatToken = (
 	input: string,
-	strategy: FormatStringStrategy = 'camel'
+	strategy: FormatTokenStrategy = 'camel'
 ): string => {
 
 	const string = input.trim();
@@ -108,14 +108,14 @@ const formatString = (
 };
 
 /**
- * Takes a string and returns a human readable string
+ * Takes a token name and returns a human readable string
  * @param string the string to humanize
  * @param casing - the casing for the humanized string. defaults to 'title'
- * @example humanizeString('camelCaseString', 'sentence') => 'Camel case string'
+ * @example humanizeToken('camelCaseString', 'sentence') => 'Camel case string'
 */
-const humanizeString = (
+const humanizeToken = (
 	input: string,
-	casing: HumanizeStringCase = 'title'
+	casing: HumanizeTokenCase = 'title'
 ): string => {
 
 	const string = input.trim();
@@ -188,6 +188,6 @@ const humanizeString = (
 };
 
 export {
-	humanizeString,
-	formatString,
+	humanizeToken,
+	formatToken,
 };

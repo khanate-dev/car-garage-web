@@ -7,7 +7,7 @@ import {
 import { getProducts } from 'endpoints/product';
 
 import { formatDateTime } from 'helpers/date';
-import { humanizeString } from 'helpers/string';
+import { humanizeToken } from 'helpers/string';
 
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
@@ -43,7 +43,7 @@ export const ProductsView = () => {
 			}) => {
 
 				const labels: CardProps['labels'] = [{
-					title: humanizeString(category),
+					title: humanizeToken(category),
 					color: productCategoryColors[category],
 				}];
 				if (isFeatured) {
