@@ -4,7 +4,7 @@ import {
 	SelectHTMLAttributes,
 	TextareaHTMLAttributes,
 } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { LoaderFunctionArgs, RouteObject } from 'react-router-dom';
 import { Icon } from '@primer/octicons-react';
 
 import { UserSansPassword } from 'schemas/user';
@@ -187,3 +187,19 @@ export enum Rating {
 export const ratings = [
 	1, 2, 3, 4, 5,
 ] as Rating[];
+
+export type FormLoaderData<
+	Form extends Record<string, any> = Record<never, never>,
+	Data extends Record<string, any> = Record<never, never>
+> = Record<
+	keyof Form,
+	{
+		options?: SelectOptions,
+		value?: Form[keyof Form],
+	}
+> & Data;
+
+export type FormLoader<
+	Form extends Record<string, any> = Record<never, never>,
+	Data extends Record<string, any> = Record<never, never>
+> = (args: LoaderFunctionArgs) => Promise<FormLoaderData<Form, Data>>;
