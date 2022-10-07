@@ -4,6 +4,7 @@ import { mongoIdSchema } from 'schemas/mongo';
 import { modelSansMetaModelSchema } from 'schemas/model';
 
 import { getModelSchema } from 'helpers/schema';
+import { FormField } from 'types/general';
 
 export const {
 	sansMetaModelSchema: bodyTypeSansMetaModelSchema,
@@ -18,12 +19,27 @@ export type BodyTypeSansMeta = z.infer<typeof bodyTypeSansMetaModelSchema>;
 
 export type BodyType = z.infer<typeof bodyTypeModelSchema>;
 
-export const createBodyTypeSchema = bodyTypeSansMetaModelSchema.omit({
+export const bodyTypeRequestSchema = bodyTypeSansMetaModelSchema.omit({
 	model: true,
 });
 
-export type CreateBodyType = z.infer<typeof createBodyTypeSchema>;
+export type BodyTypeRequest = z.infer<typeof bodyTypeRequestSchema>;
 
-export const createBodyTypeResponseSchema = bodyTypeModelSchema.omit({ model: true });
+export const bodyTypeResponseSchema = bodyTypeModelSchema.omit({ model: true });
 
-export type CreateBodyTypeResponse = z.infer<typeof createBodyTypeResponseSchema>;
+export type BodyTypeResponse = z.infer<typeof bodyTypeResponseSchema>;
+
+export type BodyTypeForm = BodyTypeRequest;
+
+export const bodyTypeFormFields: FormField<BodyTypeForm>[] = [
+	{
+		name: 'modelId',
+		fieldType: 'select',
+		required: true,
+	},
+	{
+		name: 'name',
+		fieldType: 'input',
+		required: true,
+	},
+];
