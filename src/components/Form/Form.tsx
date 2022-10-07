@@ -13,7 +13,7 @@ import FormField from 'components/FormField';
 import Alert from 'components/Alert';
 import Button from 'components/Button';
 
-import { SelectOptions } from 'types/general';
+import { FormLoaderData } from 'types/general';
 
 import { FormProps } from './Form.types';
 import styles from './Form.module.scss';
@@ -33,7 +33,7 @@ const Form = <Type extends Record<string, any>>({
 }: FormProps<Type>) => {
 
 	const { state } = useNavigation();
-	const options = useLoaderData() as Record<keyof Type, SelectOptions>;
+	const options = useLoaderData() as FormLoaderData<Type>;
 	const error = useFormError(page, fields);
 
 	const FormContainer = (
@@ -77,10 +77,11 @@ const Form = <Type extends Record<string, any>>({
 					if (
 						field.fieldType === 'select'
 						&& !field.options
-						&& Array.isArray(options?.[field.name])
+						&& Array.isArray(options?.[field.name]?.options)
 					) {
-						field.options = options[field.name];
+						field.options = options[field.name]?.options;
 					}
+					field.defaultValue = options[field.name]?.value;
 
 					return <FormField
 						key={field.id ?? field.name as string}
