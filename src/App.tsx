@@ -5,7 +5,6 @@ import {
 	RouterProvider,
 } from 'react-router-dom';
 
-
 import { getSetting } from 'helpers/settings';
 
 import { ErrorBoundary } from 'routes/error';
@@ -39,10 +38,17 @@ import {
 	BodyTypesAdd,
 	bodyTypesAddLoader,
 	bodyTypesAddAction,
-	BodyTypesReview,
-	bodyTypesReviewLoader,
-	bodyTypesReviewAction,
-	bodyTypesFavoriteAction,
+	BodyTypesUpdate,
+	bodyTypesUpdateLoader,
+	bodyTypesUpdateAction,
+	favoriteAddAction,
+	favoriteDeleteAction,
+	ReviewsAdd,
+	reviewsAddLoader,
+	reviewsAddAction,
+	ReviewsUpdate,
+	reviewsUpdateLoader,
+	reviewsUpdateAction,
 } from 'routes/dashboard/body-types';
 
 import Providers from 'components/Providers';
@@ -66,16 +72,17 @@ const redirectIfUserLoader: LoaderFunction = async () => {
 
 export const dashboardRoutes: DashboardRoute[] = [
 	{
+		index: true,
 		path: '',
 		element: <Overview />,
 		loader: overviewLoader,
-		errorElement: <ErrorBoundary />,
 		label: 'Overview',
 		icon: icons.overview,
 	},
 	{
 		path: 'products',
-		errorElement: <ErrorBoundary />,
+		label: 'Products',
+		icon: icons.products,
 		children: [
 			{
 				index: true,
@@ -89,12 +96,11 @@ export const dashboardRoutes: DashboardRoute[] = [
 				action: productsAddAction,
 			},
 		],
-		label: 'Products',
-		icon: icons.products,
 	},
 	{
 		path: '/make-types',
-		errorElement: <ErrorBoundary />,
+		label: 'Make Types',
+		icon: icons.makeTypes,
 		children: [
 			{
 				index: true,
@@ -107,12 +113,11 @@ export const dashboardRoutes: DashboardRoute[] = [
 				action: makeTypesAddAction,
 			},
 		],
-		label: 'Make Types',
-		icon: icons.makeTypes,
 	},
 	{
 		path: '/models',
-		errorElement: <ErrorBoundary />,
+		label: 'Models',
+		icon: icons.models,
 		children: [
 			{
 				index: true,
@@ -126,12 +131,11 @@ export const dashboardRoutes: DashboardRoute[] = [
 				action: modelsAddAction,
 			},
 		],
-		label: 'Models',
-		icon: icons.models,
 	},
 	{
 		path: '/body-types',
-		errorElement: <ErrorBoundary />,
+		label: 'Body Types',
+		icon: icons.bodyTypes,
 		children: [
 			{
 				index: true,
@@ -140,13 +144,33 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 			{
 				path: 'review/:bodyTypeId',
-				element: <BodyTypesReview />,
-				loader: bodyTypesReviewLoader,
-				action: bodyTypesReviewAction,
+				children: [
+					{
+						path: 'add',
+						element: <ReviewsAdd />,
+						loader: reviewsAddLoader,
+						action: reviewsAddAction,
+					},
+					{
+						path: 'update/:reviewId',
+						element: <ReviewsUpdate />,
+						loader: reviewsUpdateLoader,
+						action: reviewsUpdateAction,
+					},
+				],
 			},
 			{
 				path: 'favorite/:bodyTypeId',
-				action: bodyTypesFavoriteAction,
+				children: [
+					{
+						path: 'add',
+						action: favoriteAddAction,
+					},
+					{
+						path: 'delete/:favoriteId',
+						action: favoriteDeleteAction,
+					},
+				],
 			},
 			{
 				path: 'add',
@@ -154,9 +178,13 @@ export const dashboardRoutes: DashboardRoute[] = [
 				loader: bodyTypesAddLoader,
 				action: bodyTypesAddAction,
 			},
+			{
+				path: 'update/:bodyTypeId',
+				element: <BodyTypesUpdate />,
+				loader: bodyTypesUpdateLoader,
+				action: bodyTypesUpdateAction,
+			},
 		],
-		label: 'Body Types',
-		icon: icons.bodyTypes,
 	},
 ];
 
@@ -166,7 +194,10 @@ const router = createBrowserRouter([
 		element: <Dashboard />,
 		loader: redirectIfNotUserLoader,
 		errorElement: <ErrorBoundary />,
-		children: dashboardRoutes,
+		children: [{
+			errorElement: <ErrorBoundary />,
+			children: dashboardRoutes,
+		}],
 	},
 	{
 		path: '/login',
