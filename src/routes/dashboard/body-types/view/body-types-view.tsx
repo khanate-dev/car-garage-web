@@ -1,9 +1,9 @@
 import {
-	ActionFunction,
 	LoaderFunction,
 	useFetcher,
 	useLoaderData,
 	useNavigate,
+	useNavigation,
 } from 'react-router-dom';
 
 import { BodyType } from 'schemas/body-type';
@@ -11,14 +11,9 @@ import { Favorite } from 'schemas/favorite';
 import { Review } from 'schemas/review';
 import { getBodyTypes } from 'endpoints/body-type';
 import { getReviews } from 'endpoints/review';
-import {
-	createFavorite,
-	deleteFavorite,
-	getFavorites,
-} from 'endpoints/favorite';
+import { getFavorites } from 'endpoints/favorite';
 
-import { humanizeString } from 'helpers/string';
-import { getActionError } from 'helpers/route';
+import { humanizeToken } from 'helpers/string';
 
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
@@ -43,35 +38,12 @@ export const bodyTypesViewLoader: LoaderFunction = async (): Promise<LoaderData>
 	};
 };
 
-export const bodyTypesFavoriteAction: ActionFunction = async ({ params, request }) => {
-	try {
-		if (typeof params.bodyTypeId !== 'string') {
-			throw new Error('Require Body Type Id');
-		}
-		const isDelete = request.method === 'DELETE';
-		const formData = await request.formData();
-		if (isDelete) {
-			await deleteFavorite(formData);
-		}
-		else {
-			formData.append('bodyTypeId', params.bodyTypeId);
-			await createFavorite(formData);
-		}
-		return null;
-	}
-	catch (error: any) {
-		return getActionError({
-			source: 'body-types-favorite',
-			error,
-		});
-	}
-};
-
 export const BodyTypesView = () => {
 
 	const { bodyTypes, favorites, reviews } = useLoaderData() as LoaderData;
 	const fetcher = useFetcher();
 	const navigate = useNavigate();
+	const navigation = useNavigation();
 
 	return (
 		<Page
@@ -85,33 +57,55 @@ export const BodyTypesView = () => {
 				const favorite = favorites.find(row => row.bodyTypeId === _id);
 				const review = reviews.find(row => row.bodyTypeId === _id);
 
-				const actions: CardProps['actions'] = [{
-					text: 'Favorite',
-					icon: favorite ? 'starFilled' : 'star',
-					color: 'warning',
-					onClick: () => {
-						const form = (
-							favorite
-								? { _id: favorite._id }
-								: null
-						);
-						fetcher.submit(form, {
-							action: `/body-types/favorite/${_id}`,
-							method: favorite ? 'delete' : 'post',
-						});
+				const actions: CardProps['actions'] = [
+					{
+						text: 'Update',
+						icon: 'edit',
+						fullWidth: true,
+						onClick: () => navigate(`update/${_id}`),
+						isLoading: (
+							navigation.state !== 'idle'
+							&& navigation.location.pathname === `/body-types/update/${_id}`
+						),
 					},
-					isLoading: (
-						fetcher.state !== 'idle'
-						&& fetcher.formAction === `/body-types/favorite/${_id}`
-					),
-				}];
-				if (!review) {
-					actions.push({
-						text: 'Review',
+					{
+						text: favorite ? 'Unfavorite' : 'Favorite',
+						icon: favorite ? 'starFilled' : 'star',
+						color: 'warning',
+						onClick: () => {
+							const urlSuffix = (
+								!favorite
+									? 'add'
+									: `delete/${favorite._id}`
+							);
+							fetcher.submit(null, {
+								action: `/body-types/favorite/${_id}/${urlSuffix}`,
+								method: favorite ? 'delete' : 'post',
+							});
+						},
+						isLoading: (
+							fetcher.state !== 'idle'
+							&& fetcher.formAction?.startsWith(`/body-types/favorite/${_id}`)
+						),
+					},
+					{
+						text: `${!review ? 'Add' : 'Change'} Review`,
 						icon: 'review',
-						onClick: () => navigate(`review/${_id}`),
-					});
-				}
+						color: 'info',
+						onClick: () => {
+							const urlSuffix = (
+								!review
+									? 'add'
+									: `update/${review._id}`
+							);
+							navigate(`review/${_id}/${urlSuffix}`);
+						},
+						isLoading: (
+							navigation.state !== 'idle'
+							&& navigation.location.pathname.startsWith(`/body-types/review/${_id}`)
+						),
+					},
+				];
 
 				const subtitle = (
 					review
@@ -135,7 +129,7 @@ export const BodyTypesView = () => {
 								color: 'danger',
 							},
 							{
-								title: `Make Type: ${humanizeString(model.makeType.name)}`,
+								title: `Make Type: ${humanizeToken(model.makeType.name)}`,
 								color: 'success',
 							},
 						]}
