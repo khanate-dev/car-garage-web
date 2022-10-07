@@ -7,8 +7,9 @@ import {
 	favoriteModelSchema,
 } from 'schemas/favorite';
 
-import { deleteRequest, getRequest, postRequest } from 'helpers/api';
 import { mongoIdSchema } from 'schemas/mongo';
+
+import { deleteRequest, getRequest, postRequest } from 'helpers/api';
 
 export const getFavorites = async () => {
 	const response = await getRequest('favorite');
