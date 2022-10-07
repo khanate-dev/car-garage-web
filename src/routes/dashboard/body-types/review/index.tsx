@@ -1,1 +1,2 @@
-export * from './body-types-review';
+export * from './reviews-add';
+export * from './reviews-update';

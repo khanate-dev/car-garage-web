@@ -1,10 +1,9 @@
 import {
 	ActionFunction,
-	LoaderFunction,
 	redirect,
 } from 'react-router-dom';
 
-import { CreateBodyType } from 'schemas/body-type';
+import { bodyTypeFormFields, BodyTypeRequest } from 'schemas/body-type';
 import { createBodyType } from 'endpoints/body-type';
 import { getModels } from 'endpoints/model';
 
@@ -13,22 +12,19 @@ import { getActionError } from 'helpers/route';
 import Form from 'components/Form';
 import Page from 'components/Page';
 
-import { FormField, SelectOptions } from 'types/general';
+import { FormLoader } from 'types/general';
 
-type BodyTypeAddOptions = Record<
-	'modelId',
-	SelectOptions
->;
-
-export const bodyTypesAddLoader: LoaderFunction = async () => {
+export const bodyTypesAddLoader: FormLoader<BodyTypeRequest> = async () => {
 	const models = await getModels();
-	const options: BodyTypeAddOptions = {
-		modelId: models.map(({ _id, name }) => ({
-			label: name,
-			value: _id,
-		})),
+	return {
+		modelId: {
+			options: models.map(({ _id, name }) => ({
+				label: name,
+				value: _id,
+			})),
+		},
+		name: {},
 	};
-	return options;
 };
 
 export const bodyTypesAddAction: ActionFunction = async ({ request }) => {
@@ -45,19 +41,6 @@ export const bodyTypesAddAction: ActionFunction = async ({ request }) => {
 	}
 };
 
-const fields: FormField<CreateBodyType>[] = [
-	{
-		fieldType: 'select',
-		name: 'modelId',
-		required: true,
-	},
-	{
-		fieldType: 'input',
-		name: 'name',
-		required: true,
-	},
-];
-
 export const BodyTypesAdd = () => (
 	<Page
 		title='Add Body Type'
@@ -65,7 +48,7 @@ export const BodyTypesAdd = () => (
 	>
 		<Form
 			page='body-types-add'
-			fields={fields}
+			fields={bodyTypeFormFields}
 			noGrid
 		/>
 	</Page>

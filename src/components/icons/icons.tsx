@@ -1,4 +1,5 @@
 import {
+	Icon,
 	GraphIcon,
 	MegaphoneIcon,
 	PlugIcon,
@@ -17,7 +18,7 @@ import {
 	StarFillIcon,
 	CodeReviewIcon,
 	IconProps,
-	Icon,
+	PencilIcon,
 } from '@primer/octicons-react';
 
 export const icons = {
@@ -38,6 +39,7 @@ export const icons = {
 	star: StarIcon,
 	starFilled: StarFillIcon,
 	review: CodeReviewIcon,
+	edit: PencilIcon,
 };
 
 export interface AppIconProps extends IconProps {

@@ -138,6 +138,7 @@
 	font-weight: 200;
 	font-size: 0.8em;
 	color: var(--foreground-darker);
+	white-space: break-spaces;
 }
 
 .details {
@@ -178,4 +179,9 @@
 	grid-template-columns: repeat(2, 1fr);
 	gap: var(--spacing-1);
 	margin-top: auto;
+
+	& > .full {
+		grid-column-start: 1;
+		grid-column-end: 3;
+	}
 }

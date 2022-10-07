@@ -85,7 +85,6 @@ const Card = ({
 				</h3>
 			</div>
 
-
 			{subtitle &&
 				<h6 className={styles['subtitle']}>
 					{subtitle}
@@ -120,6 +119,9 @@ const Card = ({
 				<div className={styles['actions']}>
 					{actions.map((action, index) =>
 						<Button
+							className={cx(
+								action.fullWidth && styles['full']
+							)}
 							key={index}
 							{...action}
 							size={

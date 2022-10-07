@@ -44,7 +44,10 @@ export interface CardProps {
 	details?: CardDetail[],
 
 	/** the actions to show at the bottom of the card */
-	actions?: ButtonProps[],
+	actions?: (ButtonProps & {
+		/** should the action's button take up full width in the grid */
+		fullWidth?: boolean,
+	})[],
 
 	/** the accent color of the card. @default 'primary' */
 	color?: ThemeColor,

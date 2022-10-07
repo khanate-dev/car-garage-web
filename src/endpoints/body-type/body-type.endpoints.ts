@@ -3,13 +3,17 @@ import { z } from 'zod';
 import {
 	BodyType,
 	bodyTypeModelSchema,
-	CreateBodyTypeResponse,
-	createBodyTypeResponseSchema,
-	createBodyTypeSchema,
+	BodyTypeResponse,
+	bodyTypeResponseSchema,
+	bodyTypeRequestSchema,
 } from 'schemas/body-type';
-
-import { getRequest, postRequest } from 'helpers/api';
 import { mongoIdSchema } from 'schemas/mongo';
+
+import {
+	getRequest,
+	postRequest,
+	putRequest,
+} from 'helpers/api';
 
 export const getBodyTypes = async (): Promise<BodyType[]> => {
 	const bodyTypes = await getRequest('body-type');
@@ -26,10 +30,22 @@ export const getBodyType = async (
 
 export const createBodyType = async (
 	formData: FormData
-): Promise<CreateBodyTypeResponse> => {
-	const json = createBodyTypeSchema.parse(
+): Promise<BodyTypeResponse> => {
+	const json = bodyTypeRequestSchema.parse(
 		Object.fromEntries(formData)
 	);
 	const bodyType = await postRequest('body-type', json);
-	return createBodyTypeResponseSchema.parse(bodyType);
+	return bodyTypeResponseSchema.parse(bodyType);
+};
+
+export const putBodyType = async (
+	id: any,
+	formData: FormData
+): Promise<BodyTypeResponse> => {
+	const _id = mongoIdSchema.parse(id);
+	const json = bodyTypeRequestSchema.parse(
+		Object.fromEntries(formData)
+	);
+	const bodyType = await putRequest(`body-type/${_id}`, json);
+	return bodyTypeResponseSchema.parse(bodyType);
 };

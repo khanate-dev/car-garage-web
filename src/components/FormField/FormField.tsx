@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { cx } from 'helpers/class-name';
 import { omitKey } from 'helpers/omit-key';
-import { humanizeString } from 'helpers/string';
+import { humanizeToken } from 'helpers/string';
 
 import Rating from 'components/Rating';
 
@@ -90,7 +90,7 @@ const FormField = <Type extends Record<string, any>>({
 					value=''
 					disabled
 				>
-					-- Select {label ?? humanizeString(name as string)} --
+					-- Select {label ?? humanizeToken(name as string)} --
 				</option>
 				{(field.options ?? []).map(option => {
 					const value = (
@@ -127,7 +127,7 @@ const FormField = <Type extends Record<string, any>>({
 
 	const labelContent = (
 		<>
-			{label ?? humanizeString(name as string)}
+			{label ?? humanizeToken(name as string)}
 			{field.required &&
 				<span
 					className={styles.required}

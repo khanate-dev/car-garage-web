@@ -4,9 +4,10 @@ import {
 	createFavoriteResponseSchema,
 	createFavoriteSchema,
 	deleteFavoriteResponseSchema,
-	deleteFavoriteSchema,
 	favoriteModelSchema,
 } from 'schemas/favorite';
+
+import { mongoIdSchema } from 'schemas/mongo';
 
 import { deleteRequest, getRequest, postRequest } from 'helpers/api';
 
@@ -26,11 +27,9 @@ export const createFavorite = async (
 };
 
 export const deleteFavorite = async (
-	formData: FormData
+	id: any
 ) => {
-	const json = deleteFavoriteSchema.parse(
-		Object.fromEntries(formData)
-	);
-	const favorite = await deleteRequest(`favorite/${json._id}`);
+	const _id = mongoIdSchema.parse(id);
+	const favorite = await deleteRequest(`favorite/${_id}`);
 	return deleteFavoriteResponseSchema.parse(favorite);
 };
