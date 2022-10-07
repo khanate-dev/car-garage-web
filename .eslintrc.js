@@ -40,6 +40,13 @@ const config = {
 		'no-console': ['error', {
 			allow: ['warn', 'error', 'info'],
 		}],
+		'no-multiple-empty-lines': ['error', {
+			max: 1,
+			maxEOF: 0,
+			maxBOF: 0,
+		}],
+		'eol-last': ['error', 'always'],
+		'quote-props': ['error', 'as-needed'],
 	},
 	overrides: [
 		{
