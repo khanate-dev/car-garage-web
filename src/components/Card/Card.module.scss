@@ -48,11 +48,14 @@
 	justify-content: center;
 	align-items: center;
 	border-radius: var(--radius-2);
+	border-width: var(--border-width);
+	border-color: var(--background-darker);
+	border-style: var(--border-style);
 	box-shadow: 5px 5px 10px var(--shadow);
 
 	& > * {
 		width: 100%;
-		max-height: max(130px, 10 * var(--font));
+		aspect-ratio: 2;
 		object-fit: cover;
 		object-position: center;
 	}
