@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
 import {
-	BodyType,
 	bodyTypeModelSchema,
-	BodyTypeResponse,
 	bodyTypeResponseSchema,
 	bodyTypeRequestSchema,
 } from 'schemas/body-type';
@@ -15,14 +13,14 @@ import {
 	putRequest,
 } from 'helpers/api';
 
-export const getBodyTypes = async (): Promise<BodyType[]> => {
+export const getBodyTypes = async () => {
 	const bodyTypes = await getRequest('body-type');
 	return z.array(bodyTypeModelSchema).parse(bodyTypes);
 };
 
 export const getBodyType = async (
 	id: any
-): Promise<BodyType> => {
+) => {
 	const _id = mongoIdSchema.parse(id);
 	const bodyType = await getRequest(`body-type/${_id}`);
 	return bodyTypeModelSchema.parse(bodyType);
@@ -30,7 +28,7 @@ export const getBodyType = async (
 
 export const createBodyType = async (
 	formData: FormData
-): Promise<BodyTypeResponse> => {
+) => {
 	const json = bodyTypeRequestSchema.parse(
 		Object.fromEntries(formData)
 	);
@@ -38,10 +36,10 @@ export const createBodyType = async (
 	return bodyTypeResponseSchema.parse(bodyType);
 };
 
-export const putBodyType = async (
+export const updateBodyType = async (
 	id: any,
 	formData: FormData
-): Promise<BodyTypeResponse> => {
+) => {
 	const _id = mongoIdSchema.parse(id);
 	const json = bodyTypeRequestSchema.parse(
 		Object.fromEntries(formData)

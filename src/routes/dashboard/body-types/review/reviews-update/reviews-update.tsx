@@ -7,7 +7,7 @@ import {
 import { ReviewForm, reviewFormFields } from 'schemas/review';
 import { BodyType } from 'schemas/body-type';
 import { getBodyType } from 'endpoints/body-type';
-import { getReview, putReview } from 'endpoints/review';
+import { getReview, updateReview } from 'endpoints/review';
 
 import { getActionError } from 'helpers/route';
 
@@ -43,7 +43,7 @@ export const reviewsUpdateAction: ActionFunction = async ({
 	try {
 		const formData = await request.formData();
 		formData.append('bodyTypeId', params.bodyTypeId ?? '');
-		await putReview(params.reviewId, formData);
+		await updateReview(params.reviewId, formData);
 		return redirect('/body-types');
 	}
 	catch (error: any) {

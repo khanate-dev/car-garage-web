@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 
 import { bodyTypeFormFields, BodyTypeRequest } from 'schemas/body-type';
-import { getBodyType, putBodyType } from 'endpoints/body-type';
+import { getBodyType, updateBodyType } from 'endpoints/body-type';
 import { getModels } from 'endpoints/model';
 
 import { getActionError } from 'helpers/route';
@@ -37,7 +37,7 @@ export const bodyTypesUpdateLoader: FormLoader<BodyTypeRequest> = async ({ param
 export const bodyTypesUpdateAction: ActionFunction = async ({ params, request }) => {
 	try {
 		const formData = await request.formData();
-		await putBodyType(params.bodyTypeId, formData);
+		await updateBodyType(params.bodyTypeId, formData);
 		return redirect('/body-types');
 	}
 	catch (error: any) {
