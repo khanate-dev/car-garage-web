@@ -1,6 +1,7 @@
 import { cx } from 'helpers/class-name';
 
 import Loading from 'components/Loading';
+import { AppIcon } from 'components/icons';
 
 import { IconButtonProps } from './IconButton.types';
 import styles from './IconButton.module.scss';
@@ -33,7 +34,9 @@ const ThemeSwitch = ({
 	>
 		{isLoading
 			? <Loading size='tiny' button />
-			: icon
+			: typeof icon === 'string'
+				? <AppIcon icon={icon} />
+				: icon
 		}
 	</button>
 );

@@ -1,25 +1,49 @@
 import { z } from 'zod';
 
 import {
-	CreateModelResponse,
-	createModelResponseSchema,
-	createModelSchema,
+	modelResponseSchema,
+	modelRequestSchema,
 	modelModelSchema,
 } from 'schemas/model';
+import { mongoIdSchema } from 'schemas/mongo';
 
-import { getRequest, postRequest } from 'helpers/api';
+import {
+	getRequest,
+	postRequest,
+	putRequest,
+} from 'helpers/api';
 
 export const getModels = async () => {
 	const models = await getRequest('model');
 	return z.array(modelModelSchema).parse(models);
 };
 
+export const getModel = async (
+	id: any
+) => {
+	const _id = mongoIdSchema.parse(id);
+	const model = await getRequest(`model/${_id}`);
+	return modelModelSchema.parse(model);
+};
+
 export const createModel = async (
 	formData: FormData
-): Promise<CreateModelResponse> => {
-	const json = createModelSchema.parse(
+) => {
+	const json = modelRequestSchema.parse(
 		Object.fromEntries(formData)
 	);
 	const model = await postRequest('model', json);
-	return createModelResponseSchema.parse(model);
+	return modelResponseSchema.parse(model);
+};
+
+export const updateModel = async (
+	id: any,
+	formData: FormData
+) => {
+	const _id = mongoIdSchema.parse(id);
+	const json = modelRequestSchema.parse(
+		Object.fromEntries(formData)
+	);
+	const model = await putRequest(`model/${_id}`, json);
+	return modelResponseSchema.parse(model);
 };

@@ -1,6 +1,9 @@
+import { ReactElement, ReactNode } from 'react';
+import { Icon } from '@primer/octicons-react';
+
 import { ButtonProps } from 'components/Button';
 import { ChipProps } from 'components/Chip';
-import { ReactElement } from 'react';
+import { icons } from 'components/icons';
 
 import { Size, ThemeColor } from 'types/general';
 
@@ -25,20 +28,26 @@ export interface CardProps {
 	/** the labels to show on the card */
 	labels?: string[] | ChipProps[],
 
+	/** the icon to show next to the title */
+	icon?: keyof typeof icons | Icon,
+
 	/** the title of the card */
-	title: string,
+	title: ReactNode,
 
 	/** the subtitle to show beneath the title */
-	subtitle?: string,
+	subtitle?: ReactNode,
 
 	/** the detailed description */
-	description?: string,
+	description?: ReactNode,
 
 	/** the list of details to show on the card */
 	details?: CardDetail[],
 
 	/** the actions to show at the bottom of the card */
-	actions?: ButtonProps[],
+	actions?: (ButtonProps & {
+		/** should the action's button take up full width in the grid */
+		fullWidth?: boolean,
+	})[],
 
 	/** the accent color of the card. @default 'primary' */
 	color?: ThemeColor,

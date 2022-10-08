@@ -3,6 +3,10 @@ const {
 	NODE_ENV,
 } = process.env;
 
+if (!REACT_APP_BACKEND_API_PATH) {
+	throw new Error('Backend api path environment not found!');
+}
+
 const environments = [
 	'development',
 	'test',
@@ -17,17 +21,14 @@ const isValidEnvironment = (
 	&& environments.includes(environment as any)
 );
 
-const appEnvironment: Environment = (
+export const appEnvironment: Environment = (
 	isValidEnvironment(NODE_ENV)
 		? NODE_ENV
 		: 'development'
 );
 
 /** the base url path for the backend api's */
-const backendApiEndpoint: string = (
-	REACT_APP_BACKEND_API_PATH
-	?? 'http://localhost:5000'
-);
+export const backendApiEndpoint: string = REACT_APP_BACKEND_API_PATH;
 
 const disableAuthConfig: Record<Environment, boolean> = {
 	development: false,
@@ -35,10 +36,4 @@ const disableAuthConfig: Record<Environment, boolean> = {
 	production: false,
 };
 /** should fetch authentication be disabled? */
-const disableAuth = disableAuthConfig[appEnvironment];
-
-export {
-	appEnvironment,
-	backendApiEndpoint,
-	disableAuth,
-};
+export const disableAuth = disableAuthConfig[appEnvironment];

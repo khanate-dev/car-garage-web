@@ -111,3 +111,8 @@ dist
 
 # msw generated worker
 public/mockServiceWorker.js
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

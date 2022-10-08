@@ -4,13 +4,6 @@ import {
 	redirect,
 	RouterProvider,
 } from 'react-router-dom';
-import {
-	GraphIcon as OverviewIcon,
-	MegaphoneIcon as ProductsIcon,
-	PlugIcon as BodTypesIcon,
-	RocketIcon as MakeTypesIcon,
-	TrophyIcon as ModelsIcon,
-} from '@primer/octicons-react';
 
 import { getSetting } from 'helpers/settings';
 
@@ -22,20 +15,28 @@ import { Overview, overviewLoader } from 'routes/dashboard/overview';
 import {
 	ProductsView,
 	productsViewLoader,
-	ProductsAdd,
-	productsAddAction,
-	productsAddLoader,
+	ProductsForm,
+	productsFormLoader,
+	productsFormAction,
+	productsDeleteAction,
+	productsBuyAction,
 } from 'routes/dashboard/products';
 import {
 	MakeTypesView,
 	makeTypesViewLoader,
 	MakeTypesAdd,
 	makeTypesAddAction,
+	MakeTypesUpdate,
+	makeTypesUpdateAction,
+	makeTypesUpdateLoader,
 } from 'routes/dashboard/make-types';
 import {
 	ModelsAdd,
 	modelsAddAction,
 	modelsAddLoader,
+	ModelsUpdate,
+	modelsUpdateAction,
+	modelsUpdateLoader,
 	ModelsView,
 	modelsViewLoader,
 } from 'routes/dashboard/model';
@@ -45,9 +46,21 @@ import {
 	BodyTypesAdd,
 	bodyTypesAddLoader,
 	bodyTypesAddAction,
+	BodyTypesUpdate,
+	bodyTypesUpdateLoader,
+	bodyTypesUpdateAction,
+	favoriteAddAction,
+	favoriteDeleteAction,
+	ReviewsAdd,
+	reviewsAddLoader,
+	reviewsAddAction,
+	ReviewsUpdate,
+	reviewsUpdateLoader,
+	reviewsUpdateAction,
 } from 'routes/dashboard/body-types';
 
 import Providers from 'components/Providers';
+import { icons } from 'components/icons';
 
 import { DashboardRoute } from 'types/general';
 
@@ -67,16 +80,17 @@ const redirectIfUserLoader: LoaderFunction = async () => {
 
 export const dashboardRoutes: DashboardRoute[] = [
 	{
+		index: true,
 		path: '',
 		element: <Overview />,
 		loader: overviewLoader,
-		errorElement: <ErrorBoundary />,
 		label: 'Overview',
-		icon: <OverviewIcon />,
+		icon: icons.overview,
 	},
 	{
 		path: 'products',
-		errorElement: <ErrorBoundary />,
+		label: 'Products',
+		icon: icons.products,
 		children: [
 			{
 				index: true,
@@ -85,17 +99,31 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 			{
 				path: 'add',
-				element: <ProductsAdd />,
-				loader: productsAddLoader,
-				action: productsAddAction,
+				element: <ProductsForm />,
+				loader: productsFormLoader,
+				action: productsFormAction,
+			},
+			{
+				path: 'update/:productId',
+				element: <ProductsForm />,
+				loader: productsFormLoader,
+				action: productsFormAction,
+			},
+			{
+				path: 'delete/:productId',
+				action: productsDeleteAction,
+			},
+			{
+				path: 'buy/:productId',
+				action: productsBuyAction,
 			},
 		],
-		label: 'Products',
-		icon: <ProductsIcon />,
 	},
 	{
 		path: '/make-types',
-		errorElement: <ErrorBoundary />,
+		label: 'Make Types',
+		icon: icons.makeTypes,
+		adminOnly: true,
 		children: [
 			{
 				index: true,
@@ -107,13 +135,19 @@ export const dashboardRoutes: DashboardRoute[] = [
 				element: <MakeTypesAdd />,
 				action: makeTypesAddAction,
 			},
+			{
+				path: 'update/:makeTypeId',
+				element: <MakeTypesUpdate />,
+				loader: makeTypesUpdateLoader,
+				action: makeTypesUpdateAction,
+			},
 		],
-		label: 'Make Types',
-		icon: <MakeTypesIcon />,
 	},
 	{
 		path: '/models',
-		errorElement: <ErrorBoundary />,
+		label: 'Models',
+		icon: icons.models,
+		adminOnly: true,
 		children: [
 			{
 				index: true,
@@ -126,13 +160,18 @@ export const dashboardRoutes: DashboardRoute[] = [
 				loader: modelsAddLoader,
 				action: modelsAddAction,
 			},
+			{
+				path: 'update/:modelId',
+				element: <ModelsUpdate />,
+				loader: modelsUpdateLoader,
+				action: modelsUpdateAction,
+			},
 		],
-		label: 'Models',
-		icon: <ModelsIcon />,
 	},
 	{
 		path: '/body-types',
-		errorElement: <ErrorBoundary />,
+		label: 'Body Types',
+		icon: icons.bodyTypes,
 		children: [
 			{
 				index: true,
@@ -140,14 +179,48 @@ export const dashboardRoutes: DashboardRoute[] = [
 				loader: bodyTypesViewLoader,
 			},
 			{
+				path: 'review/:bodyTypeId',
+				children: [
+					{
+						path: 'add',
+						element: <ReviewsAdd />,
+						loader: reviewsAddLoader,
+						action: reviewsAddAction,
+					},
+					{
+						path: 'update/:reviewId',
+						element: <ReviewsUpdate />,
+						loader: reviewsUpdateLoader,
+						action: reviewsUpdateAction,
+					},
+				],
+			},
+			{
+				path: 'favorite/:bodyTypeId',
+				children: [
+					{
+						path: 'add',
+						action: favoriteAddAction,
+					},
+					{
+						path: 'delete/:favoriteId',
+						action: favoriteDeleteAction,
+					},
+				],
+			},
+			{
 				path: 'add',
 				element: <BodyTypesAdd />,
 				loader: bodyTypesAddLoader,
 				action: bodyTypesAddAction,
 			},
+			{
+				path: 'update/:bodyTypeId',
+				element: <BodyTypesUpdate />,
+				loader: bodyTypesUpdateLoader,
+				action: bodyTypesUpdateAction,
+			},
 		],
-		label: 'Body Types',
-		icon: <BodTypesIcon />,
 	},
 ];
 
@@ -157,7 +230,10 @@ const router = createBrowserRouter([
 		element: <Dashboard />,
 		loader: redirectIfNotUserLoader,
 		errorElement: <ErrorBoundary />,
-		children: dashboardRoutes,
+		children: [{
+			errorElement: <ErrorBoundary />,
+			children: dashboardRoutes,
+		}],
 	},
 	{
 		path: '/login',

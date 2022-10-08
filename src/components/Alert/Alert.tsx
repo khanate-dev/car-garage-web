@@ -4,6 +4,7 @@ import { AlertProps } from './Alert.types';
 import styles from './Alert.module.scss';
 
 const Alert = ({
+	className,
 	message,
 	color = 'default',
 	size = 'medium',
@@ -14,7 +15,8 @@ const Alert = ({
 			className={cx(
 				styles['alert'],
 				color,
-				size
+				size,
+				className
 			)}
 		>
 			{message}

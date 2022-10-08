@@ -26,6 +26,27 @@
 	}
 }
 
+.filters {
+	display: flex;
+	gap: var(--spacing-0);
+	flex-wrap: nowrap;
+	margin-left: auto;
+	align-items: flex-end;
+	font-size: 0.8em;
+
+	& > div > label:first-child:last-child {
+		padding: var(--spacing-0);
+		gap: var(--spacing-0);
+		line-height: 1.5;
+
+		& > input[type='checkbox'] {
+			padding: 3px;
+			width: 23px;
+			height: 23px;
+		}
+	}
+}
+
 .body {
 	flex-grow: 1;
 	flex-shrink: 1;

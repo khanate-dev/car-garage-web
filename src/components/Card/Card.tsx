@@ -2,6 +2,7 @@ import { cx } from 'helpers/class-name';
 
 import Chip, { ChipProps } from 'components/Chip';
 import Button from 'components/Button';
+import { AppIcon } from 'components/icons';
 
 import { sizes } from 'types/general';
 
@@ -12,6 +13,7 @@ const Card = ({
 	cover,
 	image,
 	labels,
+	icon,
 	title,
 	subtitle,
 	description,
@@ -76,9 +78,12 @@ const Card = ({
 				</div>
 			}
 
-			<h3 className={styles['title']}>
-				{title}
-			</h3>
+			<div className={styles['heading']}>
+				<AppIcon icon={icon} />
+				<h3 className={styles['title']}>
+					{title}
+				</h3>
+			</div>
 
 			{subtitle &&
 				<h6 className={styles['subtitle']}>
@@ -112,8 +117,11 @@ const Card = ({
 
 			{actions &&
 				<div className={styles['actions']}>
-					{actions.map((action, index) =>
+					{actions.map(({ fullWidth, ...action }, index) =>
 						<Button
+							className={cx(
+								fullWidth && styles['full']
+							)}
 							key={index}
 							{...action}
 							size={

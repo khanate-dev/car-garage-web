@@ -1,12 +1,16 @@
 import {
 	InputHTMLAttributes,
-	ReactElement,
 	ReactNode,
 	SelectHTMLAttributes,
+	TextareaHTMLAttributes,
 } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { LoaderFunctionArgs, RouteObject } from 'react-router-dom';
+import { Icon } from '@primer/octicons-react';
 
 import { UserSansPassword } from 'schemas/user';
+
+import { InteractiveRatingProps } from 'components/Rating';
+import { ImageUploadProps } from 'components/ImageUpload';
 
 export const themeColors = [
 	'default',
@@ -62,7 +66,7 @@ export interface BaseFormField<Form extends Record<string, any>> {
 	name: keyof Form,
 
 	/** the type of the form element to use */
-	fieldType?: 'input' | 'select',
+	fieldType?: 'input' | 'select' | 'rating' | 'textarea' | 'image',
 
 	/** the label to show on the field */
 	label?: ReactNode,
@@ -75,7 +79,7 @@ export interface BaseFormField<Form extends Record<string, any>> {
 export type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 export interface InputFormField<
-	Form extends Record<string, any>
+	Form extends Record<string, any>,
 > extends
 	BaseFormField<Form>,
 	Omit<InputProps, 'name'> {
@@ -106,9 +110,47 @@ export interface SelectFormField<
 
 }
 
+export interface RatingFormField<
+	Form extends Record<string, any>
+> extends
+	BaseFormField<Form>,
+	InteractiveRatingProps<Form> {
+
+	/** the type of the form element to use */
+	fieldType: 'rating',
+
+}
+
+export interface ImageFormField<
+	Form extends Record<string, any>
+> extends
+	BaseFormField<Form>,
+	ImageUploadProps<Form> {
+
+	/** the type of the form element to use */
+	fieldType: 'image',
+
+}
+
+export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+export interface TextareaFormField<
+	Form extends Record<string, any>
+> extends
+	BaseFormField<Form>,
+	Omit<TextareaProps, 'name'> {
+
+	/** the type of the form element to use */
+	fieldType: 'textarea',
+
+}
+
 export type FormField<Form extends Record<string, any>> = (
 	| InputFormField<Form>
 	| SelectFormField<Form>
+	| RatingFormField<Form>
+	| ImageFormField<Form>
+	| TextareaFormField<Form>
 );
 
 export const sizes = [
@@ -143,6 +185,37 @@ export interface DashboardRoute extends RouteObject {
 	label: string,
 
 	/** the icon to use for the route in the sidebar */
-	icon: ReactElement,
+	icon: Icon,
+
+	/** is the route only available to admins? */
+	adminOnly?: boolean,
 
 }
+
+export enum Rating {
+	One = 1,
+	Two = 2,
+	Three = 3,
+	Four = 4,
+	Five = 5,
+}
+
+export const ratings = [
+	1, 2, 3, 4, 5,
+] as Rating[];
+
+export type FormLoaderData<
+	Form extends Record<string, any> = Record<never, never>,
+	Data extends Record<string, any> = Record<never, never>
+> = Record<
+	keyof Form,
+	{
+		options?: SelectOptions,
+		value?: Form[keyof Form],
+	}
+> & Data;
+
+export type FormLoader<
+	Form extends Record<string, any> = Record<never, never>,
+	Data extends Record<string, any> = Record<never, never>
+> = (args: LoaderFunctionArgs) => Promise<FormLoaderData<Form, Data>>;

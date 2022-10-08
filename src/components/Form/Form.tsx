@@ -13,10 +13,10 @@ import FormField from 'components/FormField';
 import Alert from 'components/Alert';
 import Button from 'components/Button';
 
+import { FormLoaderData } from 'types/general';
+
 import { FormProps } from './Form.types';
 import styles from './Form.module.scss';
-import { SelectOptions } from 'types/general';
-import { ZapIcon as SubmitIcon } from '@primer/octicons-react';
 
 const Form = <Type extends Record<string, any>>({
 	className,
@@ -25,12 +25,16 @@ const Form = <Type extends Record<string, any>>({
 	subtitle,
 	fields,
 	footer,
+	submitProps,
 	noGrid,
+	disabled,
+	busy,
+	noSubmitButton,
 	...routerProps
 }: FormProps<Type>) => {
 
 	const { state } = useNavigation();
-	const options = useLoaderData() as Record<keyof Type, SelectOptions>;
+	const options = useLoaderData() as FormLoaderData<Type>;
 	const error = useFormError(page, fields);
 
 	const FormContainer = (
@@ -45,6 +49,7 @@ const Form = <Type extends Record<string, any>>({
 
 	return (
 		<RouterForm
+			id={page}
 			className={cx(
 				styles['container'],
 				className
@@ -53,9 +58,17 @@ const Form = <Type extends Record<string, any>>({
 			method={routerProps.method ?? 'post'}
 		>
 
-			{title && <h1>{title}</h1>}
+			{title && (
+				typeof title === 'object'
+					? title
+					: <h1>{title}</h1>
+			)}
 
-			{subtitle && <p>{subtitle}</p>}
+			{subtitle && (
+				typeof subtitle === 'object'
+					? subtitle
+					: <p>{subtitle}</p>
+			)}
 
 			<FormContainer
 				{...formContainerProps}
@@ -65,16 +78,17 @@ const Form = <Type extends Record<string, any>>({
 					if (
 						field.fieldType === 'select'
 						&& !field.options
-						&& Array.isArray(options?.[field.name])
+						&& Array.isArray(options?.[field.name]?.options)
 					) {
-						field.options = options[field.name];
+						field.options = options[field.name].options;
 					}
+					field.defaultValue = options?.[field.name]?.value;
 
 					return <FormField
-						key={field.name as string}
+						key={field.id ?? field.name as string}
 						field={field}
 						error={error?.errors?.[field.name as string]}
-						disabled={state !== 'idle'}
+						disabled={busy || disabled || state !== 'idle'}
 					/>;
 
 				})}
@@ -88,12 +102,15 @@ const Form = <Type extends Record<string, any>>({
 				/>
 			}
 
-			<Button
-				text='Submit'
-				type='submit'
-				icon={<SubmitIcon />}
-				isLoading={state !== 'idle'}
-			/>
+			{!noSubmitButton &&
+				<Button
+					text={'Submit'}
+					type='submit'
+					icon='submit'
+					isLoading={busy || state !== 'idle'}
+					{...submitProps}
+				/>
+			}
 
 			{footer}
 

@@ -1,6 +1,8 @@
+import { ImgHTMLAttributes } from 'react';
+
 import { Size } from 'types/general';
 
-export interface AvatarProps {
+export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
 
 	/** the alt text for the avatar */
 	alt: string,

@@ -1,26 +1,64 @@
 import { z } from 'zod';
 
 import {
-	Product,
 	productModelSchema,
-	createProductSchema,
+	productRequestSchema,
+	productResponseSchema,
+	productUpdateRequestSchema,
 } from 'schemas/product';
+import { mongoIdSchema } from 'schemas/mongo';
 
-import { getRequest, postRequest } from 'helpers/api';
 import { getSetting } from 'helpers/settings';
+import { objectToFormData } from 'helpers/form';
+import {
+	deleteRequest,
+	getRequest,
+	postRequest,
+	putRequest,
+} from 'helpers/api';
 
-export const getProducts = async (): Promise<Product[]> => {
+export const getProducts = async () => {
 	const products = await getRequest('product');
 	return z.array(productModelSchema).parse(products);
 };
 
+export const getProduct = async (
+	id: any
+) => {
+	const _id = mongoIdSchema.parse(id);
+	const product = await getRequest(`product/${_id}`);
+	return productModelSchema.parse(product);
+};
+
 export const createProduct = async (
 	formData: FormData
-): Promise<Product> => {
-	const json = createProductSchema.parse({
+) => {
+	const json = productRequestSchema.parse({
 		...Object.fromEntries(formData),
 		sellerId: getSetting('user')?._id,
 	});
-	const response = await postRequest('product', json, true);
-	return productModelSchema.parse(response);
+	const multipartForm = objectToFormData(json);
+	const response = await postRequest('product', multipartForm);
+	return productResponseSchema.parse(response);
+};
+
+export const updateProduct = async (
+	id: any,
+	formData: FormData
+) => {
+	const _id = mongoIdSchema.parse(id);
+	const json = productUpdateRequestSchema.parse(
+		Object.fromEntries(formData)
+	);
+	const multipartForm = objectToFormData(json);
+	const response = await putRequest(`product/${_id}`, multipartForm);
+	return productResponseSchema.parse(response);
+};
+
+export const deleteProduct = async (
+	id: any
+) => {
+	const _id = mongoIdSchema.parse(id);
+	const response = await deleteRequest(`product/${_id}`);
+	return productResponseSchema.parse(response);
 };

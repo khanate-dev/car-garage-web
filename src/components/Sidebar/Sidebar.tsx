@@ -1,22 +1,19 @@
 import { useReducer } from 'react';
 import { NavLink, useLoaderData } from 'react-router-dom';
-import {
-	ChevronLeftIcon as BackIcon,
-	SignOutIcon as LogoutIcon,
-} from '@primer/octicons-react';
 
 import { UserSansPassword } from 'schemas/user';
 
 import { cx } from 'helpers/class-name';
 
+import { dashboardRoutes } from 'App';
 import ThemeSwitch from 'components/ThemeSwitch';
 import Logo from 'components/Logo/Logo';
 import Avatar from 'components/Avatar';
 import IconButton from 'components/IconButton';
+import { AppIcon } from 'components/icons';
 
 import styles from './Sidebar.module.scss';
 import { SidebarProps } from './Sidebar.types';
-import { dashboardRoutes } from 'App';
 
 const Sidebar = ({
 	onLogout,
@@ -59,7 +56,7 @@ const Sidebar = ({
 							isMinimized && styles['flipped']
 						)}
 						onClick={toggleSidebar}
-						icon={<BackIcon />}
+						icon='back'
 						size='small'
 					/>
 				</div>
@@ -88,7 +85,7 @@ const Sidebar = ({
 						color='danger'
 						variant='fill'
 						size='small'
-						icon={<LogoutIcon />}
+						icon='logout'
 					/>
 
 				</div>
@@ -98,20 +95,25 @@ const Sidebar = ({
 			<ul
 				className={styles['page-list']}
 			>
-				{dashboardRoutes.map(route =>
-					<li
-						key={route.path ?? route.label}
-						className={isMinimized ? styles['minimized'] : undefined}
-					>
-						<NavLink
-							to={route.path}
+				{dashboardRoutes
+					.filter(route =>
+						user.role === 'admin'
+						|| !route.adminOnly
+					)
+					.map(route =>
+						<li
+							key={route.path ?? route.label}
+							className={isMinimized ? styles['minimized'] : undefined}
 						>
-							{route.icon}
-							<p>{route.label}</p>
-						</NavLink>
-					</li>
+							<NavLink
+								to={route.path}
+							>
+								<AppIcon icon={route.icon} />
+								<p>{route.label}</p>
+							</NavLink>
+						</li>
 
-				)}
+					)}
 			</ul>
 
 		</aside>

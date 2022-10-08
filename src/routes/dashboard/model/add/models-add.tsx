@@ -1,6 +1,6 @@
-import { ActionFunction, LoaderFunction, redirect } from 'react-router-dom';
+import { ActionFunction, redirect } from 'react-router-dom';
 
-import { ModelSansMeta } from 'schemas/model';
+import { ModelForm, modelFormFields } from 'schemas/model';
 import { getMakeTypes } from 'endpoints/make-type';
 import { createModel } from 'endpoints/model';
 
@@ -9,22 +9,22 @@ import { getActionError } from 'helpers/route';
 import Form from 'components/Form';
 import Page from 'components/Page';
 
-import { FormField, SelectOptions } from 'types/general';
+import { FormLoader } from 'types/general';
 
-type ModelAddOptions = Record<
-	'makeTypeId',
-	SelectOptions
->;
+const formName = 'models-add';
 
-export const modelsAddLoader: LoaderFunction = async () => {
+export const modelsAddLoader: FormLoader<ModelForm> = async () => {
 	const makeTypes = await getMakeTypes();
-	const options: ModelAddOptions = {
-		makeTypeId: makeTypes.map(({ _id, name }) => ({
-			label: name,
-			value: _id,
-		})),
+	return {
+		makeTypeId: {
+			options: makeTypes.map(({ _id, name }) => ({
+				label: name,
+				value: _id,
+			})),
+		},
+		name: {},
+		year: {},
 	};
-	return options;
 };
 
 export const modelsAddAction: ActionFunction = async ({ request }) => {
@@ -35,30 +35,11 @@ export const modelsAddAction: ActionFunction = async ({ request }) => {
 	}
 	catch (error: any) {
 		return getActionError({
-			source: 'models-add',
+			source: formName,
 			error,
 		});
 	}
 };
-
-const fields: FormField<ModelSansMeta>[] = [
-	{
-		fieldType: 'input',
-		name: 'name',
-		required: true,
-	},
-	{
-		fieldType: 'input',
-		name: 'year',
-		type: 'number',
-		required: true,
-	},
-	{
-		fieldType: 'select',
-		name: 'makeTypeId',
-		required: true,
-	},
-];
 
 export const ModelsAdd = () => (
 	<Page
@@ -66,8 +47,8 @@ export const ModelsAdd = () => (
 		hasBack
 	>
 		<Form
-			page='models-add'
-			fields={fields}
+			page={formName}
+			fields={modelFormFields}
 			noGrid
 		/>
 	</Page>

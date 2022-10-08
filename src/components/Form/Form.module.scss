@@ -8,7 +8,7 @@
 	padding: var(--spacing-3);
 	border-radius: var(--radius-1);
 
-	& > div:not(.form-grid, :last-child),
+	& > div:not(.form-grid),
 	& > button {
 		min-width: fit-content;
 		width: 50%;

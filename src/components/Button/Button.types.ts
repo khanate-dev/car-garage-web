@@ -1,8 +1,10 @@
 import {
 	ButtonHTMLAttributes,
-	ReactElement,
 	ReactNode,
 } from 'react';
+import { Icon } from '@primer/octicons-react';
+
+import { icons } from 'components/icons';
 
 import { Size, ThemeColor } from 'types/general';
 
@@ -26,7 +28,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	size?: Size,
 
 	/** the button's action icon */
-	icon?: ReactElement,
+	icon?: keyof typeof icons | Icon,
 
 	/** the style variant of the button @default 'fill' */
 	variant?: ButtonVariant,
