@@ -29,6 +29,7 @@ const Form = <Type extends Record<string, any>>({
 	noGrid,
 	disabled,
 	busy,
+	noSubmitButton,
 	...routerProps
 }: FormProps<Type>) => {
 
@@ -79,9 +80,9 @@ const Form = <Type extends Record<string, any>>({
 						&& !field.options
 						&& Array.isArray(options?.[field.name]?.options)
 					) {
-						field.options = options[field.name]?.options;
+						field.options = options[field.name].options;
 					}
-					field.defaultValue = options[field.name]?.value;
+					field.defaultValue = options?.[field.name]?.value;
 
 					return <FormField
 						key={field.id ?? field.name as string}
@@ -101,13 +102,15 @@ const Form = <Type extends Record<string, any>>({
 				/>
 			}
 
-			<Button
-				text={'Submit'}
-				type='submit'
-				icon='submit'
-				isLoading={busy || state !== 'idle'}
-				{...submitProps}
-			/>
+			{!noSubmitButton &&
+				<Button
+					text={'Submit'}
+					type='submit'
+					icon='submit'
+					isLoading={busy || state !== 'idle'}
+					{...submitProps}
+				/>
+			}
 
 			{footer}
 
