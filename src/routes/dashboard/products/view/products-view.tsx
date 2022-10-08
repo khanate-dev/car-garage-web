@@ -86,17 +86,19 @@ export const ProductsView = () => {
 						}}
 						size='tiny'
 					/>
-					<FormField
-						field={{
-							fieldType: 'select',
-							name: 'owner',
-							label: 'Creator',
-							value: owner,
-							options: ['all', 'me', 'others'],
-							onChange: ({ target }) => setOwner(target.value as any),
-						}}
-						size='tiny'
-					/>
+					{user?.role === 'user' &&
+						<FormField
+							field={{
+								fieldType: 'select',
+								name: 'owner',
+								label: 'Creator',
+								value: owner,
+								options: ['all', 'me', 'others'],
+								onChange: ({ target }) => setOwner(target.value as any),
+							}}
+							size='tiny'
+						/>
+					}
 					<FormField
 						field={{
 							fieldType: 'input',
@@ -132,7 +134,7 @@ export const ProductsView = () => {
 					/>
 				</>
 			}
-			hasAdd
+			hasAdd={user?.role !== 'admin'}
 			isGridView
 		>
 
@@ -200,58 +202,64 @@ export const ProductsView = () => {
 					});
 				}
 
-				const actions: NonNullable<CardProps['actions']> = [
-					{
-						text: 'Update',
-						icon: 'update',
-						onClick: () => navigate(`update/${_id}`),
-						isLoading: (
-							navigation.state !== 'idle'
-							&& navigation.location.pathname === `/products/update/${_id}`
+				const actions: NonNullable<CardProps['actions']> = [];
+
+				if (sellerId === user?._id) {
+					actions.push(
+						{
+							text: 'Update',
+							icon: 'update',
+							onClick: () => navigate(`update/${_id}`),
+							isLoading: (
+								navigation.state !== 'idle'
+								&& navigation.location.pathname === `/products/update/${_id}`
+							),
+						},
+						{
+							text: 'Delete',
+							icon: 'delete',
+							color: 'danger',
+							onClick: () => fetcher.submit(null, {
+								action: `/products/delete/${_id}`,
+								method: 'delete',
+							}),
+							isLoading: (
+								fetcher.state !== 'idle'
+								&& fetcher.formAction === `/products/delete/${_id}`
+							),
+						}
+					);
+				}
+
+				if (!buyerId && sellerId !== user?._id && user?.role !== 'admin') {
+					actions.push({
+						text: 'Buy',
+						icon: 'buy',
+						color: 'success',
+						onClick: () => fetcher.submit(
+							objectToFormData(product, [
+								'__v',
+								'_id',
+								'bodyType',
+								'buyer',
+								'createdAt',
+								'makeType',
+								'model',
+								'seller',
+								'updatedAt',
+							]),
+							{
+								action: `/products/buy/${_id}`,
+								method: 'put',
+							}
 						),
-					},
-					{
-						text: 'Delete',
-						icon: 'delete',
-						color: 'danger',
-						onClick: () => fetcher.submit(null, {
-							action: `/products/delete/${_id}`,
-							method: 'delete',
-						}),
 						isLoading: (
 							fetcher.state !== 'idle'
-							&& fetcher.formAction === `/products/delete/${_id}`
+							&& fetcher.formAction === `/products/buy/${_id}`
 						),
-					},
-				];
-
-				if (!buyerId) actions.push({
-					text: 'Buy',
-					icon: 'buy',
-					color: 'warning',
-					onClick: () => fetcher.submit(
-						objectToFormData(product, [
-							'__v',
-							'_id',
-							'bodyType',
-							'buyer',
-							'createdAt',
-							'makeType',
-							'model',
-							'seller',
-							'updatedAt',
-						]),
-						{
-							action: `/products/buy/${_id}`,
-							method: 'put',
-						}
-					),
-					isLoading: (
-						fetcher.state !== 'idle'
-						&& fetcher.formAction === `/products/buy/${_id}`
-					),
-					fullWidth: true,
-				});
+						fullWidth: true,
+					});
+				}
 
 				return (
 					<Card

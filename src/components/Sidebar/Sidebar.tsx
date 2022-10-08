@@ -95,20 +95,25 @@ const Sidebar = ({
 			<ul
 				className={styles['page-list']}
 			>
-				{dashboardRoutes.map(route =>
-					<li
-						key={route.path ?? route.label}
-						className={isMinimized ? styles['minimized'] : undefined}
-					>
-						<NavLink
-							to={route.path}
+				{dashboardRoutes
+					.filter(route =>
+						user.role === 'admin'
+						|| !route.adminOnly
+					)
+					.map(route =>
+						<li
+							key={route.path ?? route.label}
+							className={isMinimized ? styles['minimized'] : undefined}
 						>
-							<AppIcon icon={route.icon} />
-							<p>{route.label}</p>
-						</NavLink>
-					</li>
+							<NavLink
+								to={route.path}
+							>
+								<AppIcon icon={route.icon} />
+								<p>{route.label}</p>
+							</NavLink>
+						</li>
 
-				)}
+					)}
 			</ul>
 
 		</aside>
