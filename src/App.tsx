@@ -29,6 +29,9 @@ import {
 	ModelsAdd,
 	modelsAddAction,
 	modelsAddLoader,
+	ModelsUpdate,
+	modelsUpdateAction,
+	modelsUpdateLoader,
 	ModelsView,
 	modelsViewLoader,
 } from 'routes/dashboard/model';
@@ -129,6 +132,12 @@ export const dashboardRoutes: DashboardRoute[] = [
 				element: <ModelsAdd />,
 				loader: modelsAddLoader,
 				action: modelsAddAction,
+			},
+			{
+				path: 'update/:modelId',
+				element: <ModelsUpdate />,
+				loader: modelsUpdateLoader,
+				action: modelsUpdateAction,
 			},
 		],
 	},

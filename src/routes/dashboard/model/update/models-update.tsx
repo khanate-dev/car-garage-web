@@ -2,7 +2,7 @@ import { ActionFunction, redirect } from 'react-router-dom';
 
 import { ModelForm, modelFormFields } from 'schemas/model';
 import { getMakeTypes } from 'endpoints/make-type';
-import { createModel } from 'endpoints/model';
+import { getModel, updateModel } from 'endpoints/model';
 
 import { getActionError } from 'helpers/route';
 
@@ -11,26 +11,37 @@ import Page from 'components/Page';
 
 import { FormLoader } from 'types/general';
 
-const formName = 'models-add';
+const formName = 'models-update';
 
-export const modelsAddLoader: FormLoader<ModelForm> = async () => {
+export const modelsUpdateLoader: FormLoader<ModelForm> = async ({
+	params,
+}) => {
 	const makeTypes = await getMakeTypes();
+	const { makeTypeId, name, year } = await getModel(params.modelId);
 	return {
 		makeTypeId: {
 			options: makeTypes.map(({ _id, name }) => ({
 				label: name,
 				value: _id,
 			})),
+			value: makeTypeId,
 		},
-		name: {},
-		year: {},
+		name: {
+			value: name,
+		},
+		year: {
+			value: year,
+		},
 	};
 };
 
-export const modelsAddAction: ActionFunction = async ({ request }) => {
+export const modelsUpdateAction: ActionFunction = async ({
+	params,
+	request,
+}) => {
 	try {
 		const formData = await request.formData();
-		await createModel(formData);
+		await updateModel(params.modelId, formData);
 		return redirect('/models');
 	}
 	catch (error: any) {
@@ -41,9 +52,9 @@ export const modelsAddAction: ActionFunction = async ({ request }) => {
 	}
 };
 
-export const ModelsAdd = () => (
+export const ModelsUpdate = () => (
 	<Page
-		title='Add Model'
+		title='Update Model'
 		hasBack
 	>
 		<Form

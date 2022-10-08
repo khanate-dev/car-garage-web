@@ -1,4 +1,4 @@
-import { LoaderFunction, useLoaderData } from 'react-router-dom';
+import { LoaderFunction, useLoaderData, useNavigate, useNavigation } from 'react-router-dom';
 
 import { Model } from 'schemas/model';
 import { getModels } from 'endpoints/model';
@@ -15,6 +15,8 @@ export const modelsViewLoader: LoaderFunction = async () => {
 export const ModelsView = () => {
 
 	const models = useLoaderData() as Model[];
+	const navigate = useNavigate();
+	const navigation = useNavigation();
 
 	return (
 		<Page
@@ -30,6 +32,16 @@ export const ModelsView = () => {
 					labels={[{
 						title: `Make Type: ${humanizeToken(makeType.name)}`,
 						color: 'info',
+					}]}
+					actions={[{
+						text: 'Update',
+						icon: 'edit',
+						onClick: () => navigate(`update/${_id}`),
+						isLoading: (
+							navigation.state !== 'idle'
+							&& navigation.location.pathname === `/models/update/${_id}`
+						),
+						fullWidth: true,
 					}]}
 				/>
 			)}

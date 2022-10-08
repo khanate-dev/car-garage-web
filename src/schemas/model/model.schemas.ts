@@ -4,6 +4,7 @@ import { mongoIdSchema } from 'schemas/mongo';
 import { makeTypeSansMetaModelSchema } from 'schemas/make-type';
 
 import { getModelSchema } from 'helpers/schema';
+import { FormField } from 'types/general';
 
 export const {
 	sansMetaModelSchema: modelSansMetaModelSchema,
@@ -19,17 +20,36 @@ export type ModelSansMeta = z.infer<typeof modelSansMetaModelSchema>;
 
 export type Model = z.infer<typeof modelModelSchema>;
 
-export const createModelSchema = modelSansMetaModelSchema
-	.omit({ makeType: true })
-	.extend({
-		year: z.preprocess(
-			(value) => parseInt(z.string().parse(value)),
-			z.number().positive()
-		),
-	});
+export const modelRequestSchema = modelSansMetaModelSchema.extend({
+	year: z.preprocess(
+		(value) => parseInt(z.string().parse(value)),
+		z.number().positive()
+	),
+}).omit({ makeType: true });
 
-export type CreateModel = z.infer<typeof createModelSchema>;
+export type ModelRequest = z.infer<typeof modelRequestSchema>;
 
-export const createModelResponseSchema = modelModelSchema.omit({ makeType: true });
+export const modelResponseSchema = modelModelSchema.omit({ makeType: true });
 
-export type CreateModelResponse = z.infer<typeof createModelResponseSchema>;
+export type ModelResponse = z.infer<typeof modelResponseSchema>;
+
+export type ModelForm = ModelRequest;
+
+export const modelFormFields: FormField<ModelForm>[] = [
+	{
+		fieldType: 'input',
+		name: 'name',
+		required: true,
+	},
+	{
+		fieldType: 'input',
+		name: 'year',
+		type: 'number',
+		required: true,
+	},
+	{
+		fieldType: 'select',
+		name: 'makeTypeId',
+		required: true,
+	},
+];
