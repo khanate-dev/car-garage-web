@@ -18,6 +18,7 @@ import {
 	ProductsAdd,
 	productsAddLoader,
 	productsAddAction,
+	productsDeleteAction,
 } from 'routes/dashboard/products';
 import {
 	MakeTypesView,
@@ -100,6 +101,10 @@ export const dashboardRoutes: DashboardRoute[] = [
 				element: <ProductsAdd />,
 				loader: productsAddLoader,
 				action: productsAddAction,
+			},
+			{
+				path: 'delete/:productId',
+				action: productsDeleteAction,
 			},
 		],
 	},

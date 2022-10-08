@@ -35,7 +35,7 @@ export const ModelsView = () => {
 					}]}
 					actions={[{
 						text: 'Update',
-						icon: 'edit',
+						icon: 'update',
 						onClick: () => navigate(`update/${_id}`),
 						isLoading: (
 							navigation.state !== 'idle'

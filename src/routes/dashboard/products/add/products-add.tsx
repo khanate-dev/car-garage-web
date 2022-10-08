@@ -10,7 +10,7 @@ import {
 import useFormError from 'hooks/form-error';
 
 import {
-	CreateProduct,
+	ProductRequest,
 	productCategories,
 	ProductCategory,
 } from 'schemas/product';
@@ -93,7 +93,7 @@ export const productsAddAction: ActionFunction = async ({ request }) => {
 	}
 };
 
-const typeFields: SelectFormField<Pick<CreateProduct, TypeFields>>[] = [
+const typeFields: SelectFormField<Pick<ProductRequest, TypeFields>>[] = [
 	{
 		name: 'makeTypeId',
 		fieldType: 'select',
@@ -127,7 +127,7 @@ type DetailsFields = (
 	| 'isFeatured'
 );
 
-const detailsFields: FormField<Pick<CreateProduct, DetailsFields>>[] = [
+const detailsFields: FormField<Pick<ProductRequest, DetailsFields>>[] = [
 	{
 		name: 'title',
 		fieldType: 'input',
@@ -160,11 +160,11 @@ const detailsFields: FormField<Pick<CreateProduct, DetailsFields>>[] = [
 ];
 
 type Form = Partial<Record<
-	keyof CreateProduct,
+	keyof ProductRequest,
 	string
 >>;
 
-const allFields: FormField<CreateProduct>[] = [
+const allFields: FormField<ProductRequest>[] = [
 	{ name: 'category', fieldType: 'input' },
 	...typeFields,
 	{ name: 'image', fieldType: 'input' },

@@ -32,7 +32,7 @@ export const MakeTypesView = () => {
 					title={name}
 					actions={[{
 						text: 'Update',
-						icon: 'edit',
+						icon: 'update',
 						onClick: () => navigate(`update/${_id}`),
 						isLoading: (
 							navigation.state !== 'idle'

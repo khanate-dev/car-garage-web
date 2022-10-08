@@ -1,4 +1,10 @@
-import { LoaderFunction, useLoaderData } from 'react-router-dom';
+import {
+	LoaderFunction,
+	useFetcher,
+	useLoaderData,
+	useNavigate,
+	useNavigation,
+} from 'react-router-dom';
 
 import {
 	Product,
@@ -17,6 +23,9 @@ export const productsViewLoader: LoaderFunction = getProducts;
 export const ProductsView = () => {
 
 	const products = useLoaderData() as Product[];
+	const navigate = useNavigate();
+	const navigation = useNavigation();
+	const fetcher = useFetcher();
 
 	return (
 		<Page
@@ -92,7 +101,30 @@ export const ProductsView = () => {
 						title={title}
 						subtitle={formatDateTime(createdAt)}
 						description={description}
-
+						actions={[
+							{
+								text: 'Update',
+								icon: 'update',
+								onClick: () => navigate(`update/${_id}`),
+								isLoading: (
+									navigation.state !== 'idle'
+									&& navigation.location.pathname === `/products/update/${_id}`
+								),
+							},
+							{
+								text: 'Delete',
+								icon: 'delete',
+								color: 'danger',
+								onClick: () => fetcher.submit(null, {
+									action: `/products/delete/${_id}`,
+									method: 'delete',
+								}),
+								isLoading: (
+									fetcher.state !== 'idle'
+									&& fetcher.formAction === `/products/delete/${_id}`
+								),
+							},
+						]}
 					/>
 				);
 
