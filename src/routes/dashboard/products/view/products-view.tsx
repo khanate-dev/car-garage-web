@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
 	LoaderFunction,
 	useFetcher,
@@ -8,6 +9,8 @@ import {
 
 import {
 	Product,
+	productCategories,
+	ProductCategory,
 	productCategoryColors,
 } from 'schemas/product';
 import { getProducts } from 'endpoints/product';
@@ -15,27 +18,125 @@ import { getProducts } from 'endpoints/product';
 import { formatDateTime } from 'helpers/date';
 import { humanizeToken } from 'helpers/string';
 import { objectToFormData } from 'helpers/form';
+import { getSetting } from 'helpers/settings';
 
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
+
+import styles from './products-view.module.scss';
+import FormField from 'components/FormField';
 
 export const productsViewLoader: LoaderFunction = getProducts;
 
 export const ProductsView = () => {
 
+	const user = getSetting('user');
 	const products = useLoaderData() as Product[];
 	const navigate = useNavigate();
 	const navigation = useNavigation();
 	const fetcher = useFetcher();
 
+	const [search, setSearch] = useState<string>('');
+	const [owner, setOwner] = useState<'all' | 'me' | 'others'>('all');
+	const [showSold, setShowSold] = useState(false);
+	const [category, setCategory] = useState<'all' | ProductCategory>('all');
+	const [makeTypeName, setMakeTypeName] = useState<'none' | string>('none');
+
+	const visibleFilters = products.filter(({
+		title,
+		description,
+		sellerId,
+		buyerId,
+		makeType,
+		category: currentCategory,
+	}) => {
+		if (
+			search
+			&& !(`${title} ${description}`.includes(search))
+		) return false;
+		if (owner === 'me' && user?._id !== sellerId) return false;
+		if (owner === 'others' && user?._id === sellerId) return false;
+		if (showSold && !buyerId) return false;
+		if (!showSold && buyerId) return false;
+		if (category !== 'all' && category !== currentCategory) return false;
+		if (makeTypeName !== 'none' && makeTypeName !== makeType.name) return false;
+
+		return true;
+
+	}).sort((a, b) => {
+		return (
+			(a.isFeatured && !b.isFeatured)
+			|| (new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime())
+		) ? -1 : 1;
+	});
+
 	return (
 		<Page
 			title='Products'
 			isEmpty={products.length === 0}
+			filters={
+				<>
+					<FormField
+						field={{
+							fieldType: 'input',
+							name: 'search',
+							type: 'search',
+							value: search,
+							onChange: ({ target }) => setSearch(target.value),
+						}}
+						size='tiny'
+					/>
+					<FormField
+						field={{
+							fieldType: 'select',
+							name: 'owner',
+							label: 'Creator',
+							value: owner,
+							options: ['all', 'me', 'others'],
+							onChange: ({ target }) => setOwner(target.value as any),
+						}}
+						size='tiny'
+					/>
+					<FormField
+						field={{
+							fieldType: 'input',
+							name: 'showSold',
+							type: 'checkbox',
+							checked: showSold,
+							onChange: () => setShowSold(prev => !prev),
+						}}
+						size='tiny'
+					/>
+					<FormField
+						field={{
+							fieldType: 'select',
+							name: 'category',
+							value: category,
+							options: ['all', ...productCategories],
+							onChange: ({ target }) => setCategory(target.value as any),
+						}}
+						size='tiny'
+					/>
+					<FormField
+						field={{
+							fieldType: 'select',
+							name: 'modelId',
+							value: makeTypeName,
+							options: [
+								'none',
+								...new Set(products.map(row => row.makeType.name ?? '').filter(Boolean)),
+							],
+							onChange: ({ target }) => setMakeTypeName(target.value),
+						}}
+						size='tiny'
+					/>
+				</>
+			}
 			hasAdd
 			isGridView
 		>
-			{products.map(product => {
+
+			{visibleFilters.map(product => {
 
 				const {
 					_id,
@@ -45,8 +146,11 @@ export const ProductsView = () => {
 					buyerId,
 					sellerId,
 					makeTypeId,
+					makeType,
 					bodyTypeId,
+					bodyType,
 					modelId,
+					model,
 					description,
 					maxPrice,
 					minPrice,
@@ -59,9 +163,9 @@ export const ProductsView = () => {
 					color: productCategoryColors[category],
 				}];
 				if (isFeatured) {
-					labels.push({
+					labels.unshift({
 						title: 'Featured',
-						color: 'primary',
+						color: 'warning',
 					});
 				}
 				if (buyerId) {
@@ -154,12 +258,23 @@ export const ProductsView = () => {
 						key={_id}
 						labels={labels}
 						cover={image}
+						color={isFeatured ? 'warning' : 'primary'}
 						title={title}
 						subtitle={
-							<>
-								<div>{formatDateTime(createdAt)}</div>
-								<b>{minPrice} - {maxPrice} Rupees</b>
-							</>
+							<div
+								className={styles['subtitle']}
+							>
+								<span>
+									{[
+										makeType.name,
+										bodyType?.name,
+										model?.name,
+										model?.year,
+									].filter(Boolean).join(' ')}
+								</span>
+								<span>{formatDateTime(createdAt)}</span>
+								<span>{minPrice} - {maxPrice} Rupees</span>
+							</div>
 						}
 						description={description}
 						actions={actions}

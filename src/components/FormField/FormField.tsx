@@ -35,7 +35,7 @@ const FormField = <Type extends Record<string, any>>({
 		id,
 		name: name as string,
 		value: field?.value !== undefined && field.onChange ? field.value : undefined,
-		defaultValue: field?.value && field.onChange ? undefined : field.defaultValue ?? '',
+		defaultValue: field?.value !== undefined && field.onChange ? undefined : field.defaultValue ?? '',
 		onChange: (event: any) => {
 			if (error && !hideError) setHideError(true);
 			field.onChange?.(event);
@@ -66,7 +66,7 @@ const FormField = <Type extends Record<string, any>>({
 				name={name}
 				id={field.id ?? name as string}
 				value={field.value !== undefined && field.onChange ? field.value : undefined}
-				defaultValue={field.value && field.onChange ? undefined : field.defaultValue}
+				defaultValue={field.value !== undefined && field.onChange ? undefined : field.defaultValue}
 				onChange={(event: any) => {
 					if (error && !hideError) setHideError(true);
 					field.onChange?.(event);
@@ -82,6 +82,7 @@ const FormField = <Type extends Record<string, any>>({
 					field.type
 						&& ['checkbox', 'radio'].includes(field.type)
 						&& commonProps.defaultValue !== undefined
+						&& field.checked === undefined
 						? Boolean(commonProps.defaultValue)
 						: undefined
 				}

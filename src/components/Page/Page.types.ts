@@ -8,6 +8,9 @@ export interface PageProps {
 	/** the class to apply to the main container element */
 	className?: string,
 
+	/** the filter to render in the page header */
+	filters?: ReactNode,
+
 	/** should the page show an empty page message? */
 	isEmpty?: boolean,
 

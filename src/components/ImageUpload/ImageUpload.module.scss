@@ -16,9 +16,9 @@
 	transition: background-color var(--transition);
 
 	& > input {
-		all: unset;
-		visibility: hidden;
-		display: none;
+		all: unset !important;
+		visibility: hidden !important;
+		display: none !important;
 	}
 
 	&::before {
