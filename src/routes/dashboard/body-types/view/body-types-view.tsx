@@ -53,7 +53,7 @@ export const BodyTypesView = () => {
 	const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
 	const [onlyReviewed, setOnlyReviewed] = useState<boolean>(false);
 
-	const visibleBodyTypes = bodyTypes.filter(({ _id, name, model }) => {
+	const visibleBodyTypes = bodyTypes.filter(({ _id, model }) => {
 
 		const favorite = favorites.find(row => row.bodyTypeId === _id);
 		const review = reviews.find(row => row.bodyTypeId === _id);

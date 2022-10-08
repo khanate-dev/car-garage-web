@@ -1,7 +1,6 @@
 import { Link, ActionFunction, redirect } from 'react-router-dom';
 
 import { RegisterRequest } from 'schemas/auth';
-import { userRoles } from 'schemas/user';
 import { createUser } from 'endpoints/user';
 
 import { getActionError } from 'helpers/route';
