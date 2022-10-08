@@ -123,6 +123,7 @@ export const dashboardRoutes: DashboardRoute[] = [
 		path: '/make-types',
 		label: 'Make Types',
 		icon: icons.makeTypes,
+		adminOnly: true,
 		children: [
 			{
 				index: true,
@@ -146,6 +147,7 @@ export const dashboardRoutes: DashboardRoute[] = [
 		path: '/models',
 		label: 'Models',
 		icon: icons.models,
+		adminOnly: true,
 		children: [
 			{
 				index: true,

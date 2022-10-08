@@ -187,6 +187,9 @@ export interface DashboardRoute extends RouteObject {
 	/** the icon to use for the route in the sidebar */
 	icon: Icon,
 
+	/** is the route only available to admins? */
+	adminOnly?: boolean,
+
 }
 
 export enum Rating {

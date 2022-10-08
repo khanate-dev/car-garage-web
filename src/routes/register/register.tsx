@@ -1,7 +1,6 @@
 import { Link, ActionFunction, redirect } from 'react-router-dom';
 
 import { RegisterRequest } from 'schemas/auth';
-import { userRoles } from 'schemas/user';
 import { createUser } from 'endpoints/user';
 
 import { getActionError } from 'helpers/route';
@@ -13,6 +12,21 @@ import { FormField as FormFieldType } from 'types/general';
 
 import styles from './register.module.scss';
 import Logo from 'components/Logo/Logo';
+
+export const registerAction: ActionFunction = async ({ request }) => {
+	try {
+		const formData = await request.formData();
+		formData.append('role', 'user');
+		await createUser(formData);
+		return redirect('/login');
+	}
+	catch (error: any) {
+		return getActionError({
+			source: 'register',
+			error,
+		});
+	}
+};
 
 const fields: FormFieldType<RegisterRequest>[] = [
 	{
@@ -34,12 +48,6 @@ const fields: FormFieldType<RegisterRequest>[] = [
 		required: true,
 	},
 	{
-		fieldType: 'select',
-		name: 'role',
-		required: true,
-		options: userRoles as any,
-	},
-	{
 		fieldType: 'input',
 		name: 'password',
 		type: 'password',
@@ -53,20 +61,6 @@ const fields: FormFieldType<RegisterRequest>[] = [
 		required: true,
 	},
 ];
-
-export const registerAction: ActionFunction = async ({ request }) => {
-	try {
-		const formData = await request.formData();
-		await createUser(formData);
-		return redirect('/login');
-	}
-	catch (error: any) {
-		return getActionError({
-			source: 'register',
-			error,
-		});
-	}
-};
 
 export const Register = () => {
 
