@@ -19,6 +19,7 @@ import {
 	productsFormLoader,
 	productsFormAction,
 	productsDeleteAction,
+	productsBuyAction,
 } from 'routes/dashboard/products';
 import {
 	MakeTypesView,
@@ -111,6 +112,10 @@ export const dashboardRoutes: DashboardRoute[] = [
 			{
 				path: 'delete/:productId',
 				action: productsDeleteAction,
+			},
+			{
+				path: 'buy/:productId',
+				action: productsBuyAction,
 			},
 		],
 	},

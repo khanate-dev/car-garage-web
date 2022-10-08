@@ -20,6 +20,7 @@ import {
 	IconProps,
 	PencilIcon,
 	TrashIcon,
+	VerifiedIcon,
 } from '@primer/octicons-react';
 
 export const icons = {
@@ -42,6 +43,7 @@ export const icons = {
 	review: CodeReviewIcon,
 	update: PencilIcon,
 	delete: TrashIcon,
+	buy: VerifiedIcon,
 };
 
 export interface AppIconProps extends IconProps {

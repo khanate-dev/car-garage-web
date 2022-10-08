@@ -117,10 +117,10 @@ const Card = ({
 
 			{actions &&
 				<div className={styles['actions']}>
-					{actions.map((action, index) =>
+					{actions.map(({ fullWidth, ...action }, index) =>
 						<Button
 							className={cx(
-								action.fullWidth && styles['full']
+								fullWidth && styles['full']
 							)}
 							key={index}
 							{...action}

@@ -90,6 +90,43 @@ export const productRequestSchema = productSansMetaModelSchema.extend({
 
 export type ProductRequest = z.infer<typeof productRequestSchema>;
 
+export const productUpdateRequestSchema = productSansMetaModelSchema.extend({
+	minPrice: z.preprocess(
+		(value) => parseInt(z.string().parse(value)),
+		z.number().positive()
+	),
+	maxPrice: z.preprocess(
+		(value) => parseInt(z.string().parse(value)),
+		z.number().positive()
+	),
+	image: z.string().url().or(z.instanceof(File)),
+	modelId: z.preprocess(
+		(value) => value === '' ? undefined : value,
+		mongoIdSchema.optional()
+	),
+	bodyTypeId: z.preprocess(
+		(value) => value === '' ? undefined : value,
+		mongoIdSchema.optional()
+	),
+	buyerId: z.preprocess(
+		(value) => value === '' ? undefined : value,
+		mongoIdSchema.optional()
+	),
+	isFeatured: z.preprocess(
+		(value) => value !== undefined ? true : false,
+		z.boolean()
+	),
+}).omit({
+	buyer: true,
+	seller: true,
+	makeType: true,
+	model: true,
+	bodyType: true,
+}).refine(
+	({ minPrice, maxPrice }) => maxPrice >= minPrice,
+	'Maximum price must be bigger than or equal to minimum'
+);
+
 export const productResponseSchema = productModelSchema.omit({
 	buyer: true,
 	seller: true,
