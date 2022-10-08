@@ -38,7 +38,7 @@ export const overviewLoader: LoaderFunction = async () => {
 				},
 				{
 					label: 'Sold',
-					value: products.filter(row => !row.buyerId).length.toString(),
+					value: products.filter(row => row.buyerId).length.toString(),
 				},
 			],
 		},
