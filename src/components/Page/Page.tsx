@@ -10,6 +10,7 @@ import styles from './Page.module.scss';
 const Page = ({
 	title,
 	className,
+	filters,
 	isEmpty,
 	isGridView,
 	hasAdd,
@@ -54,6 +55,12 @@ const Page = ({
 						isLoading={Boolean(location)}
 					/>
 				}
+
+				<div
+					className={styles['filters']}
+				>
+					{filters}
+				</div>
 
 			</header>
 
