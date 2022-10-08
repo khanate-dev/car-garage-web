@@ -1,0 +1,36 @@
+.container {
+	padding: var(--spacing-3);
+	gap: var(--spacing-3);
+
+	& > form {
+		flex-grow: 0;
+		padding: 0;
+
+		:global {
+			animation: show-area var(--transition);
+		}
+	}
+}
+
+.actions {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: var(--spacing-2);
+	min-width: fit-content;
+	width: 50%;
+	max-width: 500px;
+	margin-inline: auto;
+
+	& > button {
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+
+.error {
+	min-width: fit-content;
+	width: 50%;
+	max-width: 500px;
+	margin-inline: auto;
+	text-align: center;
+}

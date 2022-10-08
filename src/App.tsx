@@ -15,9 +15,9 @@ import { Overview, overviewLoader } from 'routes/dashboard/overview';
 import {
 	ProductsView,
 	productsViewLoader,
-	ProductsAdd,
-	productsAddLoader,
-	productsAddAction,
+	ProductsForm,
+	productsFormLoader,
+	productsFormAction,
 	productsDeleteAction,
 } from 'routes/dashboard/products';
 import {
@@ -98,9 +98,15 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 			{
 				path: 'add',
-				element: <ProductsAdd />,
-				loader: productsAddLoader,
-				action: productsAddAction,
+				element: <ProductsForm />,
+				loader: productsFormLoader,
+				action: productsFormAction,
+			},
+			{
+				path: 'update/:productId',
+				element: <ProductsForm />,
+				loader: productsFormLoader,
+				action: productsFormAction,
 			},
 			{
 				path: 'delete/:productId',

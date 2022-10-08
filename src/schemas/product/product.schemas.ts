@@ -63,7 +63,7 @@ export const productRequestSchema = productSansMetaModelSchema.extend({
 		(value) => parseInt(z.string().parse(value)),
 		z.number().positive()
 	),
-	image: z.instanceof(File),
+	image: z.string().url().or(z.instanceof(File)),
 	modelId: z.preprocess(
 		(value) => value === '' ? undefined : value,
 		mongoIdSchema.optional()

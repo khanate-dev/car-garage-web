@@ -58,7 +58,7 @@ export const updateProduct = async (
 	const multipartForm = new FormData();
 	for (const key in json) {
 		const value = json[key as keyof typeof json];
-		if (!value) continue;
+		if (value === undefined) continue;
 		multipartForm.append(
 			key,
 			!(value instanceof File) ? value.toString() : value
