@@ -21,6 +21,8 @@ import {
 	PencilIcon,
 	TrashIcon,
 	VerifiedIcon,
+	CheckCircleIcon,
+	CheckCircleFillIcon,
 } from '@primer/octicons-react';
 
 export const icons = {
@@ -44,6 +46,8 @@ export const icons = {
 	update: PencilIcon,
 	delete: TrashIcon,
 	buy: VerifiedIcon,
+	check: CheckCircleIcon,
+	checked: CheckCircleFillIcon,
 };
 
 export interface AppIconProps extends IconProps {
