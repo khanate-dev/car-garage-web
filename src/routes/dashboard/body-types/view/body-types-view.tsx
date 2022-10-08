@@ -20,6 +20,8 @@ import Card, { CardProps } from 'components/Card';
 import Rating from 'components/Rating';
 
 import styles from './body-types-view.module.scss';
+import { useState } from 'react';
+import FormField from 'components/FormField';
 
 interface LoaderData {
 	bodyTypes: BodyType[],
@@ -45,14 +47,67 @@ export const BodyTypesView = () => {
 	const navigate = useNavigate();
 	const navigation = useNavigation();
 
+	const [makeTypeName, setMakeTypeName] = useState<'all' | string>('all');
+	const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
+	const [onlyReviewed, setOnlyReviewed] = useState<boolean>(false);
+
+	const visibleBodyTypes = bodyTypes.filter(({ _id, name, model }) => {
+
+		const favorite = favorites.find(row => row.bodyTypeId === _id);
+		const review = reviews.find(row => row.bodyTypeId === _id);
+
+		if (makeTypeName !== 'all' && model.makeType.name !== makeTypeName) return false;
+		if (onlyFavorites && !favorite) return false;
+		if (onlyReviewed && !review) return false;
+		return true;
+
+	});
+
 	return (
 		<Page
 			title='Body Types'
 			isEmpty={bodyTypes.length === 0}
+			filters={
+				<>
+					<FormField
+						field={{
+							name: 'onlyShowFavorites',
+							fieldType: 'input',
+							type: 'checkbox',
+							checked: onlyFavorites,
+							onChange: () => setOnlyFavorites(prev => !prev),
+						}}
+						size='tiny'
+					/>
+					<FormField
+						field={{
+							name: 'onlyShowReviewed',
+							fieldType: 'input',
+							type: 'checkbox',
+							checked: onlyReviewed,
+							onChange: () => setOnlyReviewed(prev => !prev),
+						}}
+						size='tiny'
+					/>
+					<FormField
+						field={{
+							name: 'makeType',
+							fieldType: 'select',
+							options: [
+								'all',
+								...[...new Set(bodyTypes.map(row => row.model.makeType.name).filter(Boolean))],
+							],
+							value: makeTypeName,
+							onChange: ({ target }) => setMakeTypeName(target.value),
+						}}
+						size='tiny'
+					/>
+				</>
+			}
 			hasAdd
 			isGridView
 		>
-			{bodyTypes.map(({ _id, name, model }) => {
+			{visibleBodyTypes.map(({ _id, name, model }) => {
 
 				const favorite = favorites.find(row => row.bodyTypeId === _id);
 				const review = reviews.find(row => row.bodyTypeId === _id);
