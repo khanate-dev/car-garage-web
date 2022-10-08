@@ -22,9 +22,9 @@ import { getSetting } from 'helpers/settings';
 
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
+import FormField from 'components/FormField';
 
 import styles from './products-view.module.scss';
-import FormField from 'components/FormField';
 
 export const productsViewLoader: LoaderFunction = getProducts;
 
@@ -40,7 +40,7 @@ export const ProductsView = () => {
 	const [owner, setOwner] = useState<'all' | 'me' | 'others'>('all');
 	const [showSold, setShowSold] = useState(false);
 	const [category, setCategory] = useState<'all' | ProductCategory>('all');
-	const [makeTypeName, setMakeTypeName] = useState<'none' | string>('none');
+	const [makeTypeName, setMakeTypeName] = useState<'all' | string>('all');
 
 	const visibleFilters = products.filter(({
 		title,
@@ -59,7 +59,7 @@ export const ProductsView = () => {
 		if (showSold && !buyerId) return false;
 		if (!showSold && buyerId) return false;
 		if (category !== 'all' && category !== currentCategory) return false;
-		if (makeTypeName !== 'none' && makeTypeName !== makeType.name) return false;
+		if (makeTypeName !== 'all' && makeTypeName !== makeType.name) return false;
 
 		return true;
 
@@ -123,7 +123,7 @@ export const ProductsView = () => {
 							name: 'modelId',
 							value: makeTypeName,
 							options: [
-								'none',
+								'all',
 								...new Set(products.map(row => row.makeType.name ?? '').filter(Boolean)),
 							],
 							onChange: ({ target }) => setMakeTypeName(target.value),
