@@ -10,6 +10,7 @@ import { Icon } from '@primer/octicons-react';
 import { UserSansPassword } from 'schemas/user';
 
 import { InteractiveRatingProps } from 'components/Rating';
+import { ImageUploadProps } from 'components/ImageUpload';
 
 export const themeColors = [
 	'default',
@@ -65,7 +66,7 @@ export interface BaseFormField<Form extends Record<string, any>> {
 	name: keyof Form,
 
 	/** the type of the form element to use */
-	fieldType?: 'input' | 'select' | 'rating' | 'textarea',
+	fieldType?: 'input' | 'select' | 'rating' | 'textarea' | 'image',
 
 	/** the label to show on the field */
 	label?: ReactNode,
@@ -78,7 +79,7 @@ export interface BaseFormField<Form extends Record<string, any>> {
 export type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 export interface InputFormField<
-	Form extends Record<string, any>
+	Form extends Record<string, any>,
 > extends
 	BaseFormField<Form>,
 	Omit<InputProps, 'name'> {
@@ -113,10 +114,21 @@ export interface RatingFormField<
 	Form extends Record<string, any>
 > extends
 	BaseFormField<Form>,
-	Omit<InteractiveRatingProps, 'name'> {
+	InteractiveRatingProps<Form> {
 
 	/** the type of the form element to use */
 	fieldType: 'rating',
+
+}
+
+export interface ImageFormField<
+	Form extends Record<string, any>
+> extends
+	BaseFormField<Form>,
+	ImageUploadProps<Form> {
+
+	/** the type of the form element to use */
+	fieldType: 'image',
 
 }
 
@@ -137,6 +149,7 @@ export type FormField<Form extends Record<string, any>> = (
 	| InputFormField<Form>
 	| SelectFormField<Form>
 	| RatingFormField<Form>
+	| ImageFormField<Form>
 	| TextareaFormField<Form>
 );
 

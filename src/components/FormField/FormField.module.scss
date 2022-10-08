@@ -33,6 +33,10 @@
 		text-align: start;
 		accent-color: var(--accent);
 		transition: background-color var(--transition), color var(--transition), border var(--transition);
+
+		&:disabled {
+			opacity: 0.5;
+		}
 	}
 
 	& select {
@@ -57,13 +61,13 @@
 		word-wrap: break-word;
 	}
 
-	&:focus-within {
+	&:focus-within:not(:disabled) {
 		--accent: var(--primary-dark);
 		--input-border: var(--primary-light);
 	}
 
-	&:hover input,
-	&:hover select {
+	&:hover input:not(:disabled),
+	&:hover select:not(:disabled) {
 		background-color: var(--background-slight-dark);
 	}
 
@@ -148,6 +152,11 @@
 				color: var(--primary);
 			}
 		}
+
+		&:disabled,
+		&:disabled + span {
+			opacity: 0.5;
+		}
 	}
 
 	& > span {
@@ -163,8 +172,8 @@
 		}
 	}
 
-	&:hover,
-	&:focus {
+	&:hover:not(> input:disabled),
+	&:focus:not(> input:disabled) {
 		background-color: var(--background-slight-dark);
 		border-color: var(--background-darker);
 	}

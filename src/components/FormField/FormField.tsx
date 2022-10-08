@@ -5,6 +5,7 @@ import { omitKey } from 'helpers/omit-key';
 import { humanizeToken } from 'helpers/string';
 
 import Rating from 'components/Rating';
+import ImageUpload from 'components/ImageUpload';
 
 import { FormFieldProps } from './FormField.types';
 import styles from './FormField.module.scss';
@@ -33,8 +34,8 @@ const FormField = <Type extends Record<string, any>>({
 	const commonProps = {
 		id,
 		name: name as string,
-		value: field.value !== undefined && field.onChange ? field.value : undefined,
-		defaultValue: field.value && field.onChange ? undefined : field.defaultValue ?? '',
+		value: field?.value !== undefined && field.onChange ? field.value : undefined,
+		defaultValue: field?.value && field.onChange ? undefined : field.defaultValue ?? '',
 		onChange: (event: any) => {
 			if (error && !hideError) setHideError(true);
 			field.onChange?.(event);
@@ -77,6 +78,13 @@ const FormField = <Type extends Record<string, any>>({
 			fieldElement = <input
 				{...omitKey(field, 'fieldType')}
 				{...commonProps}
+				defaultChecked={
+					field.type
+						&& ['checkbox', 'radio'].includes(field.type)
+						&& commonProps.defaultValue !== undefined
+						? Boolean(commonProps.defaultValue)
+						: undefined
+				}
 				disabled={disabled ?? field.disabled}
 			/>; break;
 
@@ -113,6 +121,13 @@ const FormField = <Type extends Record<string, any>>({
 					);
 				})}
 			</select>; break;
+
+		case 'image':
+			fieldElement = <ImageUpload
+				{...omitKey(commonProps, 'value')}
+				isProfile={field.isProfile}
+				defaultValue={field.defaultValue?.toString()}
+			/>; break;
 
 		case 'textarea':
 			fieldElement = <textarea
