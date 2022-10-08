@@ -60,7 +60,7 @@ export const BodyTypesView = () => {
 				const actions: CardProps['actions'] = [
 					{
 						text: 'Update',
-						icon: 'edit',
+						icon: 'update',
 						fullWidth: true,
 						onClick: () => navigate(`update/${_id}`),
 						isLoading: (

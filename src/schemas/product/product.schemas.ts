@@ -1,14 +1,14 @@
 import z from 'zod';
 
 import { mongoIdSchema } from 'schemas/mongo';
-
-import { getModelSchema } from 'helpers/schema';
-
-import { ThemeColor } from 'types/general';
 import { userSansMetaModelSchema } from 'schemas/user';
 import { makeTypeSansMetaModelSchema } from 'schemas/make-type';
 import { modelSansMetaModelSchema } from 'schemas/model';
 import { bodyTypeSansMetaModelSchema } from 'schemas/body-type';
+
+import { getModelSchema } from 'helpers/schema';
+
+import { ThemeColor } from 'types/general';
 
 export const productCategories = [
 	'car',
@@ -54,46 +54,43 @@ export type ProductSansMeta = z.infer<typeof productSansMetaModelSchema>;
 
 export type Product = z.infer<typeof productModelSchema>;
 
-export const createProductSchema = productSansMetaModelSchema
-	.omit({
-		buyerId: true,
-		buyer: true,
-		seller: true,
-		makeType: true,
-		model: true,
-		bodyType: true,
-	})
-	.extend({
-		minPrice: z.preprocess(
-			(value) => parseInt(z.string().parse(value)),
-			z.number().positive()
-		),
-		maxPrice: z.preprocess(
-			(value) => parseInt(z.string().parse(value)),
-			z.number().positive()
-		),
-		image: z.instanceof(File),
-		modelId: z.preprocess(
-			(value) => value === '' ? undefined : value,
-			mongoIdSchema.optional()
-		),
-		bodyTypeId: z.preprocess(
-			(value) => value === '' ? undefined : value,
-			mongoIdSchema.optional()
-		),
-		isFeatured: z.preprocess(
-			(value) => value !== undefined ? true : false,
-			z.boolean()
-		),
-	})
-	.refine(
-		({ minPrice, maxPrice }) => maxPrice >= minPrice,
-		'Maximum price must be bigger than or equal to minimum'
-	);
+export const productRequestSchema = productSansMetaModelSchema.extend({
+	minPrice: z.preprocess(
+		(value) => parseInt(z.string().parse(value)),
+		z.number().positive()
+	),
+	maxPrice: z.preprocess(
+		(value) => parseInt(z.string().parse(value)),
+		z.number().positive()
+	),
+	image: z.string().url().or(z.instanceof(File)),
+	modelId: z.preprocess(
+		(value) => value === '' ? undefined : value,
+		mongoIdSchema.optional()
+	),
+	bodyTypeId: z.preprocess(
+		(value) => value === '' ? undefined : value,
+		mongoIdSchema.optional()
+	),
+	isFeatured: z.preprocess(
+		(value) => value !== undefined ? true : false,
+		z.boolean()
+	),
+}).omit({
+	buyerId: true,
+	buyer: true,
+	seller: true,
+	makeType: true,
+	model: true,
+	bodyType: true,
+}).refine(
+	({ minPrice, maxPrice }) => maxPrice >= minPrice,
+	'Maximum price must be bigger than or equal to minimum'
+);
 
-export type CreateProduct = z.infer<typeof createProductSchema>;
+export type ProductRequest = z.infer<typeof productRequestSchema>;
 
-export const createProductResponseSchema = productModelSchema.omit({
+export const productResponseSchema = productModelSchema.omit({
 	buyer: true,
 	seller: true,
 	makeType: true,
@@ -101,4 +98,4 @@ export const createProductResponseSchema = productModelSchema.omit({
 	bodyType: true,
 });
 
-export type CreateProductResponse = z.infer<typeof createProductResponseSchema>;
+export type ProductResponse = z.infer<typeof productResponseSchema>;

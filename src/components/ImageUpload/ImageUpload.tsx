@@ -3,16 +3,19 @@ import { useState } from 'react';
 import { cx } from 'helpers/class-name';
 import { handleImageUpload, validImageExtensions } from 'helpers/image';
 
-import { ImageUploadProps } from './ImageUpload.types';
+import { Image, ImageUploadProps } from './ImageUpload.types';
 import styles from './ImageUpload.module.scss';
 
 const ImageUpload = ({
 	className,
-	image,
-	setImage,
+	name,
+	defaultValue,
+	onChange,
 	required,
+	isProfile,
 }: ImageUploadProps) => {
 
+	const [image, setImage] = useState<null | Image>(null);
 	const [error, setError] = useState<null | string>(null);
 
 	return (
@@ -20,20 +23,22 @@ const ImageUpload = ({
 			className={cx(
 				styles['container'],
 				image && styles['uploaded'],
+				isProfile && styles['profile'],
 				className
 			)}
-			htmlFor='upload-file-button'
+			htmlFor={name}
 		>
 
 			{image?.preview &&
 				<img
 					className={styles['preview']}
-					src={image.preview}
+					src={image.preview ?? defaultValue}
 				/>
 			}
 
 			<input
-				id='upload-file-button'
+				id={name}
+				name={name}
 				type='file'
 				accept={validImageExtensions.join()}
 				onChange={event => {
@@ -41,6 +46,7 @@ const ImageUpload = ({
 						setError(null);
 						const newImage = handleImageUpload(event);
 						setImage(newImage);
+						onChange?.(event);
 					}
 					catch (error: any) {
 						setError(error.message ?? error);
@@ -48,6 +54,14 @@ const ImageUpload = ({
 				}}
 				required={required}
 			/>
+
+			{!image && defaultValue &&
+				<input
+					name={name}
+					type='hidden'
+					value={defaultValue}
+				/>
+			}
 
 			{error &&
 				<div

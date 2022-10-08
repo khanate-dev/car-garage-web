@@ -39,4 +39,7 @@ export interface FormProps<
 	/** is the form currently busy in loading or posting? */
 	busy?: boolean,
 
+	/** should the form not show a submit button? */
+	noSubmitButton?: boolean,
+
 }

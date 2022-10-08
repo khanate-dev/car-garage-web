@@ -5,7 +5,9 @@ import { readableTypeOf } from 'helpers/type';
 import { FormFieldErrors } from './form.error.types';
 import { FormField } from 'types/general';
 
-class FormError<Form extends Record<string, any>> extends Error {
+class FormError<
+	Form extends Record<string, any>
+> extends Error {
 
 	/** the error on specific fields, if any */
 	errors: null | FormFieldErrors<Form> = null;

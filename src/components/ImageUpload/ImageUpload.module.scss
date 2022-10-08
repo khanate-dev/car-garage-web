@@ -4,8 +4,6 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-width: fit-content;
-	width: 50%;
 	max-width: 500px;
 	border-width: var(--border-width);
 	border-color: var(--background-darker);
@@ -61,6 +59,13 @@
 	&.uploaded {
 		&::after {
 			content: 'Change Image';
+		}
+	}
+
+	&.profile {
+		& > .preview {
+			border-radius: 50%;
+			max-width: 50%;
 		}
 	}
 }

@@ -29,8 +29,12 @@
 	align-items: center;
 	gap: var(--spacing-0);
 
-	&:hover,
-	&:focus {
+	&:disabled {
+		cursor: unset;
+	}
+
+	&:hover:not(:disabled),
+	&:focus:not(:disabled) {
 		outline-width: 2px;
 		outline-offset: 3px;
 	}
@@ -51,8 +55,8 @@
 		border-color: var(--accent);
 		color: var(--accent-contrast);
 
-		&:hover,
-		&:focus {
+		&:hover:not(:disabled),
+		&:focus:not(:disabled) {
 			background-color: var(--accent-light);
 		}
 	}
@@ -63,8 +67,8 @@
 		background-color: transparent;
 		color: var(--accent);
 
-		&:hover,
-		&:focus {
+		&:hover:not(:disabled),
+		&:focus:not(:disabled) {
 			--icon-fill: var(--accent-contrast);
 
 			background-color: var(--accent);

@@ -1,38 +1,45 @@
 import { ChangeEvent, useState } from 'react';
 import {
 	ActionFunction,
-	LoaderFunction,
 	redirect,
 	useFetcher,
 	useLoaderData,
+	useParams,
 } from 'react-router-dom';
 
 import useFormError from 'hooks/form-error';
 
 import {
-	CreateProduct,
+	ProductRequest,
 	productCategories,
 	ProductCategory,
+	Product,
 } from 'schemas/product';
 import { MakeType } from 'schemas/make-type';
 import { Model } from 'schemas/model';
 import { BodyType } from 'schemas/body-type';
 import { getModels } from 'endpoints/model';
 import { getBodyTypes } from 'endpoints/body-type';
-import { createProduct } from 'endpoints/product';
+import { createProduct, getProduct, updateProduct } from 'endpoints/product';
 import { getMakeTypes } from 'endpoints/make-type';
 
 import { getActionError } from 'helpers/route';
 
 import Form from 'components/Form';
 import Page from 'components/Page';
-import ImageUpload, { Image } from 'components/ImageUpload';
 import Button from 'components/Button';
 import Alert from 'components/Alert';
+import Stepper from 'components/Stepper';
 
-import { FormField, SelectFormField, SelectOptions } from 'types/general';
+import {
+	FormField,
+	FormLoader,
+	FormLoaderData,
+	SelectFormField,
+	SelectOptions,
+} from 'types/general';
 
-import styles from './products-add.module.scss';
+import styles from './products-form.module.scss';
 
 const steps = [
 	'category',
@@ -43,57 +50,77 @@ const steps = [
 
 type Step = typeof steps[number];
 
-type CategoryForm = Record<'category', boolean>;
-
-const categoryFields: FormField<CategoryForm>[] = productCategories.map(category => ({
-	fieldType: 'input',
-	type: 'radio',
-	name: 'category',
-	id: category,
-	label: category,
-	required: true,
-}));
-
 type TypeFields = (
 	| 'makeTypeId'
 	| 'modelId'
 	| 'bodyTypeId'
 );
 
-interface TypeOptions {
-	makeTypeId: MakeType[],
-	modelId: Model[],
-	bodyTypeId: BodyType[],
+interface Lists {
+	lists: {
+		makeTypeId: MakeType[],
+		modelId: Model[],
+		bodyTypeId: BodyType[],
+	},
 }
 
-export const productsAddLoader: LoaderFunction = async () => {
+export const productsFormLoader: FormLoader<ProductRequest, Lists> = async ({
+	params,
+}) => {
 
 	const makeTypes = await getMakeTypes();
 	const models = await getModels();
 	const bodyTypes = await getBodyTypes();
-	const options: TypeOptions = {
-		makeTypeId: makeTypes,
-		modelId: models,
-		bodyTypeId: bodyTypes,
+
+	const product: Partial<Product> = (
+		params.productId
+			? await getProduct(params.productId)
+			: {}
+	);
+
+	return {
+		bodyTypeId: { value: product.bodyTypeId },
+		category: { value: product.category },
+		description: { value: product.description },
+		image: { value: product.image },
+		isFeatured: { value: product.isFeatured },
+		makeTypeId: { value: product.makeTypeId },
+		maxPrice: { value: product.maxPrice },
+		minPrice: { value: product.minPrice },
+		modelId: { value: product.modelId },
+		sellerId: { value: product.sellerId },
+		title: { value: product.title },
+		lists: {
+			makeTypeId: makeTypes,
+			modelId: models,
+			bodyTypeId: bodyTypes,
+		},
 	};
-	return options;
 };
 
-export const productsAddAction: ActionFunction = async ({ request }) => {
+export const productsFormAction: ActionFunction = async ({
+	params,
+	request,
+}) => {
 	try {
 		const formData = await request.formData();
-		await createProduct(formData);
+		if (params.productId) {
+			await updateProduct(params.productId, formData);
+		}
+		else {
+			await createProduct(formData);
+		}
 		return redirect('/products');
 	}
 	catch (error: any) {
 		return getActionError({
-			source: 'products-add',
+			source: 'products-form',
 			error,
 		});
 	}
 };
 
-const typeFields: SelectFormField<Pick<CreateProduct, TypeFields>>[] = [
+const typeFields: SelectFormField<Pick<ProductRequest, TypeFields>>[] = [
 	{
 		name: 'makeTypeId',
 		fieldType: 'select',
@@ -127,7 +154,7 @@ type DetailsFields = (
 	| 'isFeatured'
 );
 
-const detailsFields: FormField<Pick<CreateProduct, DetailsFields>>[] = [
+const detailsFields: FormField<Pick<ProductRequest, DetailsFields>>[] = [
 	{
 		name: 'title',
 		fieldType: 'input',
@@ -160,56 +187,60 @@ const detailsFields: FormField<Pick<CreateProduct, DetailsFields>>[] = [
 ];
 
 type Form = Partial<Record<
-	keyof CreateProduct,
+	keyof ProductRequest,
 	string
 >>;
 
-const allFields: FormField<CreateProduct>[] = [
+const allFields: FormField<ProductRequest>[] = [
 	{ name: 'category', fieldType: 'input' },
 	...typeFields,
 	{ name: 'image', fieldType: 'input' },
 	...detailsFields,
 ];
 
-export const ProductsAdd = () => {
+export const ProductsForm = () => {
 
-	const typeOptions = useLoaderData() as TypeOptions;
+	const { lists, ...data } = useLoaderData() as FormLoaderData<ProductRequest, Lists>;
 	const fetcher = useFetcher();
-	const error = useFormError('products-add', allFields);
+	const { productId } = useParams();
+	const error = useFormError('products-form', allFields);
 
 	const [step, setStep] = useState<Step>(steps[0]);
-	const [form, setForm] = useState<Form>({});
-	const [image, setImage] = useState<null | Image>(null);
+	const [form, setForm] = useState<Form>(
+		Object.entries(data).reduce(
+			(object, [key, value]) => ({
+				...object,
+				[key]: value.value,
+			}),
+			{}
+		)
+	);
 
 	return (
 		<Page
 			className={styles['container']}
-			title='Add Product'
+			title={`${!productId ? 'Add' : 'Update'} Product`}
 			hasBack
 		>
 
-			<div
-				className={styles['progress']}
-			>
-				{steps.map((current, index) =>
-					<div
-						key={current}
-						className={
-							steps.indexOf(step) > index
-								? styles['completed']
-								: step === current
-									? styles['current']
-									: undefined
-						}
-					></div>
-				)}
-			</div>
+			<Stepper
+				steps={steps as any}
+				step={step}
+			/>
 
 			{step === 'category' &&
 				<Form
 					title='Please select the type of product'
-					page='products-add'
-					fields={categoryFields}
+					page='products-form'
+					fields={productCategories.map(category => ({
+						fieldType: 'input',
+						type: 'radio',
+						name: 'category',
+						id: category,
+						label: category,
+						required: true,
+						defaultChecked: form.category === category,
+					}))}
 					submitProps={{
 						text: 'Next',
 						icon: 'next',
@@ -226,6 +257,7 @@ export const ProductsAdd = () => {
 						}));
 						setStep('type');
 					}}
+					noSubmitButton
 					noGrid
 				/>
 			}
@@ -233,7 +265,7 @@ export const ProductsAdd = () => {
 			{step === 'type' && form.category &&
 				<Form
 					title='Please select the type of product'
-					page='products-add'
+					page='products-form'
 					submitProps={{
 						text: 'Next',
 						icon: 'next',
@@ -242,10 +274,10 @@ export const ProductsAdd = () => {
 
 						const filtered = (
 							row.name === 'modelId'
-								? typeOptions.modelId.filter(row => row.makeTypeId === form.makeTypeId)
+								? lists.modelId.filter(row => row.makeTypeId === form.makeTypeId)
 								: row.name === 'bodyTypeId'
-									? typeOptions.bodyTypeId.filter(row => row.modelId === form.modelId)
-									: typeOptions[row.name]
+									? lists.bodyTypeId.filter(row => row.modelId === form.modelId)
+									: lists[row.name]
 						);
 						const options: SelectOptions = filtered.map(row => ({
 							label: row.name,
@@ -277,66 +309,92 @@ export const ProductsAdd = () => {
 						}));
 						setStep('image');
 					}}
+					noSubmitButton
 					noGrid
 				/>
 			}
 
 			{step === 'image' &&
-				<form
-					className={styles['image-form']}
+				<Form
+					page='products-form'
 					title='Please upload an image of the product'
 					onSubmit={async (event) => {
 						event.preventDefault();
-						if (!image) return;
+						const json = Object.fromEntries(
+							new FormData(event.currentTarget)
+						);
+						setForm(prev => ({
+							...prev,
+							...json,
+						}));
 						setStep('details');
 					}}
-				>
-					<ImageUpload
-						image={image}
-						setImage={setImage}
-						required
-					/>
-					<Button
-						text='Next'
-						icon='next'
-						type='submit'
-					/>
-				</form>
+					fields={[{
+						fieldType: 'image',
+						name: 'image',
+						required: true,
+						defaultValue: form.image,
+					}]}
+					noSubmitButton
+					noGrid
+				/>
 			}
 
 			{step === 'details' &&
 				<Form
 					title='Please provide the product details'
-					page='products-add'
-					fields={detailsFields}
+					page='products-form'
+					fields={detailsFields.map(field => ({
+						...field,
+						defaultValue: form[field.name] as any,
+					}))}
 					busy={fetcher.state !== 'idle'}
-					onSubmit={async (event) => {
+					onSubmit={(event) => {
 						event.preventDefault();
-						if (!image?.file) return;
 						const data = new FormData(event.currentTarget);
 						for (const key in form) {
+							if (detailsFields.some(({ name }) => key === name)) continue;
 							data.append(key, form[key as keyof Form] ?? '');
 						}
-						data.append('image', image.file);
 						fetcher.submit(data, {
-							action: '/products/add',
-							method: 'post',
+							action: (
+								!productId
+									? '/products/add'
+									: `/products/update/${productId}`
+							),
+							method: (
+								!productId
+									? 'post'
+									: 'put'
+							),
 							encType: 'multipart/form-data',
 						});
 					}}
+					noSubmitButton
+					noGrid
 				/>
 			}
 
-			{steps.indexOf(step) > 0 &&
+			<div
+				className={styles['actions']}
+			>
 				<Button
 					icon='back'
 					text='Back'
-					variant='outline'
+					disabled={steps.indexOf(step) === 0}
 					onClick={() => setStep(prev =>
 						steps[steps.indexOf(prev) - 1] ?? 'category'
 					)}
+					isLoading={fetcher.state !== 'idle'}
 				/>
-			}
+				<Button
+					icon={step === 'details' ? 'submit' : 'next'}
+					text={step === 'details' ? 'Submit' : 'Next'}
+					type='submit'
+					form='products-form'
+					isLoading={fetcher.state !== 'idle'}
+				/>
+			</div>
 
 			{error.type !== 'none' &&
 				<Alert

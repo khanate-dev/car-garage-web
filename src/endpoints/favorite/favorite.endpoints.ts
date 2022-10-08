@@ -6,7 +6,6 @@ import {
 	deleteFavoriteResponseSchema,
 	favoriteModelSchema,
 } from 'schemas/favorite';
-
 import { mongoIdSchema } from 'schemas/mongo';
 
 import { deleteRequest, getRequest, postRequest } from 'helpers/api';

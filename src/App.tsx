@@ -15,20 +15,27 @@ import { Overview, overviewLoader } from 'routes/dashboard/overview';
 import {
 	ProductsView,
 	productsViewLoader,
-	ProductsAdd,
-	productsAddLoader,
-	productsAddAction,
+	ProductsForm,
+	productsFormLoader,
+	productsFormAction,
+	productsDeleteAction,
 } from 'routes/dashboard/products';
 import {
 	MakeTypesView,
 	makeTypesViewLoader,
 	MakeTypesAdd,
 	makeTypesAddAction,
+	MakeTypesUpdate,
+	makeTypesUpdateAction,
+	makeTypesUpdateLoader,
 } from 'routes/dashboard/make-types';
 import {
 	ModelsAdd,
 	modelsAddAction,
 	modelsAddLoader,
+	ModelsUpdate,
+	modelsUpdateAction,
+	modelsUpdateLoader,
 	ModelsView,
 	modelsViewLoader,
 } from 'routes/dashboard/model';
@@ -91,9 +98,19 @@ export const dashboardRoutes: DashboardRoute[] = [
 			},
 			{
 				path: 'add',
-				element: <ProductsAdd />,
-				loader: productsAddLoader,
-				action: productsAddAction,
+				element: <ProductsForm />,
+				loader: productsFormLoader,
+				action: productsFormAction,
+			},
+			{
+				path: 'update/:productId',
+				element: <ProductsForm />,
+				loader: productsFormLoader,
+				action: productsFormAction,
+			},
+			{
+				path: 'delete/:productId',
+				action: productsDeleteAction,
 			},
 		],
 	},
@@ -112,6 +129,12 @@ export const dashboardRoutes: DashboardRoute[] = [
 				element: <MakeTypesAdd />,
 				action: makeTypesAddAction,
 			},
+			{
+				path: 'update/:makeTypeId',
+				element: <MakeTypesUpdate />,
+				loader: makeTypesUpdateLoader,
+				action: makeTypesUpdateAction,
+			},
 		],
 	},
 	{
@@ -129,6 +152,12 @@ export const dashboardRoutes: DashboardRoute[] = [
 				element: <ModelsAdd />,
 				loader: modelsAddLoader,
 				action: modelsAddAction,
+			},
+			{
+				path: 'update/:modelId',
+				element: <ModelsUpdate />,
+				loader: modelsUpdateLoader,
+				action: modelsUpdateAction,
 			},
 		],
 	},

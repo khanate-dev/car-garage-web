@@ -226,6 +226,21 @@ input[type='radio'] {
 	--accent-contrast: var(--warning-contrast);
 }
 
+.default:disabled,
+.primary:disabled,
+.secondary:disabled,
+.danger:disabled,
+.success:disabled,
+.info:disabled,
+.warning:disabled {
+	--accent: var(--background-dark);
+	--accent-light: var(--background-slight-dark);
+	--accent-dark: var(--background-darker);
+	--accent-contrast: var(--foreground-darker);
+
+	opacity: 0.8;
+}
+
 .flat {
 	--radius: 0;
 }
