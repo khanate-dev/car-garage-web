@@ -172,8 +172,8 @@
 		}
 	}
 
-	&:hover:not(> input:disabled),
-	&:focus:not(> input:disabled) {
+	&:hover:not(& > input:disabled),
+	&:focus:not(& > input:disabled) {
 		background-color: var(--background-slight-dark);
 		border-color: var(--background-darker);
 	}
