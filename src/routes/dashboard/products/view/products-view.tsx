@@ -23,6 +23,7 @@ import { getSetting } from 'helpers/settings';
 import Page from 'components/Page';
 import Card, { CardProps } from 'components/Card';
 import FormField from 'components/FormField';
+import { ButtonProps } from 'components/Button';
 
 import styles from './products-view.module.scss';
 
@@ -36,6 +37,8 @@ export const ProductsView = () => {
 	const navigation = useNavigation();
 	const fetcher = useFetcher();
 
+	const [comparison, setComparison] = useState<'idle' | 'select' | 'compare'>('idle');
+	const [comparisonIds, setComparisonIds] = useState<string[]>([]);
 	const [search, setSearch] = useState<string>('');
 	const [owner, setOwner] = useState<'all' | 'me' | 'others'>('all');
 	const [showSold, setShowSold] = useState(false);
@@ -43,6 +46,7 @@ export const ProductsView = () => {
 	const [makeTypeName, setMakeTypeName] = useState<'all' | string>('all');
 
 	const visibleFilters = products.filter(({
+		_id,
 		title,
 		description,
 		sellerId,
@@ -50,6 +54,11 @@ export const ProductsView = () => {
 		makeType,
 		category: currentCategory,
 	}) => {
+
+		if (comparison === 'compare') {
+			return comparisonIds.includes(_id);
+		}
+
 		if (
 			search
 			&& !(`${title} ${description}`.includes(search))
@@ -70,69 +79,113 @@ export const ProductsView = () => {
 		) ? -1 : 1;
 	});
 
+	const headerActions: ButtonProps[] = [];
+
+	if (comparison !== 'compare') {
+		headerActions.push({
+			text: (
+				comparison === 'idle'
+					? 'Start Comparison'
+					: comparisonIds.length < 2
+						? 'Select 2 or 3 Products'
+						: 'Compare'
+			),
+			color: 'danger',
+			variant: 'fill',
+			disabled: (
+				comparison === 'select'
+				&& comparisonIds.length < 2
+			),
+			size: 'tiny',
+			onClick: () => {
+				setComparison(prev =>
+					prev === 'idle'
+						? 'select'
+						: 'compare'
+				);
+			},
+		});
+	}
+
+	if (comparison !== 'idle') {
+		headerActions.push({
+			text: 'End Comparison',
+			color: 'danger',
+			variant: 'outline',
+			size: 'tiny',
+			onClick: () => {
+				setComparisonIds([]);
+				setComparison('idle');
+			},
+		});
+	}
+
 	return (
 		<Page
 			title='Products'
 			isEmpty={products.length === 0}
+			actions={headerActions}
 			filters={
-				<>
-					<FormField
-						field={{
-							fieldType: 'input',
-							name: 'search',
-							type: 'search',
-							value: search,
-							onChange: ({ target }) => setSearch(target.value),
-						}}
-						size='tiny'
-					/>
-					{user?.role === 'user' &&
+				comparison === 'idle'
+					? <>
 						<FormField
 							field={{
-								fieldType: 'select',
-								name: 'owner',
-								label: 'Creator',
-								value: owner,
-								options: ['all', 'me', 'others'],
-								onChange: ({ target }) => setOwner(target.value as any),
+								fieldType: 'input',
+								name: 'search',
+								type: 'search',
+								value: search,
+								onChange: ({ target }) => setSearch(target.value),
 							}}
 							size='tiny'
 						/>
-					}
-					<FormField
-						field={{
-							fieldType: 'input',
-							name: 'showSold',
-							type: 'checkbox',
-							checked: showSold,
-							onChange: () => setShowSold(prev => !prev),
-						}}
-						size='tiny'
-					/>
-					<FormField
-						field={{
-							fieldType: 'select',
-							name: 'category',
-							value: category,
-							options: ['all', ...productCategories],
-							onChange: ({ target }) => setCategory(target.value as any),
-						}}
-						size='tiny'
-					/>
-					<FormField
-						field={{
-							fieldType: 'select',
-							name: 'modelId',
-							value: makeTypeName,
-							options: [
-								'all',
-								...new Set(products.map(row => row.makeType.name ?? '').filter(Boolean)),
-							],
-							onChange: ({ target }) => setMakeTypeName(target.value),
-						}}
-						size='tiny'
-					/>
-				</>
+						{user?.role === 'user' &&
+							<FormField
+								field={{
+									fieldType: 'select',
+									name: 'owner',
+									label: 'Creator',
+									value: owner,
+									options: ['all', 'me', 'others'],
+									onChange: ({ target }) => setOwner(target.value as any),
+								}}
+								size='tiny'
+							/>
+						}
+						<FormField
+							field={{
+								fieldType: 'input',
+								name: 'showSold',
+								type: 'checkbox',
+								checked: showSold,
+								onChange: () => setShowSold(prev => !prev),
+							}}
+							size='tiny'
+						/>
+						<FormField
+							field={{
+								fieldType: 'select',
+								name: 'category',
+								value: category,
+								options: ['all', ...productCategories],
+								onChange: ({ target }) => setCategory(target.value as any),
+							}}
+							size='tiny'
+						/>
+						<FormField
+							field={{
+								fieldType: 'select',
+								name: 'modelId',
+								value: makeTypeName,
+								options: [
+									'all',
+									...new Set(products.map(row => row.makeType.name ?? '').filter(Boolean)),
+								],
+								onChange: ({ target }) => setMakeTypeName(target.value),
+							}}
+							size='tiny'
+						/>
+					</>
+					: undefined
 			}
 			hasAdd={user?.role !== 'admin'}
 			isGridView
@@ -164,6 +217,7 @@ export const ProductsView = () => {
 					title: humanizeToken(category),
 					color: productCategoryColors[category],
 				}];
+
 				if (isFeatured) {
 					labels.unshift({
 						title: 'Featured',
@@ -204,7 +258,7 @@ export const ProductsView = () => {
 
 				const actions: NonNullable<CardProps['actions']> = [];
 
-				if (sellerId === user?._id) {
+				if (comparison === 'idle' && sellerId === user?._id) {
 					actions.push(
 						{
 							text: 'Update',
@@ -231,7 +285,26 @@ export const ProductsView = () => {
 					);
 				}
 
-				if (!buyerId && sellerId !== user?._id && user?.role !== 'admin') {
+				if (comparison === 'select') {
+					actions.push({
+						text: 'Select',
+						icon: comparisonIds.includes(_id) ? 'checked' : 'check',
+						color: 'danger',
+						variant: comparisonIds.includes(_id) ? 'fill' : 'outline',
+						onClick: () => setComparisonIds(prev =>
+							prev.some(id => id === _id)
+								? prev.filter(id => id !== _id)
+								: [...prev, _id]
+						),
+						disabled: (
+							!comparisonIds.includes(_id)
+							&& comparisonIds.length >= 3
+						),
+						fullWidth: true,
+					});
+				}
+
+				if (comparison === 'idle' && !buyerId && sellerId !== user?._id && user?.role !== 'admin') {
 					actions.push({
 						text: 'Buy',
 						icon: 'buy',

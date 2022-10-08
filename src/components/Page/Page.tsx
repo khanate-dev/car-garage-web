@@ -10,6 +10,7 @@ import styles from './Page.module.scss';
 const Page = ({
 	title,
 	className,
+	actions = [],
 	filters,
 	isEmpty,
 	isGridView,
@@ -55,6 +56,15 @@ const Page = ({
 						isLoading={Boolean(location)}
 					/>
 				}
+
+				{actions.map((action, index) =>
+					<Button
+						key={index}
+						{...action}
+						variant={action.variant ?? 'outline'}
+						size={action.size ?? 'small'}
+					/>
+				)}
 
 				<div
 					className={styles['filters']}
