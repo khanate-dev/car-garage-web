@@ -19,6 +19,7 @@ import {
 	CodeReviewIcon,
 	IconProps,
 	PencilIcon,
+	TrashIcon,
 } from '@primer/octicons-react';
 
 export const icons = {
@@ -39,7 +40,8 @@ export const icons = {
 	star: StarIcon,
 	starFilled: StarFillIcon,
 	review: CodeReviewIcon,
-	edit: PencilIcon,
+	update: PencilIcon,
+	delete: TrashIcon,
 };
 
 export interface AppIconProps extends IconProps {
