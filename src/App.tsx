@@ -24,6 +24,9 @@ import {
 	makeTypesViewLoader,
 	MakeTypesAdd,
 	makeTypesAddAction,
+	MakeTypesUpdate,
+	makeTypesUpdateAction,
+	makeTypesUpdateLoader,
 } from 'routes/dashboard/make-types';
 import {
 	ModelsAdd,
@@ -114,6 +117,12 @@ export const dashboardRoutes: DashboardRoute[] = [
 				path: 'add',
 				element: <MakeTypesAdd />,
 				action: makeTypesAddAction,
+			},
+			{
+				path: 'update/:makeTypeId',
+				element: <MakeTypesUpdate />,
+				loader: makeTypesUpdateLoader,
+				action: makeTypesUpdateAction,
 			},
 		],
 	},
