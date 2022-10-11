@@ -141,94 +141,6 @@ const assertStringArrays: AssertArrayFunction<string[][]> = (
 	assertArrayByChecker(value, assertStringArray, onlyCheckFirst)
 );
 
-const isModelObject = <ModelObject>(
-	value: any,
-	requiredFields: (keyof ModelObject)[]
-): value is ModelObject => {
-
-	if (!isObject(value)) return false;
-
-	return requiredFields.every(field =>
-		Object.prototype.hasOwnProperty.call(value, field)
-	);
-
-};
-
-type AssertModelObject = <ModelObject>(
-	value: any,
-	requiredFields: (keyof ModelObject)[],
-	modelName?: string
-) => asserts value is ModelObject;
-
-const assertModelObject: AssertModelObject = (
-	value,
-	requiredFields,
-	modelName?
-) => {
-	try {
-		assertObject(value);
-		const missingFields = requiredFields.filter(field =>
-			!Object.prototype.hasOwnProperty.call(value, field)
-		);
-		if (missingFields.length === 0) return;
-		throw new TypeError(
-			`Missing [${missingFields.join(', ')}]`
-		);
-	}
-	catch (error: any) {
-		throw new TypeError(
-			`Invalid ${modelName ?? 'object'}! ${error.message ?? error}`
-		);
-	}
-};
-
-const isModelObjectArray = <ModelObject>(
-	value: any,
-	requiredFields: (keyof ModelObject)[]
-): value is ModelObject[] => (
-	Array.isArray(value)
-	&& value.every(row =>
-		isModelObject(row, requiredFields)
-	)
-);
-
-type AssertModelObjectArray = <ModelObject>(
-	value: any,
-	requiredFields: (keyof ModelObject)[],
-	modelName?: string
-) => asserts value is ModelObject[];
-
-const assertModelObjectArray: AssertModelObjectArray = (
-	value,
-	requiredFields,
-	modelName?
-) => {
-	if (!Array.isArray(value)) {
-		throw TypeError(
-			`Expected ${modelName ?? 'object'} array, received ${readableTypeOf(value)}`
-		);
-	}
-	value.every(row => assertModelObject(
-		row,
-		requiredFields,
-		modelName
-	));
-};
-
-const isValidUser = (value: any): value is UserSansPassword => {
-	try {
-		userSansPasswordModelSchema.parse(value);
-		return true;
-	}
-	catch {
-		return false;
-	}
-};
-
-const assertValidUser: AssertFunction<UserSansPassword> = (value) => {
-	userSansPasswordModelSchema.parse(value);
-};
-
 export {
 	readableTypeOf,
 	isObject,
@@ -243,10 +155,4 @@ export {
 	assertObjectArrays,
 	areStringArrays,
 	assertStringArrays,
-	isModelObject,
-	assertModelObject,
-	isModelObjectArray,
-	assertModelObjectArray,
-	isValidUser,
-	assertValidUser,
 };
