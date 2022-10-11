@@ -1,5 +1,3 @@
-import { UserSansPassword, userSansPasswordModelSchema } from 'schemas/user';
-
 import {
 	ReadableTypeOf,
 	AssertFunction,
